@@ -53,10 +53,10 @@ class PortfolioApp {
       setText("#uniLine", o.university || "");
       setText("#footerName", o.name);
       setAttr("#avatar", "src", this.normalizeImage(o.photo));
-      setAttr("#emailLink", "href", o.email ? `mailto:${o.email}` : "mailto:");
-      setAttr("#ghLink", "href", o.github || "#");
-      setAttr("#lnLink", "href", o.linkedin || "#");
-      const year = document.querySelector("#year"); if (year) year.textContent = new Date().getFullYear();
+      setAttr("#emailLink", "href", o.email ? `mailto:${o.email}` : "mailto:jakiuddin012@gmail.com");
+      setAttr("#ghLink", "href", o.github || "https://github.com/jakiu012");
+      setAttr("#lnLink", "href", o.linkedin || "https://www.linkedin.com/in/fazlerabbizaki/");
+      const year = document.querySelector("2025"); if (year) year.textContent = new Date().getFullYear();
     }
   
     // -------- Theme & Mobile nav --------
