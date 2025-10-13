@@ -112,40 +112,49 @@ class PortfolioApp {
       });
     }
   
-    // -------- Resume viewer --------
-    async setupResumeViewer() {
-      // If index has #resumeEmbed container, inject an <object>. Otherwise, support old iframe approach.
-      const box = document.querySelector("#resumeEmbed");
-      if (box) {
-        try {
-          const head = await fetch("resume.pdf", { method: "HEAD" });
-          box.innerHTML = "";
-          if (head.ok) {
-            const obj = document.createElement("object");
-            obj.type = "application/pdf";
-            obj.data = "resume.pdf";
-            obj.style.width = "100%";
-            obj.style.height = "600px";
-            obj.innerHTML = `<p class="p-4">Can’t display the PDF. <a href="resume.pdf" target="_blank" rel="noreferrer" class="text-blue-600 underline">Download Resume</a></p>`;
-            box.appendChild(obj);
-          } else {
-            box.innerHTML = `<div class="pdf-placeholder"><i class="fas fa-file-pdf text-6xl mb-4"></i><h3 class="text-2xl font-bold mb-2">Resume PDF</h3><p class="text-center">Place <code>resume.pdf</code> at the project root.</p></div>`;
-          }
-        } catch {
-          box.innerHTML = `<div class="pdf-placeholder"><i class="fas fa-file-pdf text-6xl mb-4"></i><h3 class="text-2xl font-bold mb-2">Resume PDF</h3><p class="text-center">Place <code>resume.pdf</code> at the project root.</p></div>`;
-        }
-        return;
-      }
-      // Fallback for legacy iframe layout
-      const iframe = document.getElementById("resume-pdf");
-      const placeholder = document.getElementById("resume-placeholder");
-      if (iframe && placeholder) {
-        fetch("resume.pdf", { method: "HEAD" }).then(r => {
-          if (r.ok) { iframe.style.display = "block"; placeholder.style.display = "none"; }
-          else { iframe.style.display = "none"; placeholder.style.display = "flex"; }
-        }).catch(() => { iframe.style.display = "none"; placeholder.style.display = "flex"; });
-      }
+// ...existing code...
+async setupResumeViewer() {
+  const box = document.querySelector("#resumeEmbed");
+  if (!box) return;
+
+  const url = "./resume.pdf"; // always relative to repo root
+  const button = `
+    <p class="mb-4">
+      <a href="${url}" target="_blank" rel="noreferrer"
+         class="btn-primary inline-block px-4 py-2 rounded-lg text-white font-semibold">
+        Open Resume (PDF)
+      </a>
+    </p>`;
+
+  try {
+    const head = await fetch(url, { method: "HEAD", cache: "no-store" });
+    // Always show a direct-open button
+    box.innerHTML = button;
+
+    if (head.ok) {
+      const iframe = document.createElement("iframe");
+      iframe.src = url;
+      iframe.style.width = "100%";
+      iframe.style.height = "700px";
+      iframe.loading = "lazy";
+      iframe.title = "Resume PDF";
+      box.appendChild(iframe);
+    } else {
+      box.innerHTML = `${button}<p class="text-sm">Place <code>resume.pdf</code> at the repo root.</p>`;
     }
+  } catch {
+    box.innerHTML = `${button}<p class="text-sm">Couldn’t check the PDF. The button still works.</p>`;
+  }
+
+  // Fallback for legacy iframe layout
+  const iframe = document.getElementById("resume-pdf");
+  const placeholder = document.getElementById("resume-placeholder");
+  if (iframe && iframe.src) {
+    iframe.classList.remove("hidden");
+    if (placeholder) placeholder.classList.add("hidden");
+  }
+}
+// ...existing code...
   
     // -------- Filters & Search --------
     setupSearchAndFilters() {
