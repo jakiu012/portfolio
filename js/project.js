@@ -68,7 +68,10 @@
   
     async function loadMD(url) {
       const res = await fetch(url);
-      if (!res.ok) throw new Error('md404');
+      if (!res.ok) {
+        console.error(`Failed to load ${url}: ${res.status} ${res.statusText}`);
+        throw new Error('md404');
+      }
       return res.text();
     }
   
@@ -120,6 +123,9 @@
     async function main() {
       setupTheme();
       document.getElementById('year').textContent = new Date().getFullYear();
+      
+      console.log(`Current URL: ${window.location.href}`);
+      console.log(`Slug from URL: ${slug}`);
   
       if (!slug) {
         document.getElementById('title').textContent = 'Not found';
@@ -130,12 +136,17 @@
       // Load project basics
       let data;
       try {
+        console.log('Loading projects.json...');
         data = await loadJSON('data/projects.json');
+        console.log('Projects loaded:', data);
       } catch (e) {
+        console.error('Failed to load projects.json:', e);
         $('#summary').textContent = 'Could not load project data.';
         return;
       }
       const project = (data.projects || []).find(p => (p.slug || '').toLowerCase() === slug.toLowerCase());
+      console.log(`Looking for project with slug: ${slug}`);
+      console.log(`Found project:`, project);
       if (!project) {
         document.getElementById('title').textContent = 'Project not found';
         document.getElementById('summary').textContent = `No project with slug "${slug}".`;
@@ -185,8 +196,12 @@
       // Load markdown case study
       let md;
       try {
-        md = await loadMD(`content/projects/${slug}.md`);
-      } catch {
+        const mdUrl = `content/projects/${slug}.md`;
+        console.log(`Loading markdown from: ${mdUrl}`);
+        md = await loadMD(mdUrl);
+        console.log(`Successfully loaded markdown for ${slug}`);
+      } catch (e) {
+        console.error(`Failed to load markdown for ${slug}:`, e);
         // fallback: coming soon
         document.getElementById('comingSoon').classList.remove('hidden');
         return;
