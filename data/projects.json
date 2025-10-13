@@ -15,7 +15,7 @@
         "Hardware bring-up, test jigs, and data analysis"
       ],
       "aboutLinks": [
-        { "label": "Email me", "href": "jakiuddin012@gmail.com" },
+        { "label": "Email me", "href": "mailto:jakiuddin012@gmail.com" },
         { "label": "Resume (PDF)", "href": "resume.pdf" },
         { "label": "GitHub", "href": "https://github.com/jakiu012" }
       ]
