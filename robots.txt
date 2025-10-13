@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://jakiuddin.github.io/portfolio/sitemap.xml
+
+# Disallow certain file types
+Disallow: *.pdf
+Disallow: /data/
+Disallow: /reports/

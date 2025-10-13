@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fazle Rabbi Zaki — Aerospace Engineering Portfolio</title>
+    <meta name="description" content="Portfolio of Fazle Rabbi Zaki, University of Michigan Aerospace Engineering. Controls, sensing, hardware testing, and project reports.">
+    <meta name="keywords" content="aerospace engineering, controls, ADCS, sensors, CubeSat, hardware testing, University of Michigan">
+    <meta name="author" content="Fazle Rabbi Zaki">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Fazle Rabbi Zaki — Aerospace Engineering Portfolio">
+    <meta property="og:description" content="Controls, sensing, and hardware testing projects, including CubeSat ADCS and prototyping.">
+    <meta property="og:image" content="images/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Fazle Rabbi Zaki — Aerospace Engineering Portfolio">
+    <meta property="twitter:description" content="Controls, sensing, and hardware testing projects.">
+    <meta property="twitter:image" content="images/og-image.jpg">
+
+    <!-- PWA + Icons -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="icon" type="image/png" href="images/icon-192.png">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a' }
+            },
+            fontFamily: { 'sans': ['Inter','system-ui','sans-serif'] }
+          }
+        }
+      }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+      .gradient-text{background:linear-gradient(135deg,#3b82f6,#1d4ed8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+      .glass-effect{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2)}
+      .dark .glass-effect{background:rgba(0,0,0,.1);border:1px solid rgba(255,255,255,.1)}
+      .fade-in{opacity:0;transform:translateY(20px);transition:all .6s ease}
+      .fade-in.visible{opacity:1;transform:translateY(0)}
+      .project-card{transition:all .3s ease}
+      .project-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0, 0, 0, 0.12)}
+      .dark .project-card:hover{box-shadow:0 20px 40px rgba(0, 0, 0, 0.3)}
+      .tag{transition:all .2s ease}
+      .tag:hover{transform:scale(1.05)}
+      .nav-link{position:relative;transition:all .3s ease}
+      .nav-link::after{content:'';position:absolute;width:0;height:2px;bottom:-4px;left:0;background:linear-gradient(135deg, #3b82f6, #1d4ed8);transition:width .3s ease}
+      .nav-link.active::after,.nav-link:hover::after{width:100%}
+      .mobile-menu{transform:translateX(-100%);transition:transform .3s ease}
+      .mobile-menu.open{transform:translateX(0)}
+      .hamburger-line{transition:all .3s ease}
+      .hamburger.active .hamburger-line:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+      .hamburger.active .hamburger-line:nth-child(2){opacity:0}
+      .hamburger.active .hamburger-line:nth-child(3){transform:rotate(-45deg) translate(7px,-6px)}
+      .pdf-container{position:relative;width:100%;height:600px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden}
+      .pdf-container object{width:100%;height:100%;border:0}
+      .pdf-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:#f9fafb;color:#6b7280}
+      .dark .pdf-placeholder{background:#374151;color:#9ca3af}
+      .filters .filter-tag{cursor:pointer}
+      .btn-primary{background:#2563eb}
+      .btn-primary:hover{filter:brightness(.95)}
+      .btn-primary:focus{outline:2px solid #93c5fd;outline-offset:2px}
+      .nav-link:focus{outline:2px solid #93c5fd;outline-offset:2px}
+      .container{max-width:1150px;margin:0 auto;padding:0 20px}
+      /* navbar no-wrap */
+      .header,.site-nav,.navbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:nowrap}
+      #brandName,.brand,.site-title{white-space:nowrap;flex:0 0 auto}
+      .nav,.nav-links{display:flex;align-items:center;gap:24px;margin-left:auto;min-width:0}
+      .nav a,.nav-links a{white-space:nowrap}
+      /* bullets */
+      .card-bullets{list-style:disc;list-style-position:inside;margin:8px 0 0 0;padding:0}
+      .card-bullets li{margin:4px 0}
+      /* tags */
+      .tag{background:#e8f0ff;color:#1e3a8a}
+      .dark .tag{background:#1e3a8a;color:#c7d2fe}
+      /* case-study gallery */
+      .proj-gallery img{display:block;width:100%;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.08);margin:14px 0}
+    </style>
+  </head>
+
+  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 glass-effect">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <a href="#home" class="text-xl font-bold gradient-text" id="brandName">Fazle Rabbi Zaki</a>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-8">
+              <a href="#home" class="nav-link px-3 py-2 text-sm font-medium">Home</a>
+              <a href="#about" class="nav-link px-3 py-2 text-sm font-medium">About</a>
+              <a href="#resume" class="nav-link px-3 py-2 text-sm font-medium">Resume</a>
+              <a href="#projects" class="nav-link px-3 py-2 text-sm font-medium">Projects</a>
+              <a href="#contact" class="nav-link px-3 py-2 text-sm font-medium">Contact</a>
+            </div>
+          </div>
+          <div class="hidden md:flex items-center space-x-4">
+            <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <i class="fas fa-moon dark:hidden"></i>
+              <i class="fas fa-sun hidden dark:block"></i>
+            </button>
+          </div>
+          <div class="md:hidden flex items-center space-x-2">
+            <button id="theme-toggle-mobile" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <i class="fas fa-moon dark:hidden"></i>
+              <i class="fas fa-sun hidden dark:block"></i>
+            </button>
+            <button id="mobile-menu-button" class="hamburger p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <span class="hamburger-line block w-6 h-0.5 bg-gray-900 dark:bg-gray-100 mb-1"></span>
+              <span class="hamburger-line block w-6 h-0.5 bg-gray-900 dark:bg-gray-100 mb-1"></span>
+              <span class="hamburger-line block w-6 h-0.5 bg-gray-900 dark:bg-gray-100"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="mobile-menu" class="mobile-menu md:hidden fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 shadow-lg z-40">
+        <div class="px-4 pt-16 pb-4">
+          <div class="space-y-2">
+            <a href="#home" class="nav-link block px-3 py-2 text-base font-medium">Home</a>
+            <a href="#about" class="nav-link block px-3 py-2 text-base font-medium">About</a>
+            <a href="#resume" class="nav-link block px-3 py-2 text-base font-medium">Resume</a>
+            <a href="#projects" class="nav-link block px-3 py-2 text-base font-medium">Projects</a>
+            <a href="#contact" class="nav-link block px-3 py-2 text-base font-medium">Contact</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
+
+    <main>
+      <!-- Home (shorter + visible) -->
+      <section id="home" class="min-h-[70vh] md:min-h-[75vh] flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div class="fade-in visible">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">
+              <span class="gradient-text" id="heroName">Fazle Rabbi Zaki</span>
+            </h1>
+            <h2 class="text-2xl md:text-3xl font-semibold mb-4 text-gray-700 dark:text-gray-300" id="heroTitle">
+              Aerospace Engineering Student
+            </h2>
+            <p class="text-lg md:text-xl mb-2 text-gray-600 dark:text-gray-400" id="uniLine">
+              University of Michigan, Ann Arbor
+            </p>
+            <div class="flex justify-center my-8">
+              <img id="avatar" src="images/fazle_headshot.jpg" alt="Headshot" class="w-32 h-32 rounded-full object-cover shadow-lg ring-2 ring-blue-500/20" onerror="this.style.display='none'">
+            </div>
+            <p class="text-xl md:text-2xl mb-8 text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              Controls, sensing, and hardware testing. I build, test, and verify.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="#resume" class="btn-primary px-8 py-4 rounded-full text-lg font-semibold text-white inline-flex items-center justify-center">
+                <i class="fas fa-file-pdf mr-2"></i> View Resume
+              </a>
+              <a href="#projects" class="btn-secondary px-8 py-4 rounded-full text-lg font-semibold inline-flex items-center justify-center">
+                <i class="fas fa-rocket mr-2"></i> See Projects
+              </a>
+            </div>
+          </div>
+
+          <div class="mt-16 fade-in visible">
+            <h3 class="text-2xl font-bold mb-8 text-gray-800 dark:text-gray-200">Featured Projects</h3>
+            <div id="featured" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="py-20 bg-white dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4">About</h2>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <!-- Left: Headshot card -->
+            <div class="flex justify-center">
+              <div class="p-1 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 shadow-xl">
+                <div class="rounded-2xl bg-white dark:bg-gray-900 p-2">
+                  <img src="images/fazle_headshot.jpg" alt="Fazle Rabbi Zaki headshot" loading="lazy" class="w-72 h-72 md:w-80 md:h-80 rounded-xl object-cover shadow-lg" onerror="this.style.display='none'"/>
+                </div>
+              </div>
+            </div>
+            <!-- Right: About text -->
+            <div>
+              <p class="text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-400" id="aboutBlurb">
+                I’m an aerospace engineering student at the University of Michigan focused on controls, sensing, and hands-on prototyping. I like taking a system from first-principles modeling to hardware that performs the way the math says it should.<br><br>
+                Recently, I helped build a 1U CubeSat ADCS imaging testbed, integrating IMU, magnetometer, and optical sensors with a reaction wheel and torque rods. I implemented TRIAD/EKF attitude estimation and mode logic for detumble, pointing, and desaturation, then verified performance with hardware-in-the-loop tests.<br><br>
+                Beyond space systems, I prototype fast and lightweight vehicles. I co-designed a Titan “air-puck” concept (CATIA + STAR-CCM+), tuned it with bench data, and proved it on a course. I also assembled and competed with a skirted hovercraft, balancing mass, flow, and power to hit time and payload targets. For energy access work, I helped design a low-cost wind generator using locally available materials and measured output, efficiency, and TSR under load.<br><br>
+                I’m happiest where controls meets hardware—sensors on the bench, scripts on the laptop, and a clear test plan to close the loop from model → build → verify.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resume -->
+      <section id="resume" class="py-20 bg-gray-50 dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4">Resume</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              Inline viewer below with a download link fallback.
+            </p>
+          </div>
+          <div class="max-w-4xl mx-auto">
+            <div class="pdf-container" id="resumeEmbed">
+              <!-- main.js will embed resume.pdf here -->
+              <div class="pdf-placeholder">
+                <i class="fas fa-file-pdf text-6xl mb-4"></i>
+                <h3 class="text-2xl font-bold mb-2">Resume PDF</h3>
+                <p class="text-center mb-6">Place <code>resume.pdf</code> at the project root.</p>
+              </div>
+            </div>
+            <div class="text-center mt-8">
+              <a href="resume.pdf" class="btn-primary px-8 py-4 rounded-full text-lg font-semibold text-white inline-flex items-center justify-center">
+                <i class="fas fa-download mr-2"></i> Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects" class="py-20 bg-white dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold mb-4">Projects</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              Loaded from <code>data/projects.json</code>.
+            </p>
+          </div>
+          <div class="filters mb-8 flex flex-wrap justify-center gap-3" id="tagBar"></div>
+          <div class="max-w-xl mx-auto mb-8">
+            <input id="search" type="search" placeholder="Search projects" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
+          </div>
+          <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+          <div id="projects-empty" class="hidden text-center text-gray-500 dark:text-gray-400 py-12">No projects match your filters.</div>
+          <template id="projectCardTmpl">
+            <article class="project-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+              <div class="w-full rounded-lg mb-4 overflow-hidden bg-gray-200 dark:bg-gray-700" style="aspect-ratio:16/9">
+                <img class="w-full h-full object-cover card-img" loading="lazy" decoding="async" alt="">
+              </div>
+              <h4 class="text-xl font-bold mb-1 card-title"></h4>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mb-2 card-sub"></p>
+              <p class="text-gray-700 dark:text-gray-300 mb-3 card-summary"></p>
+              <ul class="card-bullets text-gray-600 dark:text-gray-400 mb-3 metrics"></ul>
+              <div class="flex flex-wrap gap-2 mb-3 tag-row"></div>
+              <div class="links"></div>
+            </article>
+          </template>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="py-20 bg-gray-50 dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold mb-4">Contact</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400">Email or connect via LinkedIn and GitHub.</p>
+          </div>
+          <div class="flex justify-center gap-6">
+            <a id="lnLink" href="#" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline"><i class="fab fa-linkedin mr-2"></i>LinkedIn</a>
+            <a id="ghLink" href="#" target="_blank" class="text-gray-700 dark:text-gray-300 hover:underline"><i class="fab fa-github mr-2"></i>GitHub</a>
+            <a id="emailLink" href="mailto:" class="text-blue-600 dark:text-blue-400 hover:underline"><i class="fas fa-envelope mr-2"></i>Email</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="text-gray-400">&copy; <span id="year"></span> <span id="footerName">Fazle Rabbi Zaki</span>. Built for aerospace projects.</p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+  </body>
+</html>
