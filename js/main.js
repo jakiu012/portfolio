@@ -117,7 +117,7 @@ async setupResumeViewer() {
   const box = document.querySelector("#resumeEmbed");
   if (!box) return;
 
-  const url = "./resume.pdf"; // always relative to repo root
+  const url = "resume.pdf"; // always relative to repo root
   const button = `
     <p class="mb-4">
       <a href="${url}" target="_blank" rel="noreferrer"
@@ -127,23 +127,27 @@ async setupResumeViewer() {
     </p>`;
 
   try {
+    console.log(`Checking resume PDF at: ${url}`);
     const head = await fetch(url, { method: "HEAD", cache: "no-store" });
-    // Always show a direct-open button
-    box.innerHTML = button;
-
+    console.log(`Resume PDF check result: ${head.status} ${head.statusText}`);
+    
     if (head.ok) {
+      // Show button and embed PDF
+      box.innerHTML = button;
       const iframe = document.createElement("iframe");
       iframe.src = url;
       iframe.style.width = "100%";
       iframe.style.height = "700px";
       iframe.loading = "lazy";
       iframe.title = "Resume PDF";
+      iframe.className = "border-0 rounded-lg shadow-lg";
       box.appendChild(iframe);
     } else {
       box.innerHTML = `${button}<p class="text-sm">Place <code>resume.pdf</code> at the repo root.</p>`;
     }
-  } catch {
-    box.innerHTML = `${button}<p class="text-sm">Couldn’t check the PDF. The button still works.</p>`;
+  } catch (e) {
+    console.error(`Error checking resume PDF:`, e);
+    box.innerHTML = `${button}<p class="text-sm">Couldn't check the PDF. The button still works.</p>`;
   }
 
   // Fallback for legacy iframe layout
