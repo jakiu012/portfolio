@@ -1,7 +1,7 @@
 // -------- Portfolio (data-driven) --------
 class PortfolioApp {
     constructor() {
-      this.DATA_PATH = "data/projects.json";
+      this.DATA_PATH = "./data/projects.json";
       this.projects = [];
       this.tags = new Set();
       this.activeTag = null;
@@ -117,7 +117,7 @@ async setupResumeViewer() {
   const box = document.querySelector("#resumeEmbed");
   if (!box) return;
 
-  const url = "resume.pdf"; // always relative to repo root
+  const url = "./resume.pdf"; // relative to current path
   const button = `
     <p class="mb-4">
       <a href="${url}" target="_blank" rel="noreferrer"
@@ -132,18 +132,46 @@ async setupResumeViewer() {
     console.log(`Resume PDF check result: ${head.status} ${head.statusText}`);
     
     if (head.ok) {
-      // Show button and embed PDF
+      // Clear placeholder and show button
       box.innerHTML = button;
+      
+      // Create iframe with better error handling
       const iframe = document.createElement("iframe");
       iframe.src = url;
       iframe.style.width = "100%";
       iframe.style.height = "700px";
+      iframe.style.border = "1px solid #e5e7eb";
+      iframe.style.borderRadius = "8px";
       iframe.loading = "lazy";
       iframe.title = "Resume PDF";
-      iframe.className = "border-0 rounded-lg shadow-lg";
+      
+      // Add error handling
+      iframe.onload = () => {
+        console.log('Resume PDF iframe loaded successfully');
+      };
+      
+      iframe.onerror = () => {
+        console.error('Resume PDF iframe failed to load, trying PDF.js fallback');
+        // Try PDF.js as fallback
+        iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(window.location.origin + '/' + url)}`;
+        iframe.onerror = () => {
+          console.error('PDF.js also failed, showing error message');
+          iframe.style.display = 'none';
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg';
+          errorDiv.innerHTML = `
+            <p class="text-red-700 dark:text-red-300 text-sm">
+              <i class="fas fa-exclamation-triangle mr-2"></i>
+              PDF preview failed to load. Use the "Open Resume (PDF)" button above to view the document.
+            </p>
+          `;
+          box.appendChild(errorDiv);
+        };
+      };
+      
       box.appendChild(iframe);
     } else {
-      box.innerHTML = `${button}<p class="text-sm">Place <code>resume.pdf</code> at the repo root.</p>`;
+      box.innerHTML = `${button}<p class="text-sm text-gray-600 dark:text-gray-400 mt-2">PDF file not found. Please ensure <code>resume.pdf</code> is in the repository root.</p>`;
     }
   } catch (e) {
     console.error(`Error checking resume PDF:`, e);
@@ -250,7 +278,7 @@ async setupResumeViewer() {
         const links = t.querySelector(".links");
         if (links && p.slug) {
           const primary = document.createElement("a");
-          primary.href = `project.html?slug=${encodeURIComponent(p.slug)}`;
+          primary.href = `./project.html?slug=${encodeURIComponent(p.slug)}`;
           primary.className = "btn-primary inline-block px-4 py-2 rounded-lg text-sm font-semibold text-white";
           primary.textContent = "Read case study";
           links.appendChild(primary);
@@ -275,17 +303,26 @@ async setupResumeViewer() {
           ${(p.tags||[]).map(t=>`<span class="tag bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm">${t}</span>`).join("")}
         </div>
         <div class="links">
-          ${p.slug ? `<a class=\"btn-primary inline-block px-4 py-2 rounded-lg text-sm font-semibold text-white\" href=\"project.html?slug=${encodeURIComponent(p.slug)}\">Read case study</a>` : ""}
+          ${p.slug ? `<a class=\"btn-primary inline-block px-4 py-2 rounded-lg text-sm font-semibold text-white\" href=\"./project.html?slug=${encodeURIComponent(p.slug)}\">Read case study</a>` : ""}
         </div>
       `;
       return card;
     }
   
-    // Normalize nested image paths to flat /images filenames
+    // Normalize image paths - base-path agnostic
     normalizeImage(path) {
       if (!path) return "";
-      // If already flat under images/, return as-is
-      if (/^images\/[\w.-]+$/.test(path)) return path;
+      
+      // External URLs - return as-is
+      if (/^https?:/.test(path)) return path;
+      
+      // Remove leading "./" if present
+      if (path.startsWith("./")) path = path.substring(2);
+      
+      // If already starts with images/, reports/, content/ - return as-is
+      if (/^(images|reports|content)\//.test(path)) return path;
+      
+      // Otherwise treat as filename under images/
       const file = path.split("/").pop();
       return `images/${file}`;
     }
