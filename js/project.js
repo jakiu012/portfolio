@@ -47,17 +47,19 @@
   
     function normalizeImg(path) {
       if (!path) return '';
-      // already absolute to /images
-      if (path.startsWith('images/')) return path;
-      // try to strip nested prefixes like images/adcs/.../hero.jpg -> last segment
-      const seg = path.split('/').filter(Boolean);
-      const last = seg[seg.length - 1];
-      if (!last) return path;
-      // common flat names used in this repo
-      if (last.startsWith('adcs_') || last.startsWith('airpuck_') || last.startsWith('hovercraft_') || last.startsWith('wind_') || last.includes('headshot'))
-        return `images/${last}`;
-      // fallback: if original was something like images:adcs:hero.JPG we can’t guess reliably
-      return path;
+      
+      // External URLs - return as-is
+      if (/^https?:/.test(path)) return path;
+      
+      // Remove leading "./" if present
+      if (path.startsWith("./")) path = path.substring(2);
+      
+      // If already starts with images/, reports/, content/ - return as-is
+      if (/^(images|reports|content)\//.test(path)) return path;
+      
+      // Otherwise treat as filename under images/
+      const file = path.split("/").pop();
+      return `images/${file}`;
     }
   
     async function loadJSON(url) {
@@ -122,52 +124,82 @@
   
     async function main() {
       setupTheme();
-      document.getElementById('year').textContent = new Date().getFullYear();
       
-      console.log(`Current URL: ${window.location.href}`);
-      console.log(`Slug from URL: ${slug}`);
-  
+      const yearEl = document.getElementById('year');
+      if (yearEl) {
+        yearEl.textContent = new Date().getFullYear();
+      }
+      
       if (!slug) {
-        document.getElementById('title').textContent = 'Not found';
-        document.getElementById('summary').textContent = 'Missing ?slug parameter.';
+        const titleEl = document.getElementById('title');
+        const summaryEl = document.getElementById('summary');
+        if (titleEl) titleEl.textContent = 'Not found';
+        if (summaryEl) summaryEl.textContent = 'Missing ?slug parameter.';
         return;
       }
   
       // Load project basics
       let data;
       try {
-        console.log('Loading projects.json...');
-        data = await loadJSON('data/projects.json');
-        console.log('Projects loaded:', data);
+        data = await loadJSON('./data/projects.json');
       } catch (e) {
-        console.error('Failed to load projects.json:', e);
         $('#summary').textContent = 'Could not load project data.';
         return;
       }
       const project = (data.projects || []).find(p => (p.slug || '').toLowerCase() === slug.toLowerCase());
-      console.log(`Looking for project with slug: ${slug}`);
-      console.log(`Found project:`, project);
       if (!project) {
-        document.getElementById('title').textContent = 'Project not found';
-        document.getElementById('summary').textContent = `No project with slug "${slug}".`;
+        const titleEl = document.getElementById('title');
+        const summaryEl = document.getElementById('summary');
+        if (titleEl) titleEl.textContent = 'Project not found';
+        if (summaryEl) summaryEl.textContent = `No project with slug "${slug}".`;
         return;
       }
   
       // Header basics
-      $('#title').textContent = project.title || 'Project';
-      $('#subtitle').textContent = project.role || '';
-      $('#dates').innerHTML = project.dates ? `<i class="fa-solid fa-calendar mr-1"></i>${project.dates}` : '';
-      $('#location').innerHTML = project.location ? `<i class="fa-solid fa-location-dot mr-1"></i>${project.location}` : '';
-      (project.tags || []).forEach(t => $('#tags').appendChild(tagPill(t)));
-      $('#summary').textContent = project.summary || '';
+      console.log('Setting header basics');
+      const titleEl = $('#title');
+      const subtitleEl = $('#subtitle');
+      const datesEl = $('#dates');
+      const locationEl = $('#location');
+      const tagsEl = $('#tags');
+      const summaryEl = $('#summary');
+      
+      if (titleEl) titleEl.textContent = project.title || 'Project';
+      if (subtitleEl) subtitleEl.textContent = project.role || '';
+      if (datesEl) datesEl.innerHTML = project.dates ? `<i class="fa-solid fa-calendar mr-1"></i>${project.dates}` : '';
+      if (locationEl) locationEl.innerHTML = project.location ? `<i class="fa-solid fa-location-dot mr-1"></i>${project.location}` : '';
+      if (summaryEl) summaryEl.textContent = project.summary || '';
+      
+      console.log('Header basics set');
   
       // Hero image
+      console.log('Setting hero image');
       const hero = normalizeImg(project.heroImage || '');
+      console.log('Hero image path:', hero);
       if (hero) {
         const img = $('#heroImg');
-        img.src = hero;
-        img.onload = () => img.classList.remove('hidden');
-        img.onerror = () => img.remove();
+        if (img) {
+          img.src = hero;
+          img.onload = () => {
+            img.classList.remove('hidden');
+            console.log('Hero image loaded');
+          };
+          img.onerror = () => {
+            img.remove();
+            console.log('Hero image failed to load');
+          };
+        } else {
+          console.error('Hero image element not found');
+        }
+      }
+      
+      // Tags
+      console.log('Setting tags');
+      if (tagsEl) {
+        (project.tags || []).forEach(t => tagsEl.appendChild(tagPill(t)));
+        console.log('Tags set');
+      } else {
+        console.error('Tags element not found');
       }
   
       // Sidebar metrics & links
@@ -175,40 +207,53 @@
       (project.metrics || []).forEach(m => metricsList.appendChild(listItem(m)));
       const links = $('#links');
       if (project.links && project.links.length) {
-        project.links.forEach(l => {
-          const a = document.createElement('a');
-          a.href = l.href; a.target = '_blank'; a.rel = 'noopener';
-          a.className = 'w-full inline-flex items-center justify-center px-4 py-2 rounded-lg border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition';
-          a.innerHTML = `${/pdf/i.test(l.label) ? '<i class="fa-solid fa-file-pdf mr-2"></i>' : '<i class="fa-brands fa-github mr-2"></i>'}${l.label}`;
-          links.appendChild(a);
-        });
+        // Filter out PDF links
+        const nonPdfLinks = project.links.filter(l => !/\.pdf$/i.test(l.href));
+        if (nonPdfLinks.length > 0) {
+          nonPdfLinks.forEach(l => {
+            const a = document.createElement('a');
+            a.href = l.href; a.target = '_blank'; a.rel = 'noopener';
+            a.className = 'w-full inline-flex items-center justify-center px-4 py-2 rounded-lg border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition';
+            a.innerHTML = `${/pdf/i.test(l.label) ? '<i class="fa-solid fa-file-pdf mr-2"></i>' : '<i class="fa-brands fa-github mr-2"></i>'}${l.label}`;
+            links.appendChild(a);
+          });
+        } else {
+          links.innerHTML = '<p class="text-sm text-gray-500 dark:text-gray-400">No external links.</p>';
+        }
       } else {
         links.innerHTML = '<p class="text-sm text-gray-500 dark:text-gray-400">No external links.</p>';
       }
   
       // Runtime meta
+      const heroImgPath = normalizeImg(project.heroImage || "");
       setMeta({
         title: project.title,
         description: project.summary || 'Project case study',
-        image: hero || 'images/og-image.jpg'
+        image: heroImgPath || 'images/og-image.jpg'
       });
   
       // Load markdown case study
       let md;
       try {
-        const mdUrl = `content/projects/${slug}.md`;
+        const mdUrl = `./content/projects/${slug}.md`;
         console.log(`Loading markdown from: ${mdUrl}`);
         md = await loadMD(mdUrl);
         console.log(`Successfully loaded markdown for ${slug}`);
       } catch (e) {
         console.error(`Failed to load markdown for ${slug}:`, e);
         // fallback: coming soon
-        document.getElementById('comingSoon').classList.remove('hidden');
+        const comingSoon = document.getElementById('comingSoon');
+        if (comingSoon) {
+          comingSoon.classList.remove('hidden');
+          console.log('Showing coming soon message');
+        } else {
+          console.error('comingSoon element not found');
+        }
         return;
       }
       const { fm, body } = parseFrontMatter(md);
       // Front-matter can override summary/hero
-      if (fm.description) setMeta({ title: project.title, description: fm.description, image: fm.hero || hero });
+      if (fm.description) setMeta({ title: project.title, description: fm.description, image: fm.hero || heroImgPath });
       if (fm.hero) {
         const img = $('#heroImg');
         img.src = normalizeImg(fm.hero);
@@ -235,6 +280,9 @@
        });
     }
   
-    main();
+    main().catch(error => {
+      console.error('Main function error:', error);
+      document.getElementById('summary').textContent = 'Error loading page: ' + error.message;
+    });
   })();
   

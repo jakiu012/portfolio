@@ -38,7 +38,7 @@
         ],
         "methods": ["TRIAD, EKF", "Mode logic: detumble, pointing, desaturation"],
         "verification": ["Component characterization", "Mode demos, HIL checks"],
-        "links": [{ "label": "Report (PDF)", "href": "reports/adcs.pdf" }]
+        "links": []
       },
       {
         "title": "Air Puck Prototype for Titan",
@@ -53,7 +53,7 @@
         "metrics": ["Mass ~329 g", "Power ~1.5 W", "Payload 60–80 g", "Best time ~6.7 s"],
         "methods": ["Bernoulli sizing", "CAD + CFD", "Bench/course trials"],
         "verification": ["Payload/time trials", "Competition runs"],
-        "links": [{ "label": "Report (PDF)", "href": "reports/air_puck.pdf" }]
+        "links": []
       },
       {
         "title": "Hovercraft Prototype & Competition",
@@ -68,7 +68,7 @@
         "metrics": ["Final mass ~491 g", "Straight path ~18 s", "Mass retrieval best ~36 payloads"],
         "methods": ["STAR-CCM+ internal/external flow", "Arduino control", "Power/mass budgeting"],
         "verification": ["Bench tests", "Event-day results"],
-        "links": [{ "label": "Report (PDF)", "href": "reports/hovercraft.pdf" }]
+        "links": []
       },
       {
         "title": "Wind-Powered Generator for Rural Guatemala",
@@ -83,7 +83,7 @@
         "metrics": ["Height ~154 cm, radius ~80 cm", "Power ~0.1–0.17 W", "Max efficiency ~1.2%, TSR ~2.5"],
         "methods": ["Load sweeps", "Efficiency/TSR analysis", "Coupling stress sizing"],
         "verification": ["Voltage vs frequency", "Budget breakdown"],
-        "links": [{ "label": "Report (PDF)", "href": "reports/wind_generator.pdf" }]
+        "links": []
       }
     ]
   }

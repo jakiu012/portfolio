@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minimal Test</title>
+</head>
+<body>
+    <h1>Minimal Test</h1>
+    <div id="output"></div>
+    
+    <script>
+        document.getElementById('output').innerHTML = '<p>Script loaded</p>';
+        
+        // Test URL parsing
+        const qs = new URLSearchParams(location.search);
+        const slug = qs.get('slug');
+        document.getElementById('output').innerHTML += `<p>Slug: ${slug}</p>`;
+        
+        // Test fetch
+        fetch('data/projects.json')
+            .then(response => {
+                document.getElementById('output').innerHTML += `<p>Projects JSON: ${response.status}</p>`;
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('output').innerHTML += `<p>Projects loaded: ${data.projects.length}</p>`;
+            })
+            .catch(e => {
+                document.getElementById('output').innerHTML += `<p>Error: ${e.message}</p>`;
+            });
+    </script>
+</body>
+</html>
