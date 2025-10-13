@@ -1,0 +1,90 @@
+{
+    "owner": {
+      "name": "Fazle Rabbi Zaki",
+      "title": "Aerospace Engineer",
+      "university": "University of Michigan, Ann Arbor",
+      "photo": "images/fazle_headshot.jpg",
+      "github": "https://github.com/jakiu012",
+  
+      "tagline": "Controls, sensing, and hardware testing. I build, test, and verify.",
+  
+      "about": "I design and test flight-like systems at small scale. I like clean interfaces, repeatable tests, and simple models backed by data.",
+      "aboutBullets": [
+        "Controls and sensing for small platforms (ADCS, IMU fusion)",
+        "CAD/CFD for quick design loops",
+        "Hardware bring-up, test jigs, and data analysis"
+      ],
+      "aboutLinks": [
+        { "label": "Email me", "href": "jakiuddin012@gmail.com" },
+        { "label": "Resume (PDF)", "href": "resume.pdf" },
+        { "label": "GitHub", "href": "https://github.com/jakiu012" }
+      ]
+    },
+    "projects": [
+      {
+        "title": "CubeSat ADCS Imaging Testbed (1U)",
+        "slug": "adcs",
+        "role": "ADCS & Systems Engineer",
+        "dates": "2025 – Present",
+        "location": "Ann Arbor, MI",
+        "tags": ["ADCS", "Controls", "Sensors", "Hardware"],
+        "heroImage": "images/adcs_hero.jpg",
+        "gallery": ["images/adcs_hero.jpg"],
+        "summary": "Built a 1U platform under 1 kg integrating IMU, magnetometer, star and IR cameras, reaction wheel, and magnetorquers. Implemented TRIAD/EKF, detumble, and pointing modes.",
+        "metrics": [
+          "Form factor 1U, target mass < 1 kg",
+          "Sensors: gyro, magnetometer, star, IR",
+          "Actuators: reaction wheel + torque rods"
+        ],
+        "methods": ["TRIAD, EKF", "Mode logic: detumble, pointing, desaturation"],
+        "verification": ["Component characterization", "Mode demos, HIL checks"],
+        "links": [{ "label": "Report (PDF)", "href": "reports/adcs.pdf" }]
+      },
+      {
+        "title": "Air Puck Prototype for Titan",
+        "slug": "airpuck",
+        "role": "Design, CFD, Test",
+        "dates": "2023",
+        "location": "Ann Arbor, MI",
+        "tags": ["CAD/CFD", "Hardware", "Testing"],
+        "heroImage": "images/airpuck_hero.png",
+        "gallery": ["images/airpuck_hero.png"],
+        "summary": "Hexagonal air-puck optimized for fast traverse and payload. CATIA + STAR-CCM+, Arduino control.",
+        "metrics": ["Mass ~329 g", "Power ~1.5 W", "Payload 60–80 g", "Best time ~6.7 s"],
+        "methods": ["Bernoulli sizing", "CAD + CFD", "Bench/course trials"],
+        "verification": ["Payload/time trials", "Competition runs"],
+        "links": [{ "label": "Report (PDF)", "href": "reports/air_puck.pdf" }]
+      },
+      {
+        "title": "Hovercraft Prototype & Competition",
+        "slug": "hovercraft",
+        "role": "Assembly, Testing, CFD",
+        "dates": "2023",
+        "location": "Ann Arbor, MI",
+        "tags": ["CAD/CFD", "Hardware", "Testing"],
+        "heroImage": "images/hovercraft_hero.png",
+        "gallery": ["images/hovercraft_hero.png"],
+        "summary": "Skirted hovercraft with internal and external flow modeling. Competed across three courses.",
+        "metrics": ["Final mass ~491 g", "Straight path ~18 s", "Mass retrieval best ~36 payloads"],
+        "methods": ["STAR-CCM+ internal/external flow", "Arduino control", "Power/mass budgeting"],
+        "verification": ["Bench tests", "Event-day results"],
+        "links": [{ "label": "Report (PDF)", "href": "reports/hovercraft.pdf" }]
+      },
+      {
+        "title": "Wind-Powered Generator for Rural Guatemala",
+        "slug": "wind",
+        "role": "ME Design, Test, Data",
+        "dates": "2024",
+        "location": "Ann Arbor, MI",
+        "tags": ["Hardware", "Testing", "Energy"],
+        "heroImage": "images/wind_hero.png",
+        "gallery": ["images/wind_hero.png"],
+        "summary": "Low-cost HAWT prototype using local materials. Measured power, efficiency, and TSR.",
+        "metrics": ["Height ~154 cm, radius ~80 cm", "Power ~0.1–0.17 W", "Max efficiency ~1.2%, TSR ~2.5"],
+        "methods": ["Load sweeps", "Efficiency/TSR analysis", "Coupling stress sizing"],
+        "verification": ["Voltage vs frequency", "Budget breakdown"],
+        "links": [{ "label": "Report (PDF)", "href": "reports/wind_generator.pdf" }]
+      }
+    ]
+  }
+  

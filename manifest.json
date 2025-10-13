@@ -1,0 +1,24 @@
+{
+    "id": "/",
+    "name": "Fazle Rabbi Zaki — Aerospace Engineering (University of Michigan)",
+    "short_name": "Fazle Zaki",
+    "description": "Portfolio of Fazle Rabbi Zaki, University of Michigan Aerospace Engineering student. Controls, sensing, hardware testing, and project reports.",
+    "start_url": "/index.html?source=pwa",
+    "scope": "/",
+    "display": "standalone",
+    "display_override": ["standalone", "browser"],
+    "background_color": "#ffffff",
+    "theme_color": "#3b82f6",
+    "orientation": "portrait-primary",
+    "lang": "en-US",
+    "categories": ["portfolio", "aerospace", "engineering", "education"],
+    "icons": [
+      { "src": "images/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+      { "src": "images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    ],
+    "shortcuts": [
+      { "name": "Resume", "short_name": "Resume", "url": "/index.html#resume", "icons": [{ "src": "images/icon-192.png", "sizes": "192x192", "type": "image/png" }] },
+      { "name": "Projects", "short_name": "Projects", "url": "/index.html#projects", "icons": [{ "src": "images/icon-192.png", "sizes": "192x192", "type": "image/png" }] }
+    ]
+  }
+  

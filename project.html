@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Project — Case Study</title>
+  <meta name="description" content="Project case study" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="" />
+  <meta property="og:description" content="" />
+  <meta property="og:image" content="" />
+  <link rel="icon" type="image/png" href="images/icon-192.png">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { fontFamily: { 'sans': ['Inter','system-ui','sans-serif'] } } }
+    }
+  </script>
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    .gradient-text{background:linear-gradient(135deg,#3b82f6,#1d4ed8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .glass{background:rgba(255,255,255,.08);backdrop-filter:blur(10px)}
+    .prose img{border-radius:.5rem}
+  </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans">
+  <!-- Top bar -->
+  <nav class="sticky top-0 z-40 glass border-b border-white/10 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <a href="index.html#projects" class="text-sm text-blue-600 dark:text-blue-400 hover:underline"><i class="fa-solid fa-arrow-left mr-2"></i>Back to Projects</a>
+      <button id="theme-toggle" class="p-2 rounded hover:bg-black/5 dark:hover:bg-white/5">
+        <i class="fas fa-moon dark:hidden"></i><i class="fas fa-sun hidden dark:block"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header id="hero" class="relative">
+    <div class="h-56 md:h-72 w-full bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+      <img id="heroImg" class="w-full h-full object-cover opacity-70 hidden" alt="">
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10">
+      <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 md:p-8">
+        <h1 id="title" class="text-3xl md:text-4xl font-extrabold mb-1 gradient-text">Project</h1>
+        <p id="subtitle" class="text-gray-600 dark:text-gray-400 mb-3"></p>
+        <div class="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
+          <span id="dates"></span>
+          <span id="location"></span>
+        </div>
+        <div id="tags" class="mt-4 flex flex-wrap gap-2"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
+    <!-- Content -->
+     <article class="prose prose-lg max-w-none dark:prose-invert">
+      <div id="summary" class="text-lg text-gray-700 dark:text-gray-300 mb-6"></div>
+       <div id="toc" class="hidden mb-6 p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20">
+        <h3 class="font-semibold mb-2">On this page</h3>
+         <ul id="tocList" class="list-disc list-inside space-y-1"></ul>
+      </div>
+       <div id="caseContent" class="prose max-w-none dark:prose-invert proj-gallery"></div>
+      <div id="comingSoon" class="hidden text-gray-600 dark:text-gray-400">
+        <p>Case study is coming soon. In the meantime, here are the key facts and metrics.</p>
+      </div>
+    </article>
+
+    <!-- Sidebar -->
+    <aside>
+      <div class="sticky top-24 space-y-6">
+        <section class="rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
+          <h3 class="font-semibold mb-3">Key metrics</h3>
+          <ul id="metrics" class="text-sm text-gray-700 dark:text-gray-300 space-y-2"></ul>
+        </section>
+        <section class="rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
+          <h3 class="font-semibold mb-3">Links</h3>
+          <div id="links" class="space-y-2"></div>
+        </section>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="py-10 text-center text-gray-500 dark:text-gray-400">
+    <p>&copy; <span id="year"></span> Fazle Rabbi Zaki</p>
+  </footer>
+
+  <!-- libs -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+  <!-- page logic -->
+  <script src="js/project.js"></script>
+</body>
+</html>
