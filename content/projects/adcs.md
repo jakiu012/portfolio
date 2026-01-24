@@ -33,3 +33,7 @@ Disturbance rejection, star-tracker integration, thermal drift compensation, tig
 
 ## Gallery
 ![ADCS hero](images/adcs_hero.jpg)
+![ADCS hardware](images/adcs_hardware.jpg)
+![ADCS scale](images/adcs_scale.jpg)
+![Final Spacecraft Assembly CAD](images/Final Spacecraft Assembly CAD.jpg)
+![ADCS assembled mass](images/adcs_assembled_mass.jpg)
