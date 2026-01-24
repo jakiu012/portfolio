@@ -30,14 +30,14 @@
         "tags": ["ADCS", "Controls", "Sensors", "Hardware"],
         "heroImage": "images/adcs_hero.jpg",
         "gallery": ["images/adcs_hero.jpg"],
-        "summary": "Built a 1U platform under 1 kg integrating IMU, magnetometer, star and IR cameras, reaction wheel, and magnetorquers. Implemented TRIAD/EKF, detumble, and pointing modes.",
+        "summary": "Built a 1U ADCS testbed (~0.95 kg, 10×10×15 cm) integrating dual ICM-20948 9-DoF IMUs, IR sun sensor, star tracker camera, science camera, reaction wheel, and magnetorquers. Implemented EKF-based attitude determination with 5-state control modes (detumble, coarse/fine pointing, imaging, desaturation).",
         "metrics": [
-          "Form factor 1U, target mass < 1 kg",
-          "Sensors: gyro, magnetometer, star, IR",
-          "Actuators: reaction wheel + torque rods"
+          "Final mass ~0.95 kg, dimensions 10×10×15 cm",
+          "Sensors: dual 9-DoF IMU, IR sun sensor, star tracker, science camera",
+          "Actuators: reaction wheel (7000 RPM max) + magnetorquers (0.1 Am²)"
         ],
-        "methods": ["TRIAD, EKF", "Mode logic: detumble, pointing, desaturation"],
-        "verification": ["Component characterization", "Mode demos, HIL checks"],
+        "methods": ["EKF attitude estimation (2-state)", "5-mode controller: detumble → coarse → fine → imaging → desaturation"],
+        "verification": ["Monte Carlo sims (100+ runs)", "Helmholtz coil HIL testing", "Hall sensor ground truth"],
         "links": []
       },
       {
