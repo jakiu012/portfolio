@@ -2,7 +2,7 @@
 slug: adcs
 title: "CubeSat ADCS Imaging Testbed (1U)"
 subtitle: "ADCS & Systems Engineer"
-dates: "2025 – Present"
+dates: "2025"
 location: "Ann Arbor, MI"
 hero: "images/adcs_hero.jpg"
 tags: ["ADCS","Controls","Sensors","Hardware"]
@@ -33,3 +33,5 @@ Disturbance rejection, star-tracker integration, thermal drift compensation, tig
 
 ## Gallery
 ![ADCS hero](images/adcs_hero.jpg)
+![ADCS hardware](images/adcs_hardware.jpg)
+![ADCS scale](images/adcs_scale.jpg)
