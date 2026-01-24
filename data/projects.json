@@ -29,7 +29,13 @@
         "location": "Ann Arbor, MI",
         "tags": ["ADCS", "Controls", "Sensors", "Hardware"],
         "heroImage": "images/adcs_hero.jpg",
-        "gallery": ["images/adcs_hero.jpg"],
+        "gallery": [
+          "images/adcs_hero.jpg",
+          "images/adcs_hardware.jpg",
+          "images/adcs_scale.jpg",
+          "images/Final Spacecraft Assembly CAD.jpg",
+          "images/adcs_assembled_mass.jpg"
+        ],
         "summary": "Built a 1U platform under 1 kg integrating IMU, magnetometer, star and IR cameras, reaction wheel, and magnetorquers. Implemented TRIAD/EKF, detumble, and pointing modes.",
         "metrics": [
           "Form factor 1U, target mass < 1 kg",
