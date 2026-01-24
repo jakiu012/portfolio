@@ -1,68 +1,55 @@
 ---
 slug: wind
-title: "Wind-Powered Generator for Rural Guatemala"
-subtitle: "ME Design, Test, Data"
-dates: "2024"
+title: "Wind-Powered Generator – HAWT Prototype"
+subtitle: "Mechanical Design and Test Lead"
+dates: "Sep 2024 – Dec 2024"
 location: "Ann Arbor, MI"
 hero: "images/wind_hero.png"
-tags: ["Hardware","Testing","Energy"]
-description: "Low-cost HAWT prototype using local materials; measured power, efficiency, and TSR."
+tags: ["Hardware","Testing","Energy","Mechanical Design"]
+description: "Self-yawing horizontal-axis wind turbine built with accessible materials; passed rooftop safety checks and powered the lightbox."
 ---
 
 ## Overview
-Prototyped a small HAWT targeting locally sourceable materials and basic tools.
+Built a self-yawing horizontal-axis wind turbine using accessible wood, PVC, and 3D-printed parts; three 80 cm blades; turntable yaw bearing with vane; trap-door hub for maintenance; routed wiring through the hollow shaft; delivered a working prototype within a $110 budget.
 
-## Approach
-- Bench: load sweeps across RPM
-- Analysis: efficiency vs. TSR; voltage vs. frequency
-- Mechanical: coupling stress sizing; budget breakdown
+## Design Features
+- **Blades**: Three 80 cm blades on wooden/PVC structure
+- **Yaw system**: Turntable bearing with self-aligning vane
+- **Hub**: Trap-door access for maintenance
+- **Wiring**: Routed through hollow shaft to avoid tangling
+- **Height**: ~154 cm total
 
-## Results & Outcomes
-- **Power:** ~0.1–0.17 W
-- **Max efficiency:** ~1.2%
-- **TSR:** ~2.5
-- Clear path to improve blade profile and alternator coupling
+## Safety Verification
+Passed five rooftop safety checks:
+- 300 N lateral load test
+- High-wind disassembly attempt
+- Passerby safety test
+- Technical requirements verification
+- Roof integrity check
 
-## What I’d Improve Next
-Airfoil selection, tip-loss correction, and generator matching.
-
-## Gallery
-![Wind](images/wind_hero.png)
----
-slug: wind
-title: "Wind-Powered Generator for Rural Guatemala"
-subtitle: "ME Design, Test, Data"
-dates: "2024"
-location: "Ann Arbor, MI"
-hero: "images/wind_hero.png"
-tags: ["Hardware","Testing","Energy"]
-description: "Low-cost HAWT prototype using local materials; measured power, efficiency, and tip-speed ratio."
----
-
-## Overview
-Proof-of-concept horizontal-axis wind turbine for rural Guatemala. Built with locally sourceable materials, passed rooftop safety checks, and successfully lit the test lightbox. Final prototype stood ~154 cm tall with three ~80 cm blades on a wooden/PVC structure and a self-yawing fin.
-
-## Approach
-- **Bench and electrical:** Load sweeps across RPM, voltage vs electrical frequency for multiple phase/resistor configs; wiring routed inside the shaft to avoid tangling.
-- **Analysis:** End-to-end efficiency vs wind speed and tip-speed ratio (TSR); compared measured power to theoretical wind power.
-- **Mechanical:** Wood base with elevated support and cross-base; pillow-block + bearing assisting the motor shaft; hinged hub door for access; budget tracking.
+## Testing & Instrumentation
+- Instrumented tests across resistive loads and phase configurations
+- Measured voltage vs. frequency for multiple phase/resistor configs
+- End-to-end efficiency vs. wind speed and tip-speed ratio (TSR) analysis
+- Compared measured power to theoretical wind power
 
 ## Results & Outcomes
-- **Power:** ~0.10–0.17 W measured
-- **Max efficiency:** ~1.2% at low wind (~1.1 m/s)
-- **TSR:** avg ~2.5 (range ~0.1–7.2)
-- **Budget:** ~$110 total materials
-- **Safety & demo:** Passed inspections and illuminated the lightbox
+- **Max efficiency**: 1.2% at ~1.12 m/s (average 0.546%)
+- **Tip-speed ratio**: Average 2.5 (maximum 7.2)
+- **Power**: 0.10–0.17 W measured
+- **Max voltage**: 6.453 V
+- **Budget**: $110 total materials
+- **Demo**: Successfully powered the lightbox to reveal the message
 
-## What I’d Improve Next
-- Aerodynamics: proper airfoil, tapered chord/pitch toward the tip, identical balanced blades, tip-loss correction.
-- Drivetrain: add a simple gear ratio (e.g., ~1:3) to raise shaft speed; better shaft coupling; switch to a metal shaft.
-- Structure: move/strengthen the upper support, larger yaw bearing, fully enclosed weatherproof hub.
-- Controls & safety: phase-short braking for safe stops.
-- Sustainability: use recycled plastics or alternative coverings; refine bill of materials for cost and durability.
+## Recommendations
+- Higher gear ratio (e.g., ~1:3) to increase shaft speed
+- Larger rotor radius to capture more wind power
+- Proper airfoil profile with tapered chord/pitch toward tip
+- Metal shaft with better coupling
+- Phase-short braking for safe stops
 
 ## Gallery
-![Wind — hero](images/wind_hero.png)
+![Wind turbine hero](images/wind_hero.png)
 ![Dimensions and layout](images/wind_dims.png)
 ![Rooftop test / lightbox demo](images/wind_testing.png)
 ![Efficiency and TSR plots](images/wind_plots.png)

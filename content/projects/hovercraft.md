@@ -1,43 +1,59 @@
 ---
 slug: hovercraft
-title: "Hovercraft Prototype & Competition"
-subtitle: "Assembly, Testing, CFD"
-dates: "2023"
+title: "Hovercraft Prototype"
+subtitle: "Mechanical and Electrical Design and Test"
+dates: "Mar 2023 – Apr 2023"
 location: "Ann Arbor, MI"
 hero: "images/hovercraft_hero.png"
-tags: ["CAD/CFD","Hardware","Testing"]
-description: "Skirted hovercraft with internal and external flow modeling; raced across three timed courses."
+tags: ["CAD/CFD","Hardware","Testing","STAR-CCM+"]
+description: "Milano-shaped RC hovercraft built under NASA constraints with servo-driven thrust vectoring and CFD-validated design."
 ---
 
 ## Overview
-Skirted, radio-controlled hovercraft built to meet NASA-style constraints, then raced on straight-path, figure-8, and mass-retrieval courses. Final system mass **≈490.62 g** with total electrical **power ≈25 W**.
+Designed and built a Milano-shaped RC hovercraft under NASA constraints (under 800 g, 55×55×22 cm); delivered a 490.62 g system with servo-driven thrust vectoring and a 3D-printed inlet motor mount to prevent motor shift and organize wiring.
 
-## Approach
-- **Shape and sizing.** “Milano” shell for speed and maneuverability. Overall size ≈ **50 cm** front–back, **20 cm** side–side, **19.05 cm** tall including the vertical motor stand and prop. Inlet Ø **6.35 cm**; rear prop Ø **12.7 cm**; wall thickness ≈ **0.3 in**.
-- **Structure and mounts.** Cardboard shell with a **3D-printed plastic motor mount** for stiffness and cable routing.
-- **Controls.** RC transmitter to receiver to Arduino; **vectored thrust** via a servo-swiveled vertical motor mount. Because the uploaded program linked steering and motor value, we fixed thrust high during runs.
-- **Skirt and plenum.** Skirt inflated by a plate-directed outlet; **rear edge left unconnected** to maximize lift after trials.
-- **CFD.**
-  - *Internal flow:* altitude **0.1 in**, inlet **2 m/s**; predicted **lift ≈ 4.22 N**.
-  - *External flow:* wind-tunnel box, inlet **10 m/s**; **frontal area ≈ 0.0262 m²**, **Cᴅ ≈ 1.09**; higher drag at front edges and near the rear-prop region.
+## Design Specifications
+- **Shape**: Milano shell for speed and maneuverability
+- **Envelope**: 55×55×22 cm (within NASA constraints)
+- **Final mass**: 490.62 g (constraint < 800 g)
+- **Structure**: Cardboard shell with 3D-printed motor mount for stiffness
+- **Controls**: RC transmitter → receiver → Arduino; servo-driven thrust vectoring
+
+## CFD Analysis (STAR-CCM+)
+Ran internal and external flow simulations to validate design:
+
+**Internal Flow:**
+- Altitude: 0.1 in, inlet: 2 m/s
+- Predicted lift: **4.22 N**
+
+**External Flow:**
+- Wind-tunnel box simulation, inlet: 10 m/s
+- Frontal area: **0.0262 m²**
+- Drag coefficient: **Cd = 1.09**
+- Higher drag identified at front edges and rear-prop region
+
+## Design Improvements
+- Added skirt with **open trailing edge** to maximize lift
+- Removed rear wall to improve lift and control on rugs
+- 3D-printed inlet motor mount prevents motor shift and organizes wiring
 
 ## Results & Outcomes
-- **Mass:** **490.62 g** final bill of materials.
-- **Power budget:** **25 W** total supply; motors ~**16 W** of that; margin ~**3 W**.
-- **Testing, best trials:**
-  - Straight path: **18.20 s**
-  - Figure-8: **1:00.67**
-  - Mass retrieval: **36 payloads** in 6 minutes
-- **Competition day:** Straight path **20.19 s**; Figure-8 **DNF** after collision; Mass retrieval **18 payloads**.
+- **Mass**: 490.62 g final bill of materials
+- **Power budget**: 25 W total supply; motors ~16 W; margin ~3 W
+- **Testing (best trials)**:
+  - Straight path: 18.20 s
+  - Figure-8: 1:00.67
+  - Mass retrieval: 36 payloads in 6 minutes
+- **Competition day**: Straight path 20.19 s; Mass retrieval 18 payloads
 
-## What I’d Improve Next
-- Clean, strain-relieved wiring and connectors to survive bumps.
-- **Decouple throttle from steering** and add closed-loop speed control for tighter turns and safer loading.
-- Skirt seam durability and leakage tuning; smoother front edges to cut external drag.
-- **High-altitude package (10 km):** aluminum or composite panels, anti-icing motors and heated shafts, protected electronics, and a higher-energy Li-ion pack for cold temps and lower pressure.
+## What I'd Improve Next
+- Clean, strain-relieved wiring and connectors to survive bumps
+- Decouple throttle from steering with closed-loop speed control
+- Skirt seam durability and leakage tuning
+- Smoother front edges to cut external drag
 
 ## Gallery
-![Hovercraft](images/hovercraft_hero.png)
+![Hovercraft hero](images/hovercraft_hero.png)
 ![Dimensions and layout](images/hovercraft_dims.png)
 ![Internal CFD](images/hovercraft_internal_cfd.png)
 ![External CFD](images/hovercraft_external_cfd.png)
