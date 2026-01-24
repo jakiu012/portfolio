@@ -29,7 +29,7 @@
         "location": "Ann Arbor, MI",
         "tags": ["ADCS", "Controls", "Sensors", "Hardware", "Systems Engineering"],
         "heroImage": "images/adcs_hero.jpg",
-        "gallery": ["images/adcs_hero.jpg"],
+        "gallery": ["images/adcs_hero.jpg", "images/adcs_hardware.jpg", "images/adcs_scale.jpg"],
         "summary": "Built a flight-like 1U observation platform under 1 kg integrating compute/power, structure, IMU, magnetometer, star/IR/science cameras, and actuators (reaction wheel + magnetorquers) to autonomously detumble, point, and image.",
         "metrics": [
           "Mass < 1 kg (achieved 960 g)",

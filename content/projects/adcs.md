@@ -48,3 +48,5 @@ Built a flight-like 1U observation platform under 1 kg integrating compute and p
 
 ## Gallery
 ![ADCS testbed](images/adcs_hero.jpg)
+![Hardware with labeled components](images/adcs_hardware.jpg)
+![System mass verification - 960g](images/adcs_scale.jpg)
