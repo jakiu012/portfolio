@@ -22,22 +22,30 @@
     },
     "projects": [
       {
-        "title": "CubeSat ADCS Imaging Testbed (1U)",
+        "title": "Autonomous ADCS Imaging Testbed (CubeSat scale, 1U)",
         "slug": "adcs",
-        "role": "ADCS & Systems Engineer",
-        "dates": "2025 – Present",
+        "role": "ADCS and Systems Engineer",
+        "dates": "Sep 2025 – Present",
         "location": "Ann Arbor, MI",
-        "tags": ["ADCS", "Controls", "Sensors", "Hardware"],
+        "tags": ["ADCS", "Controls", "Sensors", "Hardware", "Systems Engineering"],
         "heroImage": "images/adcs_hero.jpg",
         "gallery": ["images/adcs_hero.jpg"],
-        "summary": "Built a 1U platform under 1 kg integrating IMU, magnetometer, star and IR cameras, reaction wheel, and magnetorquers. Implemented TRIAD/EKF, detumble, and pointing modes.",
+        "summary": "Built a flight-like 1U observation platform under 1 kg integrating compute/power, structure, IMU, magnetometer, star/IR/science cameras, and actuators (reaction wheel + magnetorquers) to autonomously detumble, point, and image.",
         "metrics": [
-          "Form factor 1U, target mass < 1 kg",
-          "Sensors: gyro, magnetometer, star, IR",
-          "Actuators: reaction wheel + torque rods"
+          "Mass < 1 kg (achieved 960 g)",
+          "Imaging: 1 mm features at 5 m",
+          "Helmholtz coil testbed: 3× Earth's field"
         ],
-        "methods": ["TRIAD, EKF", "Mode logic: detumble, pointing, desaturation"],
-        "verification": ["Component characterization", "Mode demos, HIL checks"],
+        "methods": [
+          "TRIAD + EKF estimation with sensor fusion",
+          "B-dot detumble, PID/LQR pointing, momentum management",
+          "Python/MATLAB validation, 1-axis HIL testbed"
+        ],
+        "verification": [
+          "Closed-loop pointing and wheel desaturation validated",
+          "Mode transitions logged via ground station",
+          "Mass/power/volume budgets and ICDs defined"
+        ],
         "links": []
       },
       {
@@ -56,33 +64,59 @@
         "links": []
       },
       {
-        "title": "Hovercraft Prototype & Competition",
+        "title": "Hovercraft Prototype",
         "slug": "hovercraft",
-        "role": "Assembly, Testing, CFD",
-        "dates": "2023",
+        "role": "Mechanical and Electrical Design and Test",
+        "dates": "Mar 2023 – Apr 2023",
         "location": "Ann Arbor, MI",
-        "tags": ["CAD/CFD", "Hardware", "Testing"],
+        "tags": ["CAD/CFD", "Hardware", "Testing", "STAR-CCM+"],
         "heroImage": "images/hovercraft_hero.png",
         "gallery": ["images/hovercraft_hero.png"],
-        "summary": "Skirted hovercraft with internal and external flow modeling. Competed across three courses.",
-        "metrics": ["Final mass ~491 g", "Straight path ~18 s", "Mass retrieval best ~36 payloads"],
-        "methods": ["STAR-CCM+ internal/external flow", "Arduino control", "Power/mass budgeting"],
-        "verification": ["Bench tests", "Event-day results"],
+        "summary": "Designed and built a Milano-shaped RC hovercraft under NASA constraints (under 800 g, 55×55×22 cm); delivered a 490.62 g system with servo-driven thrust vectoring and 3D-printed inlet motor mount.",
+        "metrics": [
+          "Final mass 490.62 g (constraint < 800 g)",
+          "Envelope 55×55×22 cm",
+          "CFD: 4.22 N lift at 2 m/s, Cd = 1.09",
+          "Frontal area 0.0262 m²"
+        ],
+        "methods": [
+          "STAR-CCM+ internal/external flow sims",
+          "Servo-driven thrust vectoring",
+          "3D-printed inlet motor mount"
+        ],
+        "verification": [
+          "Added skirt with open trailing edge",
+          "Removed rear wall for improved lift/control",
+          "Validated on rugs and competition courses"
+        ],
         "links": []
       },
       {
-        "title": "Wind-Powered Generator for Rural Guatemala",
+        "title": "Wind-Powered Generator – HAWT Prototype",
         "slug": "wind",
-        "role": "ME Design, Test, Data",
-        "dates": "2024",
+        "role": "Mechanical Design and Test Lead",
+        "dates": "Sep 2024 – Dec 2024",
         "location": "Ann Arbor, MI",
-        "tags": ["Hardware", "Testing", "Energy"],
+        "tags": ["Hardware", "Testing", "Energy", "Mechanical Design"],
         "heroImage": "images/wind_hero.png",
         "gallery": ["images/wind_hero.png"],
-        "summary": "Low-cost HAWT prototype using local materials. Measured power, efficiency, and TSR.",
-        "metrics": ["Height ~154 cm, radius ~80 cm", "Power ~0.1–0.17 W", "Max efficiency ~1.2%, TSR ~2.5"],
-        "methods": ["Load sweeps", "Efficiency/TSR analysis", "Coupling stress sizing"],
-        "verification": ["Voltage vs frequency", "Budget breakdown"],
+        "summary": "Built a self-yawing horizontal-axis wind turbine using accessible wood, PVC, and 3D-printed parts; three 80 cm blades; turntable yaw bearing with vane; trap-door hub for maintenance; delivered within $110 budget.",
+        "metrics": [
+          "Three 80 cm blades, self-yawing design",
+          "Max efficiency 1.2% at 1.12 m/s (avg 0.55%)",
+          "TSR avg 2.5 (max 7.2), power 0.10–0.17 W, max 6.45 V",
+          "Budget: $110"
+        ],
+        "methods": [
+          "Turntable yaw bearing with vane",
+          "Trap-door hub, hollow shaft wiring",
+          "Resistive load sweeps, phase configurations"
+        ],
+        "verification": [
+          "Passed 5 rooftop safety checks (300 N lateral load)",
+          "High-wind disassembly, passerby test, roof integrity",
+          "Powered lightbox to reveal message"
+        ],
         "links": []
       }
     ]
