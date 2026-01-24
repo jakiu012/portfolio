@@ -25,11 +25,11 @@
         "title": "CubeSat ADCS Imaging Testbed (1U)",
         "slug": "adcs",
         "role": "ADCS & Systems Engineer",
-        "dates": "2025 – Present",
+        "dates": "2025",
         "location": "Ann Arbor, MI",
         "tags": ["ADCS", "Controls", "Sensors", "Hardware"],
         "heroImage": "images/adcs_hero.jpg",
-        "gallery": ["images/adcs_hero.jpg"],
+        "gallery": ["images/adcs_hero.jpg", "images/adcs_hardware.jpg", "images/adcs_scale.jpg"],
         "summary": "Built a 1U platform under 1 kg integrating IMU, magnetometer, star and IR cameras, reaction wheel, and magnetorquers. Implemented TRIAD/EKF, detumble, and pointing modes.",
         "metrics": [
           "Form factor 1U, target mass < 1 kg",
