@@ -85,6 +85,19 @@ class PortfolioApp {
     }
   
     setupNavScrolling() {
+      // Handle initial page load with hash (e.g., navigating from project.html to index.html#projects)
+      if (window.location.hash) {
+        const hash = window.location.hash;
+        const target = document.querySelector(hash);
+        if (target) {
+          // Small delay to ensure page is fully loaded
+          setTimeout(() => {
+            const top = target.offsetTop - 80;
+            window.scrollTo({ top, behavior: "smooth" });
+          }, 100);
+        }
+      }
+
       // smooth internal links
       document.querySelectorAll('a[href^="#"]').forEach(link => {
         link.addEventListener("click", e => {

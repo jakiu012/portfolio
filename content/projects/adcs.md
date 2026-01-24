@@ -33,3 +33,5 @@ Disturbance rejection, star-tracker integration, thermal drift compensation, tig
 
 ## Gallery
 ![ADCS hero](images/adcs_hero.jpg)
+![ADCS hardware assembly](images/adcs_hardware.jpg)
+![ADCS scale reference](images/adcs_scale.jpg)
