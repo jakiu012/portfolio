@@ -2,66 +2,132 @@
 slug: wind
 title: "Wind-Powered Generator for Rural Guatemala"
 subtitle: "ME Design, Test, Data"
-dates: "2024"
+dates: "December 2024"
 location: "Ann Arbor, MI"
 hero: "images/wind_hero.png"
-tags: ["Hardware","Testing","Energy"]
-description: "Low-cost HAWT prototype using local materials; measured power, efficiency, and TSR."
+tags: ["Hardware","Testing","Energy","Mechanical Design"]
+description: "Low-cost HAWT prototype using locally sourceable materials; measured power output of 0.1–0.17 W, end-to-end efficiency up to 1.2%, and tip-speed ratio of 2.5."
 ---
 
 ## Overview
-Prototyped a small HAWT targeting locally sourceable materials and basic tools.
 
-## Approach
-- Bench: load sweeps across RPM
-- Analysis: efficiency vs. TSR; voltage vs. frequency
-- Mechanical: coupling stress sizing; budget breakdown
+Designed and built a proof-of-concept horizontal-axis wind turbine (HAWT) to provide reliable electricity to rural Guatemala, where approximately 76% of residents face energy poverty. The turbine was optimized for affordability, simplicity, and safety using locally sourceable materials.
+
+The final prototype stands 154 cm tall with three 80 cm blades mounted on a wood and PVC structure. It features a self-yawing fin mechanism and successfully passed all five rooftop safety inspections before demonstrating its ability to illuminate a test lightbox.
+
+## Design Specifications
+
+**Support System**
+- Height: 154 cm total (base to hub)
+- Cross base with two wooden planks (48 cm legs) anchored with cinder blocks
+- PVC pipe stem with elevated support system featuring four angled wooden beams
+- Elevated support positioned 80 cm from hub to avoid blade interference
+
+**Hub System**
+- Length: 46 cm
+- Houses stepper motor with wooden shaft connected via set screw
+- 3D-printed bearing connector mating PVC pipe to hub
+- Turntable (lazy Susan) bearing enables autonomous yawing while base remains stationary
+- Hinged trapdoor design for internal access to motor and wiring
+- Pillow block and bearing provide additional shaft support
+
+**Blade System**
+- Three blades at 120° spacing
+- Blade radius: 80 cm (center to tip)
+- Wooden frame dimensions: 70 cm and 30 cm members at 120°/60° angles
+- Plastic wrap covering (0.0381 cm thick) secured with hot glue
+- Circular plywood nose plate with dowel-to-motor shaft connection
+
+**Fin/Vane System**
+- Dimensions: ~35 cm × 35 cm plywood
+- Streamlined corners for reduced drag and improved hub access
+- Balances turbine and provides passive wind tracking
+
+## Technical Approach
+
+**Theoretical Analysis**
+- Calculated blade length from theoretical HAWT power equation: P = ½·ρ·A·v³
+- Assumed 10% target efficiency, air density of 1.2 kg/m³, wind speeds of 3.5–5.7 m/s
+- Verified gear train requirements using tip-speed ratio formula: TSR = ω·r/u
+- Calculated minimum shaft connector diameter to withstand combined torque and shear stress
+
+**Electrical Configuration**
+- Wiring routed internally through hollow shaft to prevent tangling during yaw
+- Tested multiple phase/resistor configurations:
+  - 1 Phase, 50Ω and 1kΩ
+  - Half Phase, 1kΩ
+  - 2 Phase in Series, 1kΩ
+- Measured voltage vs. electrical frequency across all configurations to characterize generator performance
+
+**Safety Testing (5 inspections passed)**
+1. 300N sideways force test (simulated strong gusts)
+2. High winds disassembly resistance test
+3. Passerby safety test (paper towel roll proximity check)
+4. Technical requirements verification (wind collection area, materials, electrical terminals)
+5. Rooftop integrity inspection (no sharp edges to damage roof membrane)
 
 ## Results & Outcomes
-- **Power:** ~0.1–0.17 W
-- **Max efficiency:** ~1.2%
-- **TSR:** ~2.5
-- Clear path to improve blade profile and alternator coupling
 
-## What I’d Improve Next
-Airfoil selection, tip-loss correction, and generator matching.
+| Metric | Value |
+|--------|-------|
+| Power Output | 0.10–0.17 W |
+| Peak Voltage | 6.453 V |
+| Max Efficiency | 1.2% (at 1.1 m/s wind) |
+| Avg Efficiency | 0.546% |
+| Tip-Speed Ratio | Avg 2.5 (range 0.1–7.2) |
+| Target TSR | 7 (typical HAWT) |
+| Total Budget | ~$110 (under $130 limit) |
+
+**Key Findings**
+- Inverse relationship between efficiency and wind speed—turbine performed better at lower wind speeds
+- Successfully powered lightbulb test demonstrating proof-of-concept viability
+- End-to-end efficiency calculated using P = V²/R for actual power vs. theoretical wind power
+
+## Limitations Identified
+
+**Structural**
+- Base instability observed at wind speeds >6 m/s due to unsupported section between elevated support and hub
+- Turntable bearing undersized for turbine weight and wind-induced torque
+- Hot glue and small screws insufficient for long-term bearing attachment
+
+**Mechanical**
+- Wooden shaft loosened from stepper motor over time, causing efficiency losses
+- Blades unbalanced, contributing to high-speed vibration
+- Blade pitch/chord distribution opposite of optimal (larger at tip vs. root)
+
+**Operational**
+- No braking mechanism for safe high-wind shutdowns
+- Hub not weatherproofed for outdoor deployment
+- Fin interference prevented full trapdoor opening
+
+## What I'd Improve Next
+
+**Aerodynamics**
+- Redesign blades with proper airfoil profile tapering toward tip
+- Balance all three blades identically for smooth rotation
+- Position radial edge as trailing edge to reduce drag
+- Apply tip-loss correction in efficiency calculations
+
+**Drivetrain**
+- Add ~1:3 gear ratio to increase shaft speed and power output
+- Replace wooden dowel with metal shaft for rigid motor coupling
+- Use shaft couplings or improved set screw mechanism
+
+**Structure**
+- Extend elevated support closer to hub or add secondary support
+- Upgrade to larger turntable bearing with proper fasteners
+- Fully enclose hub for weather protection
+
+**Controls & Safety**
+- Implement phase-short braking (shorting motor wires) for safe stops
+- Add slip ring or cable management for extended yaw rotation
+
+**Sustainability**
+- Substitute PVC and plastic wrap with recycled materials
+- Optimize bill of materials for cost and local availability in Guatemala
 
 ## Gallery
-![Wind](images/wind_hero.png)
----
-slug: wind
-title: "Wind-Powered Generator for Rural Guatemala"
-subtitle: "ME Design, Test, Data"
-dates: "2024"
-location: "Ann Arbor, MI"
-hero: "images/wind_hero.png"
-tags: ["Hardware","Testing","Energy"]
-description: "Low-cost HAWT prototype using local materials; measured power, efficiency, and tip-speed ratio."
----
 
-## Overview
-Proof-of-concept horizontal-axis wind turbine for rural Guatemala. Built with locally sourceable materials, passed rooftop safety checks, and successfully lit the test lightbox. Final prototype stood ~154 cm tall with three ~80 cm blades on a wooden/PVC structure and a self-yawing fin.
-
-## Approach
-- **Bench and electrical:** Load sweeps across RPM, voltage vs electrical frequency for multiple phase/resistor configs; wiring routed inside the shaft to avoid tangling.
-- **Analysis:** End-to-end efficiency vs wind speed and tip-speed ratio (TSR); compared measured power to theoretical wind power.
-- **Mechanical:** Wood base with elevated support and cross-base; pillow-block + bearing assisting the motor shaft; hinged hub door for access; budget tracking.
-
-## Results & Outcomes
-- **Power:** ~0.10–0.17 W measured
-- **Max efficiency:** ~1.2% at low wind (~1.1 m/s)
-- **TSR:** avg ~2.5 (range ~0.1–7.2)
-- **Budget:** ~$110 total materials
-- **Safety & demo:** Passed inspections and illuminated the lightbox
-
-## What I’d Improve Next
-- Aerodynamics: proper airfoil, tapered chord/pitch toward the tip, identical balanced blades, tip-loss correction.
-- Drivetrain: add a simple gear ratio (e.g., ~1:3) to raise shaft speed; better shaft coupling; switch to a metal shaft.
-- Structure: move/strengthen the upper support, larger yaw bearing, fully enclosed weatherproof hub.
-- Controls & safety: phase-short braking for safe stops.
-- Sustainability: use recycled plastics or alternative coverings; refine bill of materials for cost and durability.
-
-## Gallery
 ![Wind — hero](images/wind_hero.png)
 ![Dimensions and layout](images/wind_dims.png)
 ![Rooftop test / lightbox demo](images/wind_testing.png)

@@ -1,40 +1,96 @@
 ---
 slug: airpuck
 title: "Air Puck Prototype for Titan"
-subtitle: "Design, CFD, Test"
-dates: "2023"
+subtitle: "Design, CFD Analysis, and Testing"
+dates: "February 2023"
 location: "Ann Arbor, MI"
 hero: "images/airpuck_hero.png"
-tags: ["CAD/CFD","Hardware","Testing"]
-description: "Hexagonal air-puck optimized for fast traverse and payload, CATIA + STAR-CCM+, Arduino control."
+tags: ["CAD/CFD", "Hardware", "Testing"]
+description: "Hexagonal air-puck optimized for fast traverse and payload capacity under strict power and mass constraints. Designed with CATIA, simulated in STAR-CCM+, and Arduino-controlled for potential Titan surface exploration."
 ---
 
 ## Overview
-Earth prototype of a low-profile air-puck aimed at fast course times while carrying payload under strict power and parts limits. Cardboard shell, one Arduino, one 9 V battery, one motor controller, one prop, total mass under 800 g. Built as an Earth stand-in for Titan surface travel.
 
-## Approach
-- **Geometry and materials:** Regular hexagon base, ~14 in point to point. Plenum Ø ~12 in, height ~2.5 in. Inlet Ø ~5 in. Skirt gap ~0.1 in. Laser-cut cardboard with tape and hot glue. Electronics on the top deck for weight distribution.
-- **CAD:** CATIA model and flat patterns for the laser cutter. Dimensioned drawings for quick rebuilds.
-- **CFD:** STAR-CCM+ ground-effect setup. Inlet velocity sweep to 2 m/s, hover gap fixed at ~0.1 in. Predicted lift ≈ 1.41 N at ~1.51 W for the lift case.
-- **Controls and test method:** Arduino-based throttle profiles, single ESC and prop. Bench lift checks, then timed course runs with payloads stepped 0 to 100 g.
+Designed and built an Earth prototype of a low-profile air puck for NASA's conceptual Titan surface exploration mission. The challenge: traverse a course in minimal time while maximizing payload capacity under strict constraints—total mass under 800 g, cardboard construction, one Arduino, one 9V battery, one motor controller, and one propeller. This project combined CAD design, CFD simulation, and iterative hardware testing to optimize lift, stability, and crossing time.
 
-## Results & Outcomes
-- **Mass:** 269–329 g across builds, within the 800 g cap.
-- **Power (lift study):** ~1.51 W.
-- **Simulated lift:** ~1.41 N at 2 m/s inlet with ~0.1 in hover height.
-- **Best bench time:** ~6.68 s with 0 g payload.
-- **Competition:** 80 g payload completed in ~17.50 s. 100 g attempt stopped short.
-- **Notes:** Hex shape simplified fabrication and mounting. Skirt gap tuning strongly affected payload and time.
+## Design Approach
 
-## What I’d Improve Next
-Skirt edge vortex control, nozzle shaping to reduce leakage, higher-efficiency duct or fan, lighter core materials, and better battery and wiring layout. For Titan, switch to aluminum or composite panels, insulate and harden electronics, and retune the motor-prop pair for low temperature.
+**Geometry Selection:** After comparing lift values across multiple geometric configurations using both STAR-CCM+ simulations and Bernoulli's equation calculations, the hexagonal shape demonstrated superior lift performance. The hexagon also simplified laser-cut fabrication and provided flat mounting surfaces for electronics.
+
+**Key Dimensions:**
+- Base diameter: 14 in (point to point)
+- Plenum diameter: 12 in
+- Plenum height: 2.5 in
+- Inlet diameter: 5 in
+- Skirt gap (hover height): ~0.1 in
+
+**Materials & Fabrication:** Laser-cut cardboard panels assembled with tape and hot glue. The flat plenum surface provided stable mounting for microcontrollers, motor mount, and battery, preventing mid-flight component separation. No draft angles or curves—intentionally simplified geometry for rapid rebuilds.
+
+## Simulation & Analysis
+
+**Tools:** CATIA for solid modeling and flat pattern generation; STAR-CCM+ for ground-effect CFD analysis.
+
+**CFD Setup:**
+- Inlet boundary at top aperture with velocity sweep up to 2 m/s
+- Ground plane at bottom to simulate hover cushion effect
+- Hover altitude fixed at 0.1 in
+- Outlet defined at the skirt-to-ground gap
+
+**Predicted Performance:**
+- Lift: 1.41 N at 2 m/s inlet velocity
+- Power consumption: 1.51 W
+
+The CFD results guided skirt gap tuning, which proved critical for balancing payload capacity against crossing time.
+
+## Testing & Results
+
+**System Mass:** 269–329 g across builds (well under the 800 g limit)
+
+**Bench Testing (Payload vs. Time):**
+
+| Payload | Time |
+|---------|------|
+| 0 g | 6.68 s |
+| 20 g | 7.73 s |
+| 40 g | 7.13 s |
+| 60 g | 15.78 s |
+
+**Competition Results:**
+- 60 g payload: 17.78 s ✓
+- 80 g payload: 17.50 s ✓
+- 100 g payload: Did not reach landing zone
+
+The 80 g successful run with 17.50 s crossing time represented our best competition performance.
+
+## Titan Adaptations
+
+For deployment at 0 km altitude on Titan (95% N₂, ~5% CH₄ atmosphere, −179°C surface temperature):
+
+- **Shell material:** Switch from cardboard to aluminum for increased density and structural integrity against Titan's atmospheric conditions
+- **Electronics:** Insulate and harden all components for cryogenic operation
+- **Propulsion:** Upsize motor to compensate for increased shell mass while maintaining required lift margins
+
+## Lessons Learned
+
+- Hexagonal geometry balanced aerodynamic performance with manufacturing simplicity
+- Skirt gap tuning had outsized impact on payload capacity and stability
+- Flat-surface design philosophy enabled rapid iteration during testing
+- Weight distribution (electronics on top deck) affected flight stability
+
+## What I'd Improve
+
+- Implement skirt edge vortex control to reduce pressure leakage
+- Add nozzle shaping at the outlet for improved lift efficiency
+- Explore higher-efficiency duct or fan configurations
+- Use lighter core materials to increase payload margin
+- Optimize battery placement and wiring for better CG control
 
 ## Gallery
-![Airpuck](images/airpuck_hero.png)
 
+![Air Puck Hero](images/airpuck_hero.png)
 
-## Gallery
-![CFD](images/airpuck_cfd.png)
-![Solid model](images/airpuck_solidmodel.png)
-![Testing](images/airpuck_testing.png)
+![CFD Pressure Distribution](images/airpuck_cfd.png)
 
+![CATIA Solid Model](images/airpuck_solidmodel.png)
+
+![Testing Setup](images/airpuck_testing.png)
