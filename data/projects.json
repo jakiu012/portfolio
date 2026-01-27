@@ -22,6 +22,25 @@
     },
     "projects": [
       {
+        "title": "Heliophysics Science Observer & Communications Platform",
+        "slug": "heliophysics",
+        "role": "Spacecraft Systems Design",
+        "dates": "Winter 2026",
+        "location": "Ann Arbor, MI",
+        "tags": ["Spacecraft", "Systems Engineering", "Mission Design", "Heliophysics"],
+        "heroImage": "images/heliophysics_hero.png",
+        "gallery": ["images/heliophysics_hero.png"],
+        "summary": "NASA heliophysics mission design for solar monitoring and Earth-Mars communication. Team of 12 designing exploration assets for space weather detection and crew safety support.",
+        "metrics": [
+          "Budget ≤ $400M USD (FY25)",
+          "Launch by Dec 31, 2035",
+          "Operational: 2036–2049"
+        ],
+        "methods": ["Systems engineering", "Trade studies", "Requirements derivation"],
+        "verification": ["MDR", "PDR"],
+        "links": []
+      },
+      {
         "title": "CubeSat ADCS Imaging Testbed (1U)",
         "slug": "adcs",
         "role": "ADCS & Systems Engineer",
