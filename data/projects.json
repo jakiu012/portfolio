@@ -28,8 +28,8 @@
         "dates": "Winter 2026",
         "location": "Ann Arbor, MI",
         "tags": ["Spacecraft", "Systems Engineering", "Mission Design", "Heliophysics"],
-        "heroImage": "images/heliophysics_hero.png",
-        "gallery": ["images/heliophysics_hero.png"],
+        "heroImage": "images/Heliophysics.jpg",
+        "gallery": ["images/Heliophysics.jpg"],
         "summary": "NASA heliophysics mission design for solar monitoring and Earth-Mars communication. Team of 12 designing exploration assets for space weather detection and crew safety support.",
         "metrics": [
           "Budget ≤ $400M USD (FY25)",
