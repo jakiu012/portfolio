@@ -138,7 +138,7 @@ The website is fully responsive and includes:
 ## 📞 Support
 
 For questions or issues:
-- Email: jaki.uddin@colorado.edu
+- Email: jakiuddin012@gmail.com
 - LinkedIn: [linkedin.com/in/jakiuddin](https://linkedin.com/in/jakiuddin)
 - GitHub: [github.com/jakiuddin](https://github.com/jakiuddin)
 
@@ -148,4 +148,4 @@ This portfolio template is open source and available under the MIT License.
 
 ---
 
-Built with ❤️ for aerospace engineering professionals.
+Built with ❤️ for aerospace engineering professionals ✈️.
