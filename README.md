@@ -1,4 +1,4 @@
-# Jaki (Night Wolfe) Uddin - Aerospace Engineer Portfolio
+# Fazle Rabbi Zaki - Aerospace Engineer Portfolio
 
 A modern, responsive portfolio website showcasing aerospace engineering projects, technical expertise, and professional experience.
 
@@ -25,7 +25,7 @@ portfolio/
 │   ├── air-puck/         # Air Puck Titan project images
 │   ├── hovercraft/       # Hovercraft project images
 │   ├── wind-turbine/     # Wind generator project images
-│   └── Jafrul_Amin.jpg   # Profile photo
+│   └── Fazle_Rabbi_Zaki.jpg   # Profile photo
 ├── reports/              # PDF reports and documents
 │   ├── space584_adcs.pdf
 │   ├── air_puck.pdf
