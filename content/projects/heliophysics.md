@@ -13,34 +13,42 @@ description: "Comprehensive spacecraft mission design addressing NASA's heliophy
 
 A comprehensive spacecraft mission design project addressing NASA's heliophysics priorities and Moon-to-Mars communication challenges. Our team is designing one or more exploration assets to monitor solar and space weather phenomena while providing continuous Earth-Mars communication capability for future crewed missions.
 
-This project is based on the 2024-2025 AIAA Undergraduate Team Space Design Competition guidelines.
+> This project is based on the **2024-2025 AIAA Undergraduate Team Space Design Competition** guidelines.
 
-**Course:** AEROSP 483 – Spacecraft Systems Design
-**Institution:** University of Michigan
-**Term:** Winter 2026
-**Team Size:** 12 members
+| Detail | Information |
+|--------|-------------|
+| Course | AEROSP 483 - Spacecraft Systems Design |
+| Institution | University of Michigan |
+| Term | Winter 2026 |
+| Team Size | 12 members |
+
+---
 
 ## Mission Objectives
 
-- **Heliophysics Investigation:** Support the 2024 National Academies Decadal Survey priorities for solar and space physics research
-- **Space Weather Monitoring:** Detect and monitor solar weather phenomena to enable early warning systems for crewed missions
-- **Earth-Mars Communication:** Provide line-of-sight communication capability between Earth and Mars throughout the full synodic cycle (2036–2049)
-- **Crew Safety Support:** Enable space weather alerts for astronauts in transit to/from Mars, on the Martian surface, and on the lunar surface
+- **Heliophysics Investigation** - Support the 2024 National Academies Decadal Survey priorities for solar and space physics research
+- **Space Weather Monitoring** - Detect and monitor solar weather phenomena to enable early warning systems for crewed missions
+- **Earth-Mars Communication** - Provide line-of-sight communication capability between Earth and Mars throughout the full synodic cycle (2036-2049)
+- **Crew Safety Support** - Enable space weather alerts for astronauts in transit to/from Mars, on the Martian surface, and on the lunar surface
+
+---
 
 ## Mission Constraints
 
 | Parameter | Requirement |
 |-----------|-------------|
-| Budget | ≤ $400M USD (FY25) |
+| Budget | $400M USD (FY25) max |
 | Launch Date | No later than December 31, 2035 |
-| Operational Period | 2036–2049 (late 2040s EOL) |
+| Operational Period | 2036-2049 (late 2040s EOL) |
 | Communication | Near-constant Earth-Mars line-of-sight |
+
+---
 
 ## My Roles & Contributions
 
-### Safety, Policy & Risk (SPR) – Lead
+### Safety, Policy & Risk (SPR) - Lead
 
-Leading the risk management and safety analysis efforts for the entire mission architecture.
+> Leading the risk management and safety analysis efforts for the entire mission architecture.
 
 **Key Responsibilities:**
 - Develop comprehensive risk matrix quantifying risk across all spacecraft subsystems
@@ -59,9 +67,9 @@ Leading the risk management and safety analysis efforts for the entire mission a
 
 ---
 
-### Attitude Determination & Control Systems (ADCS) – Subteam Member
+### Attitude Determination & Control Systems (ADCS) - Subteam Member
 
-Contributing to the spacecraft pointing and orientation systems, building on prior experience with CubeSat ADCS development.
+> Contributing to the spacecraft pointing and orientation systems, building on prior experience with CubeSat ADCS development.
 
 **Key Responsibilities:**
 - Support attitude determination sensor selection and analysis
@@ -77,9 +85,11 @@ Contributing to the spacecraft pointing and orientation systems, building on pri
 
 **Relevant Prior Experience:**
 - SPACE 584: CubeSat attitude determination and control systems
-- Helmholtz coil calibration testing (achieved 168 μT magnetic field strength)
+- Helmholtz coil calibration testing (achieved 168 uT magnetic field strength)
 - Magnetorquer design and characterization
 - Extended Kalman Filter development for attitude estimation
+
+---
 
 ## Project Milestones
 
@@ -88,24 +98,28 @@ Contributing to the spacecraft pointing and orientation systems, building on pri
 | MDR | Mission Definition Review | Pre-Spring Break |
 | PDR | Preliminary Design Review | End of Semester |
 
+---
+
 ## Skills & Tools
 
-**Risk & Safety Analysis:**
+### Risk & Safety Analysis
 - Risk matrix development and quantification
 - FMEA and fault tree analysis
 - Trade study evaluation (cost, schedule, risk)
 - Contingency planning
 
-**ADCS Technical:**
+### ADCS Technical
 - Extended Kalman Filter implementation
 - Magnetometer calibration and characterization
 - Attitude sensor and actuator analysis
 - MATLAB for dynamics and controls simulation
 
-**Systems Engineering:**
+### Systems Engineering
 - Requirements derivation and verification
 - Cross-functional coordination
 - Technical documentation and design reviews
+
+---
 
 ## Deliverables
 
@@ -119,4 +133,4 @@ Contributing to the spacecraft pointing and orientation systems, building on pri
 
 ---
 
-*Project ongoing – Winter 2026*
+*Project ongoing - Winter 2026*
