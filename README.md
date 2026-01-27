@@ -2,83 +2,124 @@
 
 A modern, responsive portfolio website showcasing aerospace engineering projects, technical expertise, and professional experience.
 
-## 🚀 Features
+## Features
 
 - **Modern Design**: Clean, minimal interface with dark/light mode toggle
 - **Responsive**: Mobile-first design that works perfectly on all devices
 - **Fast Performance**: Optimized for Lighthouse scores and accessibility
 - **Interactive Projects**: Detailed project showcases with galleries, metrics, and case studies
-- **SEO Optimized**: Complete meta tags, OpenGraph, and sitemap
+- **Data-Driven**: Centralized project data in JSON with markdown content support
+- **SEO Optimized**: Complete meta tags, OpenGraph, sitemap, and robots.txt
 - **Accessibility**: WCAG compliant with proper ARIA labels and keyboard navigation
+- **PWA Support**: Progressive Web App manifest for installable experience
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 portfolio/
 ├── index.html              # Main portfolio page
+├── project.html            # Project detail page template
 ├── js/
-│   └── main.js            # JavaScript functionality
+│   ├── main.js             # Core portfolio functionality
+│   └── project.js          # Project page specific features
 ├── data/
-│   └── projects.json      # Project data and content
-├── images/                # Project images and assets
-│   ├── adcs/             # CubeSat ADCS project images
-│   ├── air-puck/         # Air Puck Titan project images
-│   ├── hovercraft/       # Hovercraft project images
-│   ├── wind-turbine/     # Wind generator project images
-│   └── Fazle_Rabbi_Zaki.jpg   # Profile photo
-├── reports/              # PDF reports and documents
-│   ├── space584_adcs.pdf
-│   ├── air_puck.pdf
-│   ├── hovercraft.pdf
-│   └── wind_generator.pdf
-├── resume.pdf            # Resume PDF file
-├── sitemap.xml           # SEO sitemap
-├── manifest.json         # PWA manifest
-└── README.md            # This file
+│   └── projects.json       # Centralized project data and metadata
+├── content/
+│   └── projects/           # Detailed project documentation
+│       ├── adcs.md         # CubeSat ADCS project
+│       ├── airpuck.md      # Air Puck Titan project
+│       ├── heliophysics.md # Heliophysics Science Observer
+│       ├── hovercraft.md   # Hovercraft project
+│       └── wind.md         # Wind generator project
+├── images/                 # All project images (flat structure)
+│   ├── fazle_headshot.jpg  # Profile photo
+│   ├── adcs_*.jpg          # CubeSat ADCS images
+│   ├── airpuck_*.png       # Air Puck images
+│   ├── hovercraft_*.png    # Hovercraft images
+│   └── wind_*.png          # Wind generator images
+├── reports/                # PDF reports and documents
+├── resume.pdf              # Resume PDF file
+├── sitemap.xml             # SEO sitemap
+├── robots.txt              # Search engine crawler rules
+├── manifest.json           # PWA manifest
+├── .nojekyll               # GitHub Pages Jekyll disable flag
+├── DEPLOYMENT.md           # Deployment documentation
+└── README.md               # This file
 ```
 
-## 🛠️ Setup Instructions
+## Featured Projects
+
+1. **Heliophysics Science Observer & Communications Platform**
+   - NASA mission design for space weather monitoring
+   - Role: Spacecraft Systems Design | Winter 2026
+
+2. **CubeSat ADCS Imaging Testbed (1U)**
+   - Attitude determination and control systems development
+   - Role: ADCS & Systems Engineer | 2025-Present
+
+3. **Air Puck Prototype for Titan**
+   - CAD/CFD optimization for Titan exploration vehicle
+   - Role: Design, CFD, Test | 2023
+
+4. **Hovercraft Prototype & Competition**
+   - Competition vehicle with advanced flow modeling
+   - Role: Assembly, Testing, CFD | 2023
+
+5. **Wind-Powered Generator for Rural Guatemala**
+   - Low-cost renewable energy prototype
+   - Role: ME Design, Test, Data | 2024
+
+## Setup Instructions
 
 ### 1. Add Your Content
 
 #### Images
-Place your project images in the appropriate folders:
-- `/images/adcs/` - CubeSat ADCS project images
-- `/images/air-puck/` - Air Puck Titan project images  
-- `/images/hovercraft/` - Hovercraft project images
-- `/images/wind-turbine/` - Wind generator project images
+Place project images in the `/images/` directory using the naming convention:
+- `{project-slug}_hero.{jpg|png}` - Main project image
+- `{project-slug}_{description}.{jpg|png}` - Additional project images
+
+Example: `adcs_hero.jpg`, `hovercraft_dims.png`
+
+#### Project Content
+Create or edit markdown files in `/content/projects/`:
+- Use the project slug as the filename (e.g., `adcs.md`)
+- Include detailed project description, methods, and outcomes
 
 #### Resume
 - Place your resume PDF at `/resume.pdf`
 - The website will automatically detect and display it
 
 #### Reports
-- Place your project reports in `/reports/`
-- Update the links in `data/projects.json` to match your file names
+- Place project reports in `/reports/`
+- Update links in `data/projects.json` accordingly
 
 ### 2. Customize Content
 
 Edit `data/projects.json` to update:
-- Project details and descriptions
+- Owner/portfolio metadata (name, photo, links)
+- Project details: slug, title, role, date, location
 - Metrics and technical specifications
-- Image paths and gallery captions
-- Report links and external URLs
+- Image paths and gallery references
+- Tags and categorization
 
 ### 3. Update Personal Information
 
-In `index.html`, update:
-- Contact email addresses
-- Social media links (LinkedIn, GitHub)
-- Personal bio and skills
-- Project dates and locations
+In `data/projects.json`, update the owner section:
+- Name and tagline
+- Profile photo path
+- Contact email
+- GitHub and LinkedIn URLs
+- About section content
 
-## 🚀 Deployment
+## Deployment
 
 ### GitHub Pages
 1. Push your code to a GitHub repository
 2. Go to repository Settings > Pages
 3. Select "Deploy from a branch" and choose `main`
 4. Your site will be available at `https://username.github.io/repository-name`
+
+Note: The `.nojekyll` file ensures proper deployment without Jekyll processing.
 
 ### Vercel
 1. Install Vercel CLI: `npm i -g vercel`
@@ -91,7 +132,9 @@ In `index.html`, update:
 3. Set publish directory to `.` (root)
 4. Deploy automatically on every push
 
-## 🎨 Customization
+See `DEPLOYMENT.md` for detailed deployment instructions.
+
+## Customization
 
 ### Colors and Styling
 The website uses Tailwind CSS with a custom color scheme. To modify:
@@ -99,15 +142,15 @@ The website uses Tailwind CSS with a custom color scheme. To modify:
 - Update CSS custom properties in the `<style>` section
 
 ### Adding New Projects
-1. Add project data to `data/projects.json`
-2. Create corresponding image folders
-3. Add project images with descriptive filenames
-4. Update gallery paths in the project data
+1. Add project entry to `data/projects.json` with all metadata
+2. Create a markdown file in `/content/projects/{slug}.md`
+3. Add project images to `/images/` with appropriate naming
+4. Update gallery references in the project data
 
 ### Modifying Navigation
 Update the navigation links in the `<nav>` section of `index.html` to match your sections.
 
-## 📱 Mobile Optimization
+## Mobile Optimization
 
 The website is fully responsive and includes:
 - Mobile-first CSS design
@@ -115,15 +158,16 @@ The website is fully responsive and includes:
 - Optimized images and loading
 - Progressive Web App features
 
-## 🔍 SEO Features
+## SEO Features
 
 - Complete meta tags and OpenGraph images
 - Structured data markup
-- XML sitemap
+- XML sitemap (`sitemap.xml`)
+- Robots configuration (`robots.txt`)
 - Semantic HTML structure
 - Fast loading times
 
-## 🧪 Testing
+## Testing
 
 ### Performance Testing
 - Use Google PageSpeed Insights
@@ -135,17 +179,17 @@ The website is fully responsive and includes:
 - Test with screen readers
 - Verify keyboard navigation
 
-## 📞 Support
+## Support
 
 For questions or issues:
 - Email: jakiuddin012@gmail.com
 - LinkedIn: [linkedin.com/in/jakiuddin](https://linkedin.com/in/jakiuddin)
-- GitHub: [github.com/jakiuddin](https://github.com/jakiuddin)
+- GitHub: [github.com/jakiu012](https://github.com/jakiu012)
 
-## 📄 License
+## License
 
 This portfolio template is open source and available under the MIT License.
 
 ---
 
-Built with ❤️ for aerospace engineering professionals ✈️.
+Built for aerospace engineering professionals.
