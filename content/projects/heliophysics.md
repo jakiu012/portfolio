@@ -5,7 +5,7 @@ subtitle: "Spacecraft Systems Design"
 dates: "Winter 2026"
 location: "Ann Arbor, MI"
 hero: "images/heliophysics_hero.png"
-tags: ["Spacecraft", "Systems Engineering", "Mission Design", "Heliophysics", "AIAA"]
+tags: ["Spacecraft", "Systems Engineering", "Mission Design", "Heliophysics", "AIAA", "Risk Management", "ADCS"]
 description: "Comprehensive spacecraft mission design addressing NASA's heliophysics priorities and Moon-to-Mars communication challenges for the 2024-2025 AIAA Undergraduate Team Space Design Competition."
 ---
 
@@ -36,34 +36,50 @@ This project is based on the 2024-2025 AIAA Undergraduate Team Space Design Comp
 | Operational Period | 2036–2049 (late 2040s EOL) |
 | Communication | Near-constant Earth-Mars line-of-sight |
 
-## My Role & Contributions
+## My Roles & Contributions
 
-**Subsystem:** [YOUR SUBSYSTEM HERE]
+### Safety, Policy & Risk (SPR) – Lead
 
-### Key Responsibilities
-- [Add your specific responsibilities]
-- [Add tasks you're leading]
-- [Add analyses you're performing]
+Leading the risk management and safety analysis efforts for the entire mission architecture.
 
-### Technical Work
-- [Describe technical analyses]
-- [Describe trade studies you contributed to]
-- [Describe tools/software used]
+**Key Responsibilities:**
+- Develop comprehensive risk matrix quantifying risk across all spacecraft subsystems
+- Evaluate cost, schedule, and risk tradeoffs for all subsystem trade studies
+- Design contingency plans for critical failure modes
+- Assess launch site and launch vehicle risks (coordinating with Propulsion)
+- Analyze collision risk and orbital debris considerations (coordinating with Orbital Mechanics)
+- Ensure spacecraft meets all safety requirements and operates within acceptable risk margins
+- Review and validate trade study decisions across all subsystems
 
-## Subsystem Architecture
+**Technical Work:**
+- Risk identification, assessment, and mitigation planning
+- Failure Mode and Effects Analysis (FMEA)
+- Fault tree analysis for critical systems
+- Safety compliance verification against NASA/industry standards
 
-The spacecraft design encompasses the following integrated subsystems:
+---
 
-- **Structures & Mechanisms** – Payload mounting, launch loads, deployables
-- **Thermal Control** – Heat rejection, space weather shielding
-- **Communications** – Earth-Mars telemetry, tracking, and command
-- **Electrical Power** – Power generation and distribution
-- **Propulsion** – Launch vehicle selection, orbit transfer, station-keeping
-- **Orbital Mechanics** – Mission trajectory, line-of-sight analysis
-- **Attitude Determination** – Spacecraft orientation sensing
-- **Attitude Control** – Pointing and maneuvering
-- **Command & Data Handling** – Onboard computing, radiation hardening
-- **Safety, Policy & Risk** – Risk assessment, contingency planning
+### Attitude Determination & Control Systems (ADCS) – Subteam Member
+
+Contributing to the spacecraft pointing and orientation systems, building on prior experience with CubeSat ADCS development.
+
+**Key Responsibilities:**
+- Support attitude determination sensor selection and analysis
+- Contribute to attitude control actuator trade studies
+- Assist with pointing requirements derivation based on mission needs
+- Coordinate ADCS interfaces with Command & Data Handling and Propulsion
+
+**Technical Work:**
+- Attitude determination algorithms (Extended Kalman Filter implementation)
+- Sensor suite analysis (star trackers, sun sensors, IMUs, magnetometers)
+- Actuator analysis (reaction wheels, magnetorquers, thrusters)
+- Pointing accuracy and stability analysis for science payload and communication systems
+
+**Relevant Prior Experience:**
+- SPACE 584: CubeSat attitude determination and control systems
+- Helmholtz coil calibration testing (achieved 168 μT magnetic field strength)
+- Magnetorquer design and characterization
+- Extended Kalman Filter development for attitude estimation
 
 ## Project Milestones
 
@@ -74,12 +90,22 @@ The spacecraft design encompasses the following integrated subsystems:
 
 ## Skills & Tools
 
-- Systems engineering and requirements derivation
-- Trade study methodology and decision matrices
-- [Add specific tools: STK, MATLAB, GMAT, etc.]
-- [Add analysis methods you're using]
-- Technical documentation and review presentations
-- Cross-functional team collaboration
+**Risk & Safety Analysis:**
+- Risk matrix development and quantification
+- FMEA and fault tree analysis
+- Trade study evaluation (cost, schedule, risk)
+- Contingency planning
+
+**ADCS Technical:**
+- Extended Kalman Filter implementation
+- Magnetometer calibration and characterization
+- Attitude sensor and actuator analysis
+- MATLAB for dynamics and controls simulation
+
+**Systems Engineering:**
+- Requirements derivation and verification
+- Cross-functional coordination
+- Technical documentation and design reviews
 
 ## Deliverables
 
