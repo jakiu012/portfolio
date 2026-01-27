@@ -4,7 +4,7 @@ title: "Heliophysics Science Observer & Communications Platform"
 subtitle: "Spacecraft Systems Design"
 dates: "Winter 2026"
 location: "Ann Arbor, MI"
-hero: "images/heliophysics_hero.png"
+hero: "images/Heliophysics.jpg"
 tags: ["Spacecraft", "Systems Engineering", "Mission Design", "Heliophysics", "AIAA", "Risk Management", "ADCS"]
 description: "Comprehensive spacecraft mission design addressing NASA's heliophysics priorities and Moon-to-Mars communication challenges for the 2024-2025 AIAA Undergraduate Team Space Design Competition."
 ---
