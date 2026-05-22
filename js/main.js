@@ -1,355 +1,440 @@
-// -------- Portfolio (data-driven) --------
 class PortfolioApp {
-    constructor() {
-      this.DATA_PATH = "./data/projects.json";
+  constructor() {
+    this.DATA_PATH = './data/projects.json';
+    this.owner = {};
+    this.projects = [];
+    this.tags = new Set();
+    this.activeTag = null;
+    this.q = '';
+    this.init();
+  }
+
+  async init() {
+    await this.loadData();
+    this.renderOwner();
+    this.setupThemeToggle();
+    this.setupMobileMenu();
+    this.setupNavScrolling();
+    this.setupSearchAndFilters();
+    this.setupReveal();
+    this.setupResumeViewer();
+    this.renderFeatured();
+    this.renderProjects();
+    this.consoleHello();
+  }
+
+  async loadData() {
+    try {
+      const res = await fetch(this.DATA_PATH, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      this.owner = data.owner || {};
+      this.projects = Array.isArray(data.projects) ? data.projects : [];
+      this.tags = new Set();
+      this.projects.forEach((project) => {
+        (project.tags || []).forEach((tag) => this.tags.add(tag));
+      });
+    } catch (error) {
+      console.warn('Could not load data/projects.json', error);
+      this.owner = { name: 'Fazle Rabbi Zaki' };
       this.projects = [];
       this.tags = new Set();
-      this.activeTag = null;
-      this.q = "";
-      this.init();
     }
-  
-    async init() {
-      await this.loadData();
-      this.injectStyles();            // <-- add styles for bullets + navbar nowrap
-      this.setupThemeToggle();
-      this.setupMobileMenu();
-      this.setupNavScrolling();
-      this.setupSearchAndFilters();
-      await this.setupResumeViewer();
-      this.renderFeatured();
-      this.renderProjects();
-      this.wireOwnerUI();
-      this.consoleHello();
-    }
-  
-    // -------- Data --------
-    async loadData() {
-      try {
-        const res = await fetch(this.DATA_PATH);
-        const data = await res.json();
-        this.owner = data.owner || {};
-        this.projects = Array.isArray(data.projects) ? data.projects : [];
-        // collect unique tags
-        this.tags = new Set();
-        this.projects.forEach(p => (p.tags || []).forEach(t => this.tags.add(t)));
-      } catch (e) {
-        console.warn("Could not load data/projects.json", e);
-        this.owner = { name: "Your Name" };
-        this.projects = [];
-        this.tags = new Set();
-      }
-    }
-  
-    // -------- Owner / Header / Footer --------
-    wireOwnerUI() {
-      const o = this.owner || {};
-      const setText = (sel, txt) => { const el = document.querySelector(sel); if (el && txt) el.textContent = txt; };
-      const setAttr = (sel, attr, val) => { const el = document.querySelector(sel); if (el && val) el.setAttribute(attr, val); };
-  
-      setText("#brandName", o.name);
-      setText("#heroName", o.name);
-      setText("#heroTitle", o.title || "Aerospace Engineer");      // <-- keep Engineer, not Student
-      setText("#uniLine", o.university || "");
-      setText("#footerName", o.name);
-      setAttr("#avatar", "src", this.normalizeImage(o.photo));
-      setAttr("#emailLink", "href", o.email ? `mailto:${o.email}` : "mailto:jakiuddin012@gmail.com");
-      setAttr("#ghLink", "href", o.github || "https://github.com/jakiu012");
-      setAttr("#lnLink", "href", o.linkedin || "https://www.linkedin.com/in/fazlerabbizaki/");
-      const year = document.querySelector("2025"); if (year) year.textContent = new Date().getFullYear();
-    }
-  
-    // -------- Theme & Mobile nav --------
-    setupThemeToggle() {
-      const toggle = () => {
-        document.documentElement.classList.toggle("dark");
-        localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
-      };
-      const saved = localStorage.getItem("theme") || "light";
-      document.documentElement.classList.toggle("dark", saved === "dark");
-      const t1 = document.getElementById("theme-toggle");
-      const t2 = document.getElementById("theme-toggle-mobile");
-      if (t1) t1.addEventListener("click", toggle);
-      if (t2) t2.addEventListener("click", toggle);
-    }
-  
-    setupMobileMenu() {
-      const btn = document.getElementById("mobile-menu-button");
-      const menu = document.getElementById("mobile-menu");
-      const overlay = document.getElementById("mobile-menu-overlay");
-      const toggle = () => { btn?.classList.toggle("active"); menu?.classList.toggle("open"); overlay?.classList.toggle("hidden"); };
-      const close = () => { btn?.classList.remove("active"); menu?.classList.remove("open"); overlay?.classList.add("hidden"); };
-      if (btn) btn.addEventListener("click", toggle);
-      if (overlay) overlay.addEventListener("click", close);
-      document.querySelectorAll(".nav-link").forEach(a => a.addEventListener("click", close));
-    }
-  
-    setupNavScrolling() {
-      // smooth internal links
-      document.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.addEventListener("click", e => {
-          const id = link.getAttribute("href");
-          if (!id || id === "#") return;
-          const target = document.querySelector(id);
-          if (!target) return;
-          e.preventDefault();
-          const top = target.offsetTop - 80;
-          window.scrollTo({ top, behavior: "smooth" });
-        });
-      });
-      // active section underline
-      const sections = document.querySelectorAll("section[id]");
-      const navLinks = document.querySelectorAll(".nav-link");
-      window.addEventListener("scroll", () => {
-        let cur = "";
-        sections.forEach(s => {
-          const top = s.offsetTop - 100;
-          if (scrollY >= top && scrollY < top + s.clientHeight) cur = s.id;
-        });
-        navLinks.forEach(l => {
-          l.classList.toggle("active", l.getAttribute("href") === `#${cur}`);
-        });
-      });
-    }
-  
-// ...existing code...
-async setupResumeViewer() {
-  const box = document.querySelector("#resumeEmbed");
-  if (!box) return;
-
-  const url = "./resume.pdf"; // relative to current path
-  const button = `
-    <p class="mb-4">
-      <a href="${url}" target="_blank" rel="noreferrer"
-         class="btn-primary inline-block px-4 py-2 rounded-lg text-white font-semibold">
-        Open Resume (PDF)
-      </a>
-    </p>`;
-
-  try {
-    console.log(`Checking resume PDF at: ${url}`);
-    const head = await fetch(url, { method: "HEAD", cache: "no-store" });
-    console.log(`Resume PDF check result: ${head.status} ${head.statusText}`);
-    
-    if (head.ok) {
-      // Clear placeholder and show button
-      box.innerHTML = button;
-      
-      // Create iframe with better error handling
-      const iframe = document.createElement("iframe");
-      iframe.src = url;
-      iframe.style.width = "100%";
-      iframe.style.height = "700px";
-      iframe.style.border = "1px solid #e5e7eb";
-      iframe.style.borderRadius = "8px";
-      iframe.loading = "lazy";
-      iframe.title = "Resume PDF";
-      
-      // Add error handling
-      iframe.onload = () => {
-        console.log('Resume PDF iframe loaded successfully');
-      };
-      
-      iframe.onerror = () => {
-        console.error('Resume PDF iframe failed to load, trying PDF.js fallback');
-        // Try PDF.js as fallback
-        iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(window.location.origin + '/' + url)}`;
-        iframe.onerror = () => {
-          console.error('PDF.js also failed, showing error message');
-          iframe.style.display = 'none';
-          const errorDiv = document.createElement('div');
-          errorDiv.className = 'p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg';
-          errorDiv.innerHTML = `
-            <p class="text-red-700 dark:text-red-300 text-sm">
-              <i class="fas fa-exclamation-triangle mr-2"></i>
-              PDF preview failed to load. Use the "Open Resume (PDF)" button above to view the document.
-            </p>
-          `;
-          box.appendChild(errorDiv);
-        };
-      };
-      
-      box.appendChild(iframe);
-    } else {
-      box.innerHTML = `${button}<p class="text-sm text-gray-600 dark:text-gray-400 mt-2">PDF file not found. Please ensure <code>resume.pdf</code> is in the repository root.</p>`;
-    }
-  } catch (e) {
-    console.error(`Error checking resume PDF:`, e);
-    box.innerHTML = `${button}<p class="text-sm">Couldn't check the PDF. The button still works.</p>`;
   }
 
-  // Fallback for legacy iframe layout
-  const iframe = document.getElementById("resume-pdf");
-  const placeholder = document.getElementById("resume-placeholder");
-  if (iframe && iframe.src) {
-    iframe.classList.remove("hidden");
-    if (placeholder) placeholder.classList.add("hidden");
+  renderOwner() {
+    const owner = this.owner || {};
+    const setText = (selector, value) => {
+      const el = document.querySelector(selector);
+      if (el && value) el.textContent = value;
+    };
+    const setAttr = (selector, attr, value) => {
+      const el = document.querySelector(selector);
+      if (el && value) el.setAttribute(attr, value);
+    };
+
+    setText('#brandName', owner.name);
+    setText('#heroName', owner.name);
+    setText('#heroTitle', owner.title);
+    setText('#uniLine', owner.affiliation || owner.university);
+    setText('#heroTagline', owner.tagline);
+    setText('#footerName', owner.name);
+    setAttr('#avatar', 'src', this.normalizeImage(owner.photo));
+
+    const year = document.querySelector('#year');
+    if (year) year.textContent = new Date().getFullYear();
+
+    const emailHref = owner.email ? `mailto:${owner.email}` : 'mailto:jakiuddin012@gmail.com';
+    setAttr('#emailLink', 'href', emailHref);
+    setAttr('#ghLink', 'href', owner.github || 'https://github.com/jakiu012');
+    setAttr('#lnLink', 'href', owner.linkedin || 'https://www.linkedin.com/in/fazlerabbizaki');
+
+    const about = document.querySelector('#aboutBlurb');
+    if (about) {
+      about.innerHTML = '';
+      const paragraphs = Array.isArray(owner.about) ? owner.about : [owner.about].filter(Boolean);
+      paragraphs.forEach((copy) => {
+        const p = document.createElement('p');
+        p.textContent = copy;
+        about.appendChild(p);
+      });
+    }
+
+    const stats = document.querySelector('#heroStats');
+    if (stats) {
+      stats.innerHTML = '';
+      (owner.stats || []).forEach((stat) => {
+        const item = document.createElement('div');
+        item.className = 'rounded-lg border border-white/15 bg-white/10 p-4';
+        item.innerHTML = `
+          <div class="text-2xl font-extrabold text-white">${this.escapeHTML(stat.value || '')}</div>
+          <div class="mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300">${this.escapeHTML(stat.label || '')}</div>
+        `;
+        stats.appendChild(item);
+      });
+    }
+
+    const skills = document.querySelector('#skillGrid');
+    if (skills) {
+      skills.innerHTML = '';
+      (owner.skills || []).forEach((group) => skills.appendChild(this.skillNode(group)));
+    }
+  }
+
+  skillNode(group) {
+    const card = document.createElement('article');
+    card.className = 'rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-5';
+
+    const items = (group.items || [])
+      .map((item) => `
+        <li class="flex gap-3">
+          <i class="fas fa-check mt-1 text-xs text-teal-700 dark:text-teal-300"></i>
+          <span>${this.escapeHTML(item)}</span>
+        </li>
+      `)
+      .join('');
+
+    card.innerHTML = `
+      <div class="h-11 w-11 rounded-lg bg-teal-700 text-white inline-flex items-center justify-center mb-4">
+        <i class="fas ${this.escapeHTML(group.icon || 'fa-gear')}"></i>
+      </div>
+      <h3 class="text-lg font-extrabold mb-4">${this.escapeHTML(group.group || '')}</h3>
+      <ul class="space-y-3 text-sm leading-6 text-slate-700 dark:text-slate-300">${items}</ul>
+    `;
+
+    return card;
+  }
+
+  setupThemeToggle() {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.classList.toggle('dark', saved ? saved === 'dark' : prefersDark);
+
+    const toggle = () => {
+      document.documentElement.classList.toggle('dark');
+      const isDark = document.documentElement.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    };
+
+    document.querySelector('#theme-toggle')?.addEventListener('click', toggle);
+    document.querySelector('#theme-toggle-mobile')?.addEventListener('click', toggle);
+  }
+
+  setupMobileMenu() {
+    const btn = document.querySelector('#mobile-menu-button');
+    const menu = document.querySelector('#mobile-menu');
+    const overlay = document.querySelector('#mobile-menu-overlay');
+    const toggle = () => {
+      btn?.classList.toggle('active');
+      menu?.classList.toggle('open');
+      overlay?.classList.toggle('hidden');
+    };
+    const close = () => {
+      btn?.classList.remove('active');
+      menu?.classList.remove('open');
+      overlay?.classList.add('hidden');
+    };
+
+    btn?.addEventListener('click', toggle);
+    overlay?.addEventListener('click', close);
+    document.querySelectorAll('.nav-link').forEach((link) => link.addEventListener('click', close));
+  }
+
+  setupNavScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const id = link.getAttribute('href');
+        if (!id || id === '#') return;
+        const target = document.querySelector(id);
+        if (!target) return;
+        event.preventDefault();
+        const top = target.getBoundingClientRect().top + window.scrollY - 76;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+    });
+
+    const sections = [...document.querySelectorAll('section[id]')];
+    const links = [...document.querySelectorAll('.nav-link')];
+    const updateActive = () => {
+      let current = '';
+      sections.forEach((section) => {
+        const top = section.getBoundingClientRect().top + window.scrollY - 120;
+        if (window.scrollY >= top) current = section.id;
+      });
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+      });
+    };
+
+    window.addEventListener('scroll', updateActive, { passive: true });
+    updateActive();
+  }
+
+  setupReveal() {
+    const items = document.querySelectorAll('.fade-in');
+    if (!items.length || !('IntersectionObserver' in window)) {
+      items.forEach((item) => item.classList.add('visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    items.forEach((item) => observer.observe(item));
+  }
+
+  setupSearchAndFilters() {
+    const bar = document.querySelector('#tagBar');
+    if (bar) {
+      bar.innerHTML = '';
+      bar.appendChild(this.filterButton('All', null));
+      [...this.tags].sort((a, b) => a.localeCompare(b)).forEach((tag) => {
+        bar.appendChild(this.filterButton(tag, tag));
+      });
+    }
+
+    document.querySelector('#search')?.addEventListener('input', (event) => {
+      this.q = event.target.value.trim().toLowerCase();
+      this.renderProjects();
+    });
+  }
+
+  filterButton(label, tag) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'filter-tag px-4 py-2 rounded-lg text-sm font-bold transition';
+    btn.textContent = label;
+    btn.addEventListener('click', () => {
+      this.activeTag = tag;
+      this.renderProjects();
+      this.markActiveTag();
+    });
+    return btn;
+  }
+
+  markActiveTag() {
+    document.querySelectorAll('.filter-tag').forEach((btn) => {
+      const isActive = (btn.textContent === 'All' && this.activeTag === null) || btn.textContent === this.activeTag;
+      btn.classList.toggle('active', isActive);
+    });
+  }
+
+  renderFeatured() {
+    const box = document.querySelector('#featured');
+    if (!box) return;
+
+    box.innerHTML = '';
+    this.projects
+      .filter((project) => project.featured)
+      .slice(0, 3)
+      .forEach((project) => box.appendChild(this.cardNode(project)));
+  }
+
+  renderProjects() {
+    const grid = document.querySelector('#projects-grid');
+    const empty = document.querySelector('#projects-empty');
+    if (!grid) return;
+
+    const list = this.projects.filter((project) => this.matchesProject(project));
+    grid.innerHTML = '';
+    list.forEach((project) => grid.appendChild(this.cardNode(project)));
+    empty?.classList.toggle('hidden', list.length > 0);
+    this.markActiveTag();
+  }
+
+  matchesProject(project) {
+    const tagOK = !this.activeTag || (project.tags || []).includes(this.activeTag);
+    const haystack = [
+      project.title,
+      project.role,
+      project.dates,
+      project.location,
+      project.context,
+      project.summary,
+      ...(project.tags || [])
+    ].join(' ').toLowerCase();
+    const qOK = !this.q || haystack.includes(this.q);
+    return tagOK && qOK;
+  }
+
+  cardNode(project) {
+    const template = document.querySelector('#projectCardTmpl');
+    const node = template?.content ? template.content.cloneNode(true) : document.createDocumentFragment();
+    const root = node.querySelector?.('.project-card') || this.fallbackCardShell();
+
+    const title = root.querySelector('.card-title');
+    const sub = root.querySelector('.card-sub');
+    const summary = root.querySelector('.card-summary');
+    const metrics = root.querySelector('.metrics');
+    const tags = root.querySelector('.tag-row');
+    const links = root.querySelector('.links');
+    const badge = root.querySelector('.featured-badge');
+    const media = root.querySelector('.project-media');
+
+    if (title) title.textContent = project.title || 'Project';
+    if (sub) sub.textContent = [project.role, project.dates].filter(Boolean).join(' | ');
+    if (summary) summary.textContent = project.summary || '';
+    badge?.classList.toggle('hidden', !project.featured);
+
+    this.renderMedia(media, project);
+
+    if (metrics) {
+      metrics.innerHTML = '';
+      (project.metrics || []).slice(0, 3).forEach((metric) => {
+        const li = document.createElement('li');
+        li.className = 'flex gap-3';
+        li.innerHTML = `<i class="fas fa-circle-check mt-1 text-xs text-teal-700 dark:text-teal-300"></i><span>${this.escapeHTML(metric)}</span>`;
+        metrics.appendChild(li);
+      });
+    }
+
+    if (tags) {
+      tags.innerHTML = '';
+      (project.tags || []).forEach((tag) => {
+        const pill = document.createElement('span');
+        pill.className = 'tag px-2.5 py-1 rounded-lg text-xs font-bold';
+        pill.textContent = tag;
+        tags.appendChild(pill);
+      });
+    }
+
+    if (links && project.slug) {
+      links.innerHTML = '';
+      const anchor = document.createElement('a');
+      anchor.href = `./project.html?slug=${encodeURIComponent(project.slug)}`;
+      anchor.className = 'btn-primary px-4 py-2.5 rounded-lg text-sm font-bold inline-flex items-center justify-center';
+      anchor.innerHTML = '<i class="fas fa-arrow-up-right-from-square mr-2"></i>Read case study';
+      links.appendChild(anchor);
+    }
+
+    return template?.content ? node : root;
+  }
+
+  renderMedia(media, project) {
+    if (!media) return;
+    media.innerHTML = '';
+    const src = this.normalizeImage(project.heroImage);
+
+    const fallback = () => {
+      media.innerHTML = '';
+      const icon = project.visual?.icon || 'fa-satellite';
+      const label = project.visual?.label || project.title || 'Project';
+      const wrap = document.createElement('div');
+      wrap.className = 'project-visual h-full w-full flex flex-col items-center justify-center text-white text-center p-6';
+      wrap.innerHTML = `
+        <i class="fas ${this.escapeHTML(icon)} text-4xl mb-4"></i>
+        <span class="text-sm font-extrabold uppercase tracking-[0.16em]">${this.escapeHTML(label)}</span>
+      `;
+      media.appendChild(wrap);
+    };
+
+    if (!src) {
+      fallback();
+      return;
+    }
+
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = project.title || 'Project image';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.className = 'w-full h-full object-cover';
+    img.onerror = fallback;
+    media.appendChild(img);
+  }
+
+  fallbackCardShell() {
+    const article = document.createElement('article');
+    article.className = 'project-card bg-white dark:bg-slate-950 rounded-lg overflow-hidden flex flex-col';
+    article.innerHTML = `
+      <div class="project-media h-52 overflow-hidden bg-slate-200 dark:bg-slate-800"></div>
+      <div class="p-5 flex flex-col flex-1">
+        <h3 class="text-xl font-extrabold card-title"></h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 card-sub"></p>
+        <p class="text-sm leading-6 text-slate-700 dark:text-slate-300 my-4 card-summary"></p>
+        <ul class="metrics space-y-2 text-sm text-slate-600 dark:text-slate-400 mb-4"></ul>
+        <div class="flex flex-wrap gap-2 mb-5 tag-row"></div>
+        <div class="mt-auto links"></div>
+      </div>
+    `;
+    return article;
+  }
+
+  async setupResumeViewer() {
+    const box = document.querySelector('#resumeEmbed');
+    if (!box) return;
+
+    const url = './resume.pdf';
+    try {
+      const res = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      box.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.src = `${url}#view=FitH`;
+      iframe.title = 'Resume PDF';
+      iframe.loading = 'lazy';
+      iframe.className = 'w-full h-[680px] border-0';
+      box.appendChild(iframe);
+    } catch (error) {
+      box.innerHTML = `
+        <div class="min-h-[360px] flex flex-col items-center justify-center text-center p-8 text-slate-500 dark:text-slate-400">
+          <i class="fas fa-file-pdf text-5xl mb-4"></i>
+          <p class="font-semibold">Resume preview is unavailable.</p>
+          <p class="text-sm mt-2">Use the download link below.</p>
+        </div>
+      `;
+    }
+  }
+
+  normalizeImage(path) {
+    if (!path) return '';
+    if (/^https?:/i.test(path)) return path;
+    let normalized = String(path).trim();
+    if (normalized.startsWith('./')) normalized = normalized.slice(2);
+    if (/^(images|reports|content)\//.test(normalized)) return normalized;
+    return `images/${normalized.split('/').pop()}`;
+  }
+
+  escapeHTML(value) {
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+
+  consoleHello() {
+    console.log('Portfolio ready');
   }
 }
-// ...existing code...
-  
-    // -------- Filters & Search --------
-    setupSearchAndFilters() {
-      // Build tag bar if present
-      const bar = document.getElementById("tagBar");
-      if (bar) {
-        bar.innerHTML = "";
-        const mkBtn = (label, tag = null) => {
-          const b = document.createElement("button");
-          b.className = "filter-tag bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-full";
-          b.textContent = label;
-          b.onclick = () => { this.activeTag = tag; this.renderProjects(); this.markActiveTag(); };
-          return b;
-        };
-        bar.appendChild(mkBtn("All", null));
-        [...this.tags].sort().forEach(t => bar.appendChild(mkBtn(t, t)));
-      }
-      // Search box
-      const inp = document.getElementById("search");
-      if (inp) inp.addEventListener("input", () => { this.q = inp.value.toLowerCase(); this.renderProjects(); });
-    }
-  
-    markActiveTag() {
-      document.querySelectorAll(".filter-tag").forEach(b => {
-        const isAll = b.textContent === "All" && this.activeTag === null;
-        b.classList.toggle("active", isAll || b.textContent === this.activeTag);
-        if (b.classList.contains("active")) {
-          b.classList.add("bg-blue-600","text-white");
-        } else {
-          b.classList.remove("bg-blue-600","text-white");
-        }
-      });
-    }
-  
-    // -------- Render: Featured --------
-    renderFeatured() {
-      const box = document.getElementById("featured");
-      if (!box) return;
-      box.innerHTML = "";
-      this.projects.slice(0,3).forEach(p => box.appendChild(this.cardNode(p)));
-    }
-  
-    // -------- Render: Projects --------
-    renderProjects() {
-      const grid = document.getElementById("projects-grid");
-      const empty = document.getElementById("projects-empty");
-      if (!grid) return;
-  
-      const matches = p => {
-        const tagOK = !this.activeTag || (p.tags || []).includes(this.activeTag);
-        const qOK = !this.q || (`${p.title} ${p.summary || ""}`.toLowerCase().includes(this.q));
-        return tagOK && qOK;
-      };
-  
-      grid.innerHTML = "";
-      const list = this.projects.filter(matches);
-      list.forEach(p => grid.appendChild(this.cardNode(p)));
-      if (empty) empty.classList.toggle("hidden", list.length > 0);
-      this.markActiveTag();
-    }
-  
-    cardNode(p) {
-      const tmpl = document.getElementById("projectCardTmpl");
-      if (tmpl && tmpl.content) {
-        const t = tmpl.content.cloneNode(true);
-        const img = t.querySelector(".card-img"); if (img) { img.src = this.normalizeImage(p.heroImage); img.alt = p.title; img.loading = "lazy"; img.decoding = "async"; img.onerror = () => img.remove(); }
-        const ttl = t.querySelector(".card-title"); if (ttl) ttl.textContent = p.title;
-        const sub = t.querySelector(".card-sub"); if (sub) sub.textContent = `${p.role || ""} • ${p.dates || ""}`;
-        const sum = t.querySelector(".card-summary"); if (sum) sum.textContent = p.summary || "";
-  
-        const m = t.querySelector(".metrics");
-        if (m) {
-          m.classList.add("card-bullets"); // <-- ensure proper bullet styling
-          (p.metrics || []).slice(0,4).forEach(x => {
-            const li = document.createElement("li");
-            li.textContent = x;
-            m.appendChild(li);
-          });
-        }
-  
-        const tags = t.querySelector(".tag-row");
-        if (tags) (p.tags || []).forEach(tag => {
-          const s = document.createElement("span");
-          s.className = "tag bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm";
-          s.textContent = tag;
-          tags.appendChild(s);
-        });
-  
-        const links = t.querySelector(".links");
-        if (links && p.slug) {
-          const primary = document.createElement("a");
-          primary.href = `./project.html?slug=${encodeURIComponent(p.slug)}`;
-          primary.className = "btn-primary inline-block px-4 py-2 rounded-lg text-sm font-semibold text-white";
-          primary.textContent = "Read case study";
-          links.appendChild(primary);
-        }
-        return t;
-      }
-  
-      // fallback (no template present)
-      const card = document.createElement("article");
-      card.className = "project-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg";
-      card.innerHTML = `
-        <div class="w-full rounded-lg mb-4 overflow-hidden bg-gray-200 dark:bg-gray-700" style="aspect-ratio:16/9">
-          ${p.heroImage ? `<img loading="lazy" decoding="async" src="${this.normalizeImage(p.heroImage)}" alt="${p.title}" class="w-full h-full object-cover">` : ""}
-        </div>
-        <h4 class="text-xl font-bold mb-1">${p.title}</h4>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">${(p.role||"")} • ${(p.dates||"")}</p>
-        <p class="text-gray-700 dark:text-gray-300 mb-3">${p.summary||""}</p>
-        <ul class="card-bullets text-gray-600 dark:text-gray-400 mb-3">
-          ${(p.metrics||[]).slice(0,4).map(x=>`<li>${x}</li>`).join("")}
-        </ul>
-        <div class="flex flex-wrap gap-2 mb-3">
-          ${(p.tags||[]).map(t=>`<span class="tag bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm">${t}</span>`).join("")}
-        </div>
-        <div class="links">
-          ${p.slug ? `<a class=\"btn-primary inline-block px-4 py-2 rounded-lg text-sm font-semibold text-white\" href=\"./project.html?slug=${encodeURIComponent(p.slug)}\">Read case study</a>` : ""}
-        </div>
-      `;
-      return card;
-    }
-  
-    // Normalize image paths - base-path agnostic
-    normalizeImage(path) {
-      if (!path) return "";
-      
-      // External URLs - return as-is
-      if (/^https?:/.test(path)) return path;
-      
-      // Remove leading "./" if present
-      if (path.startsWith("./")) path = path.substring(2);
-      
-      // If already starts with images/, reports/, content/ - return as-is
-      if (/^(images|reports|content)\//.test(path)) return path;
-      
-      // Otherwise treat as filename under images/
-      const file = path.split("/").pop();
-      return `images/${file}`;
-    }
-  
-    // -------- Utils --------
-    injectStyles() {
-      const css = `
-        /* bullet alignment for cards */
-        .card-bullets{list-style:disc;list-style-position:inside;margin:8px 0 0 0;padding:0}
-        .card-bullets li{margin:4px 0;padding:0}
-  
-        /* prevent brand from wrapping under nav links */
-        .header,.site-nav,.navbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:nowrap}
-        #brandName,.brand,.site-title{white-space:nowrap;flex:0 0 auto}
-        .nav,.nav-links{display:flex;align-items:center;gap:24px;margin-left:auto;min-width:0}
-        .nav a,.nav-links a{white-space:nowrap}
-      `;
-      const style = document.createElement("style");
-      style.textContent = css;
-      document.head.appendChild(style);
-    }
-  
-    consoleHello() {
-      console.log("%c🚀 Portfolio ready", "color:#3b82f6;font-size:16px;font-weight:bold");
-    }
-  }
-  
-  // Boot
-  document.addEventListener("DOMContentLoaded", () => { window.portfolioApp = new PortfolioApp(); });
-  
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.portfolioApp = new PortfolioApp();
+});

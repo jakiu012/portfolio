@@ -1,288 +1,272 @@
-// project.js — render case study from /data/projects.json + /content/projects/<slug>.md
-(function() {
-    const $ = (sel) => document.querySelector(sel);
-    const qs = new URLSearchParams(location.search);
-    const slug = qs.get('slug');
-  
-    // theme toggle (match index behavior)
-    function setupTheme() {
-      const saved = localStorage.getItem('theme') || 'light';
-      document.documentElement.classList.toggle('dark', saved === 'dark');
-      const toggle = document.getElementById('theme-toggle');
-      if (toggle) {
-        toggle.addEventListener('click', () => {
-          document.documentElement.classList.toggle('dark');
-          const isDark = document.documentElement.classList.contains('dark');
-          localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
+(function () {
+  const $ = (selector) => document.querySelector(selector);
+  const qs = new URLSearchParams(window.location.search);
+  const slug = qs.get('slug');
+
+  function setupTheme() {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.classList.toggle('dark', saved ? saved === 'dark' : prefersDark);
+
+    $('#theme-toggle')?.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    });
+  }
+
+  function normalizeImg(path) {
+    if (!path) return '';
+    if (/^https?:/i.test(path)) return path;
+    let normalized = String(path).trim();
+    if (normalized.startsWith('./')) normalized = normalized.slice(2);
+    if (/^(images|reports|content)\//.test(normalized)) return normalized;
+    return `images/${normalized.split('/').pop()}`;
+  }
+
+  function escapeHTML(value) {
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+
+  function setMeta({ title, description, image }) {
+    if (title) document.title = `${title} - Fazle Rabbi Zaki`;
+    const ensure = (key, content) => {
+      if (!content) return;
+      const attr = key.startsWith('og:') ? 'property' : 'name';
+      let meta = document.querySelector(`meta[${attr}="${key}"]`);
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute(attr, key);
+        document.head.appendChild(meta);
       }
+      meta.setAttribute('content', content);
+    };
+
+    ensure('description', description);
+    ensure('og:title', title ? `${title} - Fazle Rabbi Zaki` : '');
+    ensure('og:description', description);
+    ensure('og:image', image);
+  }
+
+  async function loadJSON(url) {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`Failed to load ${url}`);
+    return res.json();
+  }
+
+  async function loadMD(url) {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`Failed to load ${url}`);
+    return res.text();
+  }
+
+  function parseFrontMatter(md) {
+    const match = md.match(/^---\n([\s\S]+?)\n---\n([\s\S]*)$/);
+    if (!match) return { fm: {}, body: md };
+    let fm = {};
+    try {
+      fm = window.jsyaml ? window.jsyaml.load(match[1]) || {} : {};
+    } catch {
+      fm = {};
     }
-  
-    function setMeta({title, description, image}) {
-      if (title) document.title = title + ' — Case Study';
-      const ensure = (prop, content) => {
-        if (!content) return;
-        let m = document.querySelector(`meta[property="${prop}"]`) || document.querySelector(`meta[name="${prop}"]`);
-        if (!m) { m = document.createElement('meta'); m.setAttribute(prop.startsWith('og:') ? 'property' : 'name', prop); document.head.appendChild(m); }
-        m.setAttribute('content', content);
-      };
-      ensure('og:title', title);
-      ensure('og:description', description);
-      ensure('og:image', image);
-      ensure('description', description);
-    }
-  
-    function tagPill(t) {
-      const span = document.createElement('span');
-      span.className = 'px-3 py-1 rounded-full text-sm bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200';
-      span.textContent = t;
-      return span;
-    }
-  
-    function listItem(text) {
+    return { fm, body: match[2] || '' };
+  }
+
+  function tagPill(label) {
+    const span = document.createElement('span');
+    span.className = 'tag px-3 py-1 rounded-lg text-xs font-extrabold uppercase tracking-[0.08em]';
+    span.textContent = label;
+    return span;
+  }
+
+  function metricItem(text) {
+    const li = document.createElement('li');
+    li.className = 'flex gap-3';
+    li.innerHTML = `<i class="fas fa-circle-check mt-1 text-xs text-teal-700 dark:text-teal-300"></i><span>${escapeHTML(text)}</span>`;
+    return li;
+  }
+
+  function setFallbackVisual(project) {
+    const visual = $('#heroVisual');
+    if (!visual) return;
+    const icon = project.visual?.icon || 'fa-satellite';
+    const label = project.visual?.label || project.title || 'Project';
+    visual.innerHTML = `
+      <div class="h-full w-full flex flex-col items-center justify-center text-white text-center p-8">
+        <i class="fas ${escapeHTML(icon)} text-7xl mb-6"></i>
+        <span class="text-sm font-extrabold uppercase tracking-[0.2em]">${escapeHTML(label)}</span>
+      </div>
+    `;
+  }
+
+  function renderHeroImage(path, project) {
+    setFallbackVisual(project);
+    const img = $('#heroImg');
+    if (!img) return;
+    const src = normalizeImg(path);
+    if (!src) return;
+    img.src = src;
+    img.alt = project.title || 'Project image';
+    img.onload = () => img.classList.remove('hidden');
+    img.onerror = () => {
+      img.classList.add('hidden');
+      img.removeAttribute('src');
+    };
+  }
+
+  function buildTOC(container) {
+    const headings = [...container.querySelectorAll('h2')];
+    const toc = $('#toc');
+    const list = $('#tocList');
+    if (!toc || !list || !headings.length) return;
+
+    list.innerHTML = '';
+    headings.forEach((heading) => {
+      if (!heading.id) {
+        heading.id = heading.textContent
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[^\w-]/g, '');
+      }
       const li = document.createElement('li');
-      li.textContent = text;
-      return li;
-    }
-  
-    function normalizeImg(path) {
-      if (!path) return '';
-      
-      // External URLs - return as-is
-      if (/^https?:/.test(path)) return path;
-      
-      // Remove leading "./" if present
-      if (path.startsWith("./")) path = path.substring(2);
-      
-      // If already starts with images/, reports/, content/ - return as-is
-      if (/^(images|reports|content)\//.test(path)) return path;
-      
-      // Otherwise treat as filename under images/
-      const file = path.split("/").pop();
-      return `images/${file}`;
-    }
-  
-    async function loadJSON(url) {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`Failed to load ${url}`);
-      return res.json();
-    }
-  
-    async function loadMD(url) {
-      const res = await fetch(url);
-      if (!res.ok) {
-        console.error(`Failed to load ${url}: ${res.status} ${res.statusText}`);
-        throw new Error('md404');
-      }
-      return res.text();
-    }
-  
-    function parseFrontMatter(md) {
-      const m = md.match(/^---\n([\s\S]+?)\n---\n([\s\S]*)$/);
-      if (!m) return { fm: {}, body: md };
-      let fm = {};
-      try { fm = jsyaml.load(m[1]) || {}; } catch { fm = {}; }
-      return { fm, body: m[2] || '' };
-    }
-  
-    function buildTOC(container) {
-      const desired = [
-        'Overview',
-        'Approach',
-        'Results & Outcomes',
-        "What I’d Improve Next",
-        'Gallery'
-      ];
-      const map = {};
-      container.querySelectorAll('h2').forEach(h => { map[h.textContent.trim()] = h; });
-      const toc = document.getElementById('toc');
-      const ul = document.getElementById('tocList');
-      let any = false;
-      desired.forEach(name => {
-        const h = map[name];
-        if (!h) return;
-        any = true;
-        if (!h.id) h.id = name.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]/g,'');
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = `#${h.id}`;
-        a.textContent = name;
-        a.className = 'hover:underline text-blue-700 dark:text-blue-300';
-        a.addEventListener('click', (e) => {
-          e.preventDefault();
-          const target = document.getElementById(h.id);
-          if (target) {
-            const top = target.getBoundingClientRect().top + window.scrollY - 80;
-            window.scrollTo({ top, behavior: 'smooth' });
-          }
-        });
-        li.appendChild(a);
-        ul.appendChild(li);
+      const a = document.createElement('a');
+      a.href = `#${heading.id}`;
+      a.textContent = heading.textContent.trim();
+      a.className = 'hover:underline';
+      a.addEventListener('click', (event) => {
+        event.preventDefault();
+        const top = heading.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top, behavior: 'smooth' });
       });
-      if (any) toc.classList.remove('hidden');
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+
+    toc.classList.remove('hidden');
+  }
+
+  function renderLinks(project) {
+    const box = $('#links');
+    if (!box) return;
+
+    box.innerHTML = '';
+    const links = (project.links || []).filter((link) => link.href);
+    if (!links.length) {
+      box.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400">No external links yet.</p>';
+      return;
     }
-  
-    async function main() {
-      setupTheme();
-      
-      const yearEl = document.getElementById('year');
-      if (yearEl) {
-        yearEl.textContent = new Date().getFullYear();
-      }
-      
-      if (!slug) {
-        const titleEl = document.getElementById('title');
-        const summaryEl = document.getElementById('summary');
-        if (titleEl) titleEl.textContent = 'Not found';
-        if (summaryEl) summaryEl.textContent = 'Missing ?slug parameter.';
-        return;
-      }
-  
-      // Load project basics
-      let data;
-      try {
-        data = await loadJSON('./data/projects.json');
-      } catch (e) {
-        $('#summary').textContent = 'Could not load project data.';
-        return;
-      }
-      const project = (data.projects || []).find(p => (p.slug || '').toLowerCase() === slug.toLowerCase());
-      if (!project) {
-        const titleEl = document.getElementById('title');
-        const summaryEl = document.getElementById('summary');
-        if (titleEl) titleEl.textContent = 'Project not found';
-        if (summaryEl) summaryEl.textContent = `No project with slug "${slug}".`;
-        return;
-      }
-  
-      // Header basics
-      console.log('Setting header basics');
-      const titleEl = $('#title');
-      const subtitleEl = $('#subtitle');
-      const datesEl = $('#dates');
-      const locationEl = $('#location');
-      const tagsEl = $('#tags');
-      const summaryEl = $('#summary');
-      
-      if (titleEl) titleEl.textContent = project.title || 'Project';
-      if (subtitleEl) subtitleEl.textContent = project.role || '';
-      if (datesEl) datesEl.innerHTML = project.dates ? `<i class="fa-solid fa-calendar mr-1"></i>${project.dates}` : '';
-      if (locationEl) locationEl.innerHTML = project.location ? `<i class="fa-solid fa-location-dot mr-1"></i>${project.location}` : '';
-      if (summaryEl) summaryEl.textContent = project.summary || '';
-      
-      console.log('Header basics set');
-  
-      // Hero image
-      console.log('Setting hero image');
-      const hero = normalizeImg(project.heroImage || '');
-      console.log('Hero image path:', hero);
-      if (hero) {
-        const img = $('#heroImg');
-        if (img) {
-          img.src = hero;
-          img.onload = () => {
-            img.classList.remove('hidden');
-            console.log('Hero image loaded');
-          };
-          img.onerror = () => {
-            img.remove();
-            console.log('Hero image failed to load');
-          };
-        } else {
-          console.error('Hero image element not found');
-        }
-      }
-      
-      // Tags
-      console.log('Setting tags');
-      if (tagsEl) {
-        (project.tags || []).forEach(t => tagsEl.appendChild(tagPill(t)));
-        console.log('Tags set');
-      } else {
-        console.error('Tags element not found');
-      }
-  
-      // Sidebar metrics & links
-      const metricsList = $('#metrics');
-      (project.metrics || []).forEach(m => metricsList.appendChild(listItem(m)));
-      const links = $('#links');
-      if (project.links && project.links.length) {
-        // Filter out PDF links
-        const nonPdfLinks = project.links.filter(l => !/\.pdf$/i.test(l.href));
-        if (nonPdfLinks.length > 0) {
-          nonPdfLinks.forEach(l => {
-            const a = document.createElement('a');
-            a.href = l.href; a.target = '_blank'; a.rel = 'noopener';
-            a.className = 'w-full inline-flex items-center justify-center px-4 py-2 rounded-lg border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition';
-            a.innerHTML = `${/pdf/i.test(l.label) ? '<i class="fa-solid fa-file-pdf mr-2"></i>' : '<i class="fa-brands fa-github mr-2"></i>'}${l.label}`;
-            links.appendChild(a);
-          });
-        } else {
-          links.innerHTML = '<p class="text-sm text-gray-500 dark:text-gray-400">No external links.</p>';
-        }
-      } else {
-        links.innerHTML = '<p class="text-sm text-gray-500 dark:text-gray-400">No external links.</p>';
-      }
-  
-      // Runtime meta
-      const heroImgPath = normalizeImg(project.heroImage || "");
+
+    links.forEach((link) => {
+      const a = document.createElement('a');
+      a.href = link.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.className = 'w-full px-4 py-2.5 rounded-lg border border-teal-700 text-teal-700 dark:text-teal-300 dark:border-teal-400 text-sm font-bold inline-flex items-center justify-center hover:bg-teal-700 hover:text-white dark:hover:bg-teal-500 dark:hover:text-slate-950 transition';
+      a.innerHTML = `<i class="fas fa-arrow-up-right-from-square mr-2"></i>${escapeHTML(link.label || 'Open link')}`;
+      box.appendChild(a);
+    });
+  }
+
+  function renderMarkdown(project, markdown) {
+    const { fm, body } = parseFrontMatter(markdown);
+    const content = $('#caseContent');
+    if (!content) return;
+
+    if (fm.description) {
       setMeta({
         title: project.title,
-        description: project.summary || 'Project case study',
-        image: heroImgPath || 'images/og-image.jpg'
+        description: fm.description,
+        image: normalizeImg(fm.hero || project.heroImage || '')
       });
-  
-      // Load markdown case study
-      let md;
-      try {
-        const mdUrl = `./content/projects/${slug}.md`;
-        console.log(`Loading markdown from: ${mdUrl}`);
-        md = await loadMD(mdUrl);
-        console.log(`Successfully loaded markdown for ${slug}`);
-      } catch (e) {
-        console.error(`Failed to load markdown for ${slug}:`, e);
-        // fallback: coming soon
-        const comingSoon = document.getElementById('comingSoon');
-        if (comingSoon) {
-          comingSoon.classList.remove('hidden');
-          console.log('Showing coming soon message');
-        } else {
-          console.error('comingSoon element not found');
-        }
-        return;
-      }
-      const { fm, body } = parseFrontMatter(md);
-      // Front-matter can override summary/hero
-      if (fm.description) setMeta({ title: project.title, description: fm.description, image: fm.hero || heroImgPath });
-      if (fm.hero) {
-        const img = $('#heroImg');
-        img.src = normalizeImg(fm.hero);
-        img.classList.remove('hidden');
-      }
-      // Render markdown
-      const html = marked.parse(body, { mangle: false, headerIds: true });
-      const content = document.getElementById('caseContent');
-      content.innerHTML = html;
-      // Auto-ids & TOC
-      content.querySelectorAll('h2').forEach(h => {
-        if (!h.id) h.id = h.textContent.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]/g,'');
-      });
-      buildTOC(content);
-      // Fix any images
-       content.querySelectorAll('img').forEach(img => {
-         img.loading = 'lazy';
-         img.decoding = 'async';
-         const fixed = normalizeImg(img.getAttribute('src') || '');
-         if (fixed) img.setAttribute('src', fixed);
-         img.onerror = () => img.remove();
-         img.alt = img.alt || (project.title || 'Project image');
-         img.classList.add('shadow','rounded-lg');
-       });
     }
-  
-    main().catch(error => {
-      console.error('Main function error:', error);
-      document.getElementById('summary').textContent = 'Error loading page: ' + error.message;
+
+    if (fm.hero) renderHeroImage(fm.hero, project);
+
+    content.innerHTML = window.marked ? window.marked.parse(body) : body;
+    content.querySelectorAll('img').forEach((img) => {
+      const src = normalizeImg(img.getAttribute('src') || '');
+      if (src) img.setAttribute('src', src);
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.alt = img.alt || project.title || 'Project image';
+      img.onerror = () => img.remove();
     });
-  })();
-  
+
+    buildTOC(content);
+  }
+
+  async function main() {
+    setupTheme();
+
+    const year = $('#year');
+    if (year) year.textContent = new Date().getFullYear();
+
+    if (!slug) {
+      $('#title').textContent = 'Project not found';
+      $('#summary').textContent = 'Missing project slug.';
+      return;
+    }
+
+    let data;
+    try {
+      data = await loadJSON('./data/projects.json');
+    } catch {
+      $('#title').textContent = 'Project not found';
+      $('#summary').textContent = 'Could not load project data.';
+      return;
+    }
+
+    const project = (data.projects || []).find((item) => String(item.slug || '').toLowerCase() === slug.toLowerCase());
+    if (!project) {
+      $('#title').textContent = 'Project not found';
+      $('#summary').textContent = `No project with slug "${slug}".`;
+      return;
+    }
+
+    $('#title').textContent = project.title || 'Project';
+    $('#subtitle').textContent = project.role || '';
+    $('#summary').textContent = project.summary || '';
+    $('#dates').innerHTML = project.dates ? `<i class="fa-solid fa-calendar mr-2"></i>${escapeHTML(project.dates)}` : '';
+    $('#location').innerHTML = project.location ? `<i class="fa-solid fa-location-dot mr-2"></i>${escapeHTML(project.location)}` : '';
+
+    const tags = $('#tags');
+    if (tags) {
+      tags.innerHTML = '';
+      (project.tags || []).forEach((tag) => tags.appendChild(tagPill(tag)));
+    }
+
+    const metrics = $('#metrics');
+    if (metrics) {
+      metrics.innerHTML = '';
+      (project.metrics || []).forEach((metric) => metrics.appendChild(metricItem(metric)));
+    }
+
+    renderLinks(project);
+    renderHeroImage(project.heroImage, project);
+    setMeta({
+      title: project.title,
+      description: project.summary,
+      image: normalizeImg(project.heroImage || 'images/fazle_headshot.jpg')
+    });
+
+    try {
+      const markdown = await loadMD(`./content/projects/${encodeURIComponent(project.slug)}.md`);
+      renderMarkdown(project, markdown);
+    } catch {
+      $('#comingSoon')?.classList.remove('hidden');
+    }
+  }
+
+  main().catch((error) => {
+    console.error(error);
+    const title = $('#title');
+    const summary = $('#summary');
+    if (title) title.textContent = 'Project error';
+    if (summary) summary.textContent = error.message;
+  });
+})();
