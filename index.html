@@ -1,32 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fazle Rabbi Zaki — Aerospace Engineering Portfolio</title>
-    <meta name="description" content="Portfolio of Fazle Rabbi Zaki, University of Michigan Aerospace Engineering. Controls, sensing, hardware testing, and project reports.">
-    <meta name="keywords" content="aerospace engineering, controls, ADCS, sensors, CubeSat, hardware testing, University of Michigan">
+    <title>Fazle Rabbi Zaki - Aerospace Engineer</title>
+    <meta name="description" content="Portfolio of Fazle Rabbi Zaki, Aerospace Engineer from the University of Michigan. GNC, ADCS, state estimation, hardware-in-the-loop testing, and embedded systems.">
+    <meta name="keywords" content="aerospace engineer, GNC, ADCS, EKF, Kalman filter, CubeSat, attitude determination, hardware-in-the-loop, embedded systems, MATLAB, Simulink, Python, University of Michigan">
     <meta name="author" content="Fazle Rabbi Zaki">
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Fazle Rabbi Zaki — Aerospace Engineering Portfolio">
-    <meta property="og:description" content="Controls, sensing, and hardware testing projects, including CubeSat ADCS and prototyping.">
-    <meta property="og:image" content="images/og-image.jpg">
+    <meta property="og:title" content="Fazle Rabbi Zaki - Aerospace Engineer">
+    <meta property="og:description" content="GNC, ADCS, and hardware testing projects. CubeSat attitude estimation, NASA Phase B mission design, and hybrid rocketry.">
+    <meta property="og:image" content="images/fazle_headshot.jpg">
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="Fazle Rabbi Zaki — Aerospace Engineering Portfolio">
-    <meta property="twitter:description" content="Controls, sensing, and hardware testing projects.">
-    <meta property="twitter:image" content="images/og-image.jpg">
+    <meta property="twitter:title" content="Fazle Rabbi Zaki - Aerospace Engineer">
+    <meta property="twitter:description" content="GNC, ADCS, and hardware testing projects.">
+    <meta property="twitter:image" content="images/fazle_headshot.jpg">
 
-    <!-- PWA + Icons -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#3b82f6">
+    <meta name="theme-color" content="#0f172a">
     <link rel="icon" type="image/png" href="images/icon-192.png">
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -34,263 +29,423 @@
         theme: {
           extend: {
             colors: {
-              primary: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a' }
+              ink: '#0f172a',
+              panel: '#111827',
+              brass: '#b7791f',
+              signal: '#0f766e',
+              skyline: '#2563eb'
             },
-            fontFamily: { 'sans': ['Inter','system-ui','sans-serif'] }
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif']
+            }
           }
         }
-      }
+      };
     </script>
 
-    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- Custom CSS -->
     <style>
-      .gradient-text{background:linear-gradient(135deg,#3b82f6,#1d4ed8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-      .glass-effect{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2)}
-      .dark .glass-effect{background:rgba(0,0,0,.1);border:1px solid rgba(255,255,255,.1)}
-      .fade-in{opacity:0;transform:translateY(20px);transition:all .6s ease}
-      .fade-in.visible{opacity:1;transform:translateY(0)}
-      .project-card{transition:all .3s ease}
-      .project-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0, 0, 0, 0.12)}
-      .dark .project-card:hover{box-shadow:0 20px 40px rgba(0, 0, 0, 0.3)}
-      .tag{transition:all .2s ease}
-      .tag:hover{transform:scale(1.05)}
-      .nav-link{position:relative;transition:all .3s ease}
-      .nav-link::after{content:'';position:absolute;width:0;height:2px;bottom:-4px;left:0;background:linear-gradient(135deg, #3b82f6, #1d4ed8);transition:width .3s ease}
-      .nav-link.active::after,.nav-link:hover::after{width:100%}
-      .mobile-menu{transform:translateX(-100%);transition:transform .3s ease}
-      .mobile-menu.open{transform:translateX(0)}
-      .hamburger-line{transition:all .3s ease}
-      .hamburger.active .hamburger-line:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-      .hamburger.active .hamburger-line:nth-child(2){opacity:0}
-      .hamburger.active .hamburger-line:nth-child(3){transform:rotate(-45deg) translate(7px,-6px)}
-      .pdf-container{position:relative;width:100%;height:600px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden}
-      .pdf-container object{width:100%;height:100%;border:0}
-      .pdf-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:#f9fafb;color:#6b7280}
-      .dark .pdf-placeholder{background:#374151;color:#9ca3af}
-      .filters .filter-tag{cursor:pointer}
-      .btn-primary{background:#2563eb}
-      .btn-primary:hover{filter:brightness(.95)}
-      .btn-primary:focus{outline:2px solid #93c5fd;outline-offset:2px}
-      .nav-link:focus{outline:2px solid #93c5fd;outline-offset:2px}
-      .container{max-width:1150px;margin:0 auto;padding:0 20px}
-      /* navbar no-wrap */
-      .header,.site-nav,.navbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:nowrap}
-      #brandName,.brand,.site-title{white-space:nowrap;flex:0 0 auto}
-      .nav,.nav-links{display:flex;align-items:center;gap:24px;margin-left:auto;min-width:0}
-      .nav a,.nav-links a{white-space:nowrap}
-      /* bullets */
-      .card-bullets{list-style:disc;list-style-position:inside;margin:8px 0 0 0;padding:0}
-      .card-bullets li{margin:4px 0}
-      /* tags */
-      .tag{background:#e8f0ff;color:#1e3a8a}
-      .dark .tag{background:#1e3a8a;color:#c7d2fe}
-      /* case-study gallery */
-      .proj-gallery img{display:block;width:100%;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.08);margin:14px 0}
+      :root {
+        color-scheme: light;
+        --ink: #0f172a;
+        --muted: #64748b;
+        --line: #dbe3ef;
+        --paper: #f8fafc;
+        --accent: #0f766e;
+        --blue: #2563eb;
+        --brass: #b7791f;
+      }
+
+      .dark {
+        color-scheme: dark;
+        --ink: #f8fafc;
+        --muted: #a8b3c4;
+        --line: #263244;
+        --paper: #0b1120;
+      }
+
+      body {
+        text-rendering: geometricPrecision;
+      }
+
+      .nav-glass {
+        background: rgba(248, 250, 252, 0.88);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+        backdrop-filter: blur(18px);
+      }
+
+      .dark .nav-glass {
+        background: rgba(15, 23, 42, 0.88);
+        border-bottom-color: rgba(148, 163, 184, 0.18);
+      }
+
+      .hero-bg {
+        background:
+          linear-gradient(90deg, rgba(15, 23, 42, 0.94), rgba(15, 23, 42, 0.82)),
+          linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+          #0f172a;
+        background-size: auto, 32px 32px, 32px 32px, auto;
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, #0f766e, #2563eb 60%, #b7791f);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-link {
+        position: relative;
+        color: inherit;
+      }
+
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0.75rem;
+        right: 0.75rem;
+        bottom: 0.35rem;
+        height: 2px;
+        transform: scaleX(0);
+        transform-origin: left;
+        background: var(--accent);
+        transition: transform 180ms ease;
+      }
+
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        transform: scaleX(1);
+      }
+
+      .mobile-menu {
+        transform: translateX(-100%);
+        transition: transform 220ms ease;
+      }
+
+      .mobile-menu.open {
+        transform: translateX(0);
+      }
+
+      .hamburger-line {
+        transition: transform 180ms ease, opacity 180ms ease;
+      }
+
+      .hamburger.active .hamburger-line:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+
+      .hamburger.active .hamburger-line:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active .hamburger-line:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 420ms ease, transform 420ms ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .project-card {
+        border: 1px solid rgba(148, 163, 184, 0.24);
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      }
+
+      .project-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(15, 118, 110, 0.42);
+        box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12);
+      }
+
+      .dark .project-card:hover {
+        box-shadow: 0 18px 38px rgba(0, 0, 0, 0.32);
+      }
+
+      .tag,
+      .filter-tag {
+        border: 1px solid rgba(15, 118, 110, 0.18);
+        background: rgba(15, 118, 110, 0.08);
+        color: #0f766e;
+      }
+
+      .dark .tag,
+      .dark .filter-tag {
+        background: rgba(20, 184, 166, 0.12);
+        color: #99f6e4;
+        border-color: rgba(45, 212, 191, 0.18);
+      }
+
+      .filter-tag.active {
+        background: #0f766e;
+        border-color: #0f766e;
+        color: #fff;
+      }
+
+      .btn-primary {
+        background: #0f766e;
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background: #0d6861;
+      }
+
+      .btn-secondary {
+        border: 1px solid rgba(148, 163, 184, 0.34);
+      }
+
+      .btn-secondary:hover {
+        border-color: rgba(15, 118, 110, 0.58);
+        color: #0f766e;
+      }
+
+      .project-visual {
+        background:
+          linear-gradient(135deg, rgba(15, 118, 110, 0.92), rgba(37, 99, 235, 0.78)),
+          linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+        background-size: auto, 22px 22px, 22px 22px;
+      }
+
+      .pdf-container {
+        position: relative;
+        width: 100%;
+        min-height: 580px;
+        border: 1px solid rgba(148, 163, 184, 0.32);
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .dark .pdf-container {
+        background: #0f172a;
+      }
+
+      .section-kicker {
+        color: #0f766e;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .dark .section-kicker {
+        color: #5eead4;
+      }
     </style>
   </head>
 
-  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
-    <!-- Nav -->
-    <nav class="fixed top-0 w-full z-50 glass-effect">
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-950 dark:text-slate-100 font-sans transition-colors duration-300">
+    <nav class="fixed top-0 w-full z-50 nav-glass">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <a href="#home" class="text-xl font-bold gradient-text" id="brandName">Fazle Rabbi Zaki</a>
-          <div class="hidden md:block">
-            <div class="ml-10 flex items-baseline space-x-8">
-              <a href="#home" class="nav-link px-3 py-2 text-sm font-medium">Home</a>
-              <a href="#about" class="nav-link px-3 py-2 text-sm font-medium">About</a>
-              <a href="#resume" class="nav-link px-3 py-2 text-sm font-medium">Resume</a>
-              <a href="#projects" class="nav-link px-3 py-2 text-sm font-medium">Projects</a>
-              <a href="#contact" class="nav-link px-3 py-2 text-sm font-medium">Contact</a>
-            </div>
+        <div class="h-16 flex items-center justify-between gap-4">
+          <a href="#home" id="brandName" class="text-base sm:text-lg font-extrabold tracking-tight gradient-text whitespace-nowrap">Fazle Rabbi Zaki</a>
+          <div class="hidden md:flex items-center gap-1">
+            <a href="#home" class="nav-link px-3 py-2 text-sm font-semibold">Home</a>
+            <a href="#about" class="nav-link px-3 py-2 text-sm font-semibold">About</a>
+            <a href="#skills" class="nav-link px-3 py-2 text-sm font-semibold">Skills</a>
+            <a href="#projects" class="nav-link px-3 py-2 text-sm font-semibold">Projects</a>
+            <a href="#resume" class="nav-link px-3 py-2 text-sm font-semibold">Resume</a>
+            <a href="#contact" class="nav-link px-3 py-2 text-sm font-semibold">Contact</a>
           </div>
-          <div class="hidden md:flex items-center space-x-4">
-            <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+          <div class="flex items-center gap-2">
+            <button id="theme-toggle" class="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle theme">
               <i class="fas fa-moon dark:hidden"></i>
               <i class="fas fa-sun hidden dark:block"></i>
             </button>
-          </div>
-          <div class="md:hidden flex items-center space-x-2">
-            <button id="theme-toggle-mobile" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <button id="theme-toggle-mobile" class="md:hidden h-10 w-10 items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle theme">
               <i class="fas fa-moon dark:hidden"></i>
               <i class="fas fa-sun hidden dark:block"></i>
             </button>
-            <button id="mobile-menu-button" class="hamburger p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-              <span class="hamburger-line block w-6 h-0.5 bg-gray-900 dark:bg-gray-100 mb-1"></span>
-              <span class="hamburger-line block w-6 h-0.5 bg-gray-900 dark:bg-gray-100 mb-1"></span>
-              <span class="hamburger-line block w-6 h-0.5 bg-gray-900 dark:bg-gray-100"></span>
+            <button id="mobile-menu-button" class="hamburger md:hidden h-10 w-10 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Open menu">
+              <span class="hamburger-line block w-6 h-0.5 bg-slate-900 dark:bg-slate-100 mb-1 mx-auto"></span>
+              <span class="hamburger-line block w-6 h-0.5 bg-slate-900 dark:bg-slate-100 mb-1 mx-auto"></span>
+              <span class="hamburger-line block w-6 h-0.5 bg-slate-900 dark:bg-slate-100 mx-auto"></span>
             </button>
           </div>
         </div>
       </div>
-      <div id="mobile-menu" class="mobile-menu md:hidden fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 shadow-lg z-40">
-        <div class="px-4 pt-16 pb-4">
-          <div class="space-y-2">
-            <a href="#home" class="nav-link block px-3 py-2 text-base font-medium">Home</a>
-            <a href="#about" class="nav-link block px-3 py-2 text-base font-medium">About</a>
-            <a href="#resume" class="nav-link block px-3 py-2 text-base font-medium">Resume</a>
-            <a href="#projects" class="nav-link block px-3 py-2 text-base font-medium">Projects</a>
-            <a href="#contact" class="nav-link block px-3 py-2 text-base font-medium">Contact</a>
-          </div>
+      <div id="mobile-menu" class="mobile-menu md:hidden fixed inset-y-0 left-0 w-72 bg-white dark:bg-slate-900 shadow-2xl z-40 border-r border-slate-200 dark:border-slate-800">
+        <div class="px-5 pt-20 pb-5 space-y-1">
+          <a href="#home" class="nav-link block px-3 py-3 text-base font-semibold">Home</a>
+          <a href="#about" class="nav-link block px-3 py-3 text-base font-semibold">About</a>
+          <a href="#skills" class="nav-link block px-3 py-3 text-base font-semibold">Skills</a>
+          <a href="#projects" class="nav-link block px-3 py-3 text-base font-semibold">Projects</a>
+          <a href="#resume" class="nav-link block px-3 py-3 text-base font-semibold">Resume</a>
+          <a href="#contact" class="nav-link block px-3 py-3 text-base font-semibold">Contact</a>
         </div>
       </div>
     </nav>
 
-    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-slate-950/55 z-30 hidden"></div>
 
     <main>
-      <!-- Home (shorter + visible) -->
-      <section id="home" class="min-h-[70vh] md:min-h-[75vh] flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div class="fade-in visible">
-            <h1 class="text-5xl md:text-7xl font-bold mb-6">
-              <span class="gradient-text" id="heroName">Fazle Rabbi Zaki</span>
-            </h1>
-            <h2 class="text-2xl md:text-3xl font-semibold mb-4 text-gray-700 dark:text-gray-300" id="heroTitle">
-              Aerospace Engineering Student
-            </h2>
-            <p class="text-lg md:text-xl mb-2 text-gray-600 dark:text-gray-400" id="uniLine">
-              University of Michigan, Ann Arbor
-            </p>
-            <div class="flex justify-center my-8">
-              <img id="avatar" src="images/fazle_headshot.jpg" alt="Headshot" class="w-32 h-32 rounded-full object-cover shadow-lg ring-2 ring-blue-500/20" onerror="this.style.display='none'">
+      <section id="home" class="hero-bg text-white pt-28 pb-16 md:pt-32 md:pb-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid lg:grid-cols-[1.12fr_0.88fr] gap-12 lg:gap-16 items-center">
+            <div class="fade-in visible">
+              <p class="section-kicker mb-4">GNC / ADCS / Hardware Testing</p>
+              <h1 id="heroName" class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.96] tracking-tight">Fazle Rabbi Zaki</h1>
+              <h2 id="heroTitle" class="mt-6 text-2xl sm:text-3xl font-bold text-teal-100">Aerospace Engineer | GNC & ADCS</h2>
+              <p id="uniLine" class="mt-3 text-base sm:text-lg text-slate-300">B.S.E. Aerospace Engineering, University of Michigan</p>
+              <p id="heroTagline" class="mt-8 max-w-2xl text-xl sm:text-2xl text-slate-100 leading-relaxed">Controls, sensing, and hardware testing. I build, test, and verify.</p>
+              <div class="mt-8 flex flex-col sm:flex-row gap-3">
+                <a href="#projects" class="btn-primary px-6 py-3 rounded-lg text-sm font-bold inline-flex items-center justify-center">
+                  <i class="fas fa-diagram-project mr-2"></i>View Projects
+                </a>
+                <a href="#contact" class="px-6 py-3 rounded-lg text-sm font-bold inline-flex items-center justify-center border border-white/25 hover:border-teal-200 hover:text-teal-100 transition">
+                  <i class="fas fa-envelope mr-2"></i>Contact
+                </a>
+              </div>
             </div>
-            <p class="text-xl md:text-2xl mb-8 text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-              Controls, sensing, and hardware testing. I build, test, and verify.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="#resume" class="btn-primary px-8 py-4 rounded-full text-lg font-semibold text-white inline-flex items-center justify-center">
-                <i class="fas fa-file-pdf mr-2"></i> View Resume
-              </a>
-              <a href="#projects" class="btn-secondary px-8 py-4 rounded-full text-lg font-semibold inline-flex items-center justify-center">
-                <i class="fas fa-rocket mr-2"></i> See Projects
-              </a>
+            <div class="fade-in visible">
+              <div class="grid sm:grid-cols-[auto_1fr] lg:grid-cols-1 gap-5 items-center">
+                <img id="avatar" src="images/fazle_headshot.jpg" alt="Fazle Rabbi Zaki headshot" class="w-44 h-44 sm:w-56 sm:h-56 lg:w-72 lg:h-72 rounded-lg object-cover shadow-2xl ring-1 ring-white/20" onerror="this.style.display='none'">
+                <div id="heroStats" class="grid grid-cols-2 gap-3"></div>
+              </div>
             </div>
-          </div>
-
-          <div class="mt-16 fade-in visible">
-            <h3 class="text-2xl font-bold mb-8 text-gray-800 dark:text-gray-200">Featured Projects</h3>
-            <div id="featured" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
           </div>
         </div>
       </section>
 
-      <!-- About -->
-      <section id="about" class="py-20 bg-white dark:bg-gray-900">
+      <section id="featured-work" class="py-16 bg-white dark:bg-slate-950">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold mb-4">About</h2>
-          </div>
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <!-- Left: Headshot card -->
-            <div class="flex justify-center">
-              <div class="p-1 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 shadow-xl">
-                <div class="rounded-2xl bg-white dark:bg-gray-900 p-2">
-                  <img src="images/fazle_headshot.jpg" alt="Fazle Rabbi Zaki headshot" loading="lazy" class="w-72 h-72 md:w-80 md:h-80 rounded-xl object-cover shadow-lg" onerror="this.style.display='none'"/>
-                </div>
-              </div>
-            </div>
-            <!-- Right: About text -->
+          <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-8">
             <div>
-              <p class="text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-400" id="aboutBlurb">
-                I’m an aerospace engineering student at the University of Michigan focused on controls, sensing, and hands-on prototyping. I like taking a system from first-principles modeling to hardware that performs the way the math says it should.<br><br>
-                Recently, I helped build a 1U CubeSat ADCS imaging testbed, integrating IMU, magnetometer, and optical sensors with a reaction wheel and torque rods. I implemented TRIAD/EKF attitude estimation and mode logic for detumble, pointing, and desaturation, then verified performance with hardware-in-the-loop tests.<br><br>
-                Beyond space systems, I prototype fast and lightweight vehicles. I co-designed a Titan “air-puck” concept (CATIA + STAR-CCM+), tuned it with bench data, and proved it on a course. I also assembled and competed with a skirted hovercraft, balancing mass, flow, and power to hit time and payload targets. For energy access work, I helped design a low-cost wind generator using locally available materials and measured output, efficiency, and TSR under load.<br><br>
-                I’m happiest where controls meets hardware—sensors on the bench, scripts on the laptop, and a clear test plan to close the loop from model → build → verify.
-              </p>
+              <p class="section-kicker mb-3">Selected Work</p>
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Flight-like systems, tested on the bench</h2>
             </div>
+            <a href="#projects" class="text-sm font-bold text-teal-700 dark:text-teal-300 hover:underline inline-flex items-center">
+              All projects <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+          <div id="featured" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        </div>
+      </section>
+
+      <section id="about" class="py-16 md:py-20 bg-slate-50 dark:bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid lg:grid-cols-[0.72fr_1.28fr] gap-10 lg:gap-16">
+            <div>
+              <p class="section-kicker mb-3">About</p>
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Controls work grounded in hardware evidence</h2>
+            </div>
+            <div id="aboutBlurb" class="space-y-5 text-lg leading-relaxed text-slate-700 dark:text-slate-300"></div>
           </div>
         </div>
       </section>
 
-      <!-- Resume -->
-      <section id="resume" class="py-20 bg-gray-50 dark:bg-gray-800">
+      <section id="skills" class="py-16 md:py-20 bg-white dark:bg-slate-950">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold mb-4">Resume</h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-              Inline viewer below with a download link fallback.
-            </p>
+          <div class="mb-8">
+            <p class="section-kicker mb-3">Skills</p>
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Tools I use to model, integrate, and verify</h2>
           </div>
-          <div class="max-w-4xl mx-auto">
-            <div class="pdf-container" id="resumeEmbed">
-              <!-- main.js will embed resume.pdf here -->
-              <div class="pdf-placeholder">
-                <i class="fas fa-file-pdf text-6xl mb-4"></i>
-                <h3 class="text-2xl font-bold mb-2">Resume PDF</h3>
-                <p class="text-center mb-6">Place <code>resume.pdf</code> at the project root.</p>
+          <div id="skillGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5"></div>
+        </div>
+      </section>
+
+      <section id="projects" class="py-16 md:py-20 bg-slate-50 dark:bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+            <div>
+              <p class="section-kicker mb-3">Projects</p>
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Case studies</h2>
+            </div>
+            <div class="w-full lg:w-[26rem]">
+              <label for="search" class="sr-only">Search projects</label>
+              <div class="relative">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input id="search" type="search" placeholder="Search projects" class="w-full pl-11 pr-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-teal-600">
               </div>
             </div>
-            <div class="text-center mt-8">
-              <a href="resume.pdf" class="btn-primary px-8 py-4 rounded-full text-lg font-semibold text-white inline-flex items-center justify-center">
-                <i class="fas fa-download mr-2"></i> Download PDF
-              </a>
-            </div>
           </div>
-        </div>
-      </section>
-
-      <!-- Projects -->
-      <section id="projects" class="py-20 bg-white dark:bg-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold mb-4">Projects</h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-              Loaded from <code>data/projects.json</code>.
-            </p>
-          </div>
-          <div class="filters mb-8 flex flex-wrap justify-center gap-3" id="tagBar"></div>
-          <div class="max-w-xl mx-auto mb-8">
-            <input id="search" type="search" placeholder="Search projects" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
-          </div>
-          <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-          <div id="projects-empty" class="hidden text-center text-gray-500 dark:text-gray-400 py-12">No projects match your filters.</div>
+          <div class="filters mb-8 flex flex-wrap gap-3" id="tagBar"></div>
+          <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+          <div id="projects-empty" class="hidden text-center text-slate-500 dark:text-slate-400 py-12">No projects match the current filters.</div>
           <template id="projectCardTmpl">
-            <article class="project-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
-              <div class="w-full rounded-lg mb-4 overflow-hidden bg-gray-200 dark:bg-gray-700" style="aspect-ratio:16/9">
-                <img class="w-full h-full object-cover card-img" loading="lazy" decoding="async" alt="">
+            <article class="project-card bg-white dark:bg-slate-950 rounded-lg overflow-hidden flex flex-col">
+              <div class="project-media h-52 overflow-hidden bg-slate-200 dark:bg-slate-800"></div>
+              <div class="p-5 flex flex-col flex-1">
+                <div class="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <h3 class="text-xl font-extrabold leading-tight card-title"></h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 card-sub"></p>
+                  </div>
+                  <span class="featured-badge hidden text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-amber-700 dark:text-amber-300">Featured</span>
+                </div>
+                <p class="text-sm leading-6 text-slate-700 dark:text-slate-300 mb-4 card-summary"></p>
+                <ul class="metrics space-y-2 text-sm text-slate-600 dark:text-slate-400 mb-4"></ul>
+                <div class="flex flex-wrap gap-2 mb-5 tag-row"></div>
+                <div class="mt-auto links"></div>
               </div>
-              <h4 class="text-xl font-bold mb-1 card-title"></h4>
-              <p class="text-sm text-gray-500 dark:text-gray-400 mb-2 card-sub"></p>
-              <p class="text-gray-700 dark:text-gray-300 mb-3 card-summary"></p>
-              <ul class="card-bullets text-gray-600 dark:text-gray-400 mb-3 metrics"></ul>
-              <div class="flex flex-wrap gap-2 mb-3 tag-row"></div>
-              <div class="links"></div>
             </article>
           </template>
         </div>
       </section>
 
-      <!-- Contact -->
-      <section id="contact" class="py-20 bg-gray-50 dark:bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold mb-4">Contact</h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400">Email or connect via LinkedIn and GitHub.</p>
+      <section id="resume" class="py-16 md:py-20 bg-white dark:bg-slate-950">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="mb-8">
+            <p class="section-kicker mb-3">Resume</p>
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Resume</h2>
           </div>
-          <div class="flex justify-center gap-6">
-            <a id="lnLink" href="#" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline"><i class="fab fa-linkedin mr-2"></i>LinkedIn</a>
-            <a id="ghLink" href="#" target="_blank" class="text-gray-700 dark:text-gray-300 hover:underline"><i class="fab fa-github mr-2"></i>GitHub</a>
-            <a id="emailLink" href="mailto:" class="text-blue-600 dark:text-blue-400 hover:underline"><i class="fas fa-envelope mr-2"></i>Email</a>
+          <div class="pdf-container" id="resumeEmbed">
+            <div class="h-full min-h-[580px] flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 p-8 text-center">
+              <i class="fas fa-file-pdf text-5xl mb-4"></i>
+              <p class="font-semibold">Resume PDF</p>
+            </div>
+          </div>
+          <div class="mt-6">
+            <a href="resume.pdf" class="btn-primary px-6 py-3 rounded-lg text-sm font-bold inline-flex items-center justify-center">
+              <i class="fas fa-download mr-2"></i>Download PDF
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="py-16 md:py-20 bg-slate-950 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid lg:grid-cols-[1fr_auto] gap-8 items-end">
+            <div>
+              <p class="section-kicker mb-3">Contact</p>
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Open to aerospace controls, GNC, ADCS, and test roles</h2>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <a id="lnLink" href="https://www.linkedin.com/in/fazlerabbizaki" target="_blank" rel="noopener" class="px-5 py-3 rounded-lg border border-white/20 hover:border-teal-200 text-sm font-bold inline-flex items-center justify-center">
+                <i class="fab fa-linkedin mr-2"></i>LinkedIn
+              </a>
+              <a id="ghLink" href="https://github.com/jakiu012" target="_blank" rel="noopener" class="px-5 py-3 rounded-lg border border-white/20 hover:border-teal-200 text-sm font-bold inline-flex items-center justify-center">
+                <i class="fab fa-github mr-2"></i>GitHub
+              </a>
+              <a id="emailLink" href="mailto:jakiuddin012@gmail.com" class="btn-primary px-5 py-3 rounded-lg text-sm font-bold inline-flex items-center justify-center">
+                <i class="fas fa-envelope mr-2"></i>Email
+              </a>
+            </div>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-10">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <p class="text-gray-400">&copy; <span id="year"></span> <span id="footerName">Fazle Rabbi Zaki</span>. Built for aerospace projects.</p>
+    <footer class="bg-slate-950 text-slate-400 py-8 border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm">
+        <p>&copy; <span id="year"></span> <span id="footerName">Fazle Rabbi Zaki</span></p>
+        <p>Built around tested aerospace systems.</p>
       </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="js/main.js"></script>
   </body>
 </html>

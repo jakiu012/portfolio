@@ -1,109 +1,171 @@
 {
-    "owner": {
-      "name": "Fazle Rabbi Zaki",
-      "title": "Aerospace Engineer",
-      "university": "University of Michigan, Ann Arbor",
-      "photo": "images/fazle_headshot.jpg",
-      "github": "https://github.com/jakiu012",
-  
-      "tagline": "Controls, sensing, and hardware testing. I build, test, and verify.",
-  
-      "about": "I design and test flight-like systems at small scale. I like clean interfaces, repeatable tests, and simple models backed by data.",
-      "aboutBullets": [
-        "Controls and sensing for small platforms (ADCS, IMU fusion)",
-        "CAD/CFD for quick design loops",
-        "Hardware bring-up, test jigs, and data analysis"
-      ],
-      "aboutLinks": [
-        { "label": "Email me", "href": "mailto:jakiuddin012@gmail.com" },
-        { "label": "Resume (PDF)", "href": "resume.pdf" },
-        { "label": "GitHub", "href": "https://github.com/jakiu012" }
-      ]
-    },
-    "projects": [
+  "owner": {
+    "name": "Fazle Rabbi Zaki",
+    "title": "Aerospace Engineer | GNC & ADCS",
+    "affiliation": "B.S.E. Aerospace Engineering, University of Michigan",
+    "university": "B.S.E. Aerospace Engineering, University of Michigan",
+    "honors": "University Honors, May 2026",
+    "photo": "images/fazle_headshot.jpg",
+    "email": "jakiuddin012@gmail.com",
+    "github": "https://github.com/jakiu012",
+    "linkedin": "https://www.linkedin.com/in/fazlerabbizaki",
+    "tagline": "Controls, sensing, and hardware testing. I build, test, and verify.",
+    "about": [
+      "I'm an aerospace engineer from the University of Michigan (B.S.E., May 2026, University Honors) focused on guidance, navigation, and control. I like taking a system from first-principles modeling through hardware integration to test data that closes the loop.",
+      "My flagship project was leading ADCS development on a 1U CubeSat imaging testbed. I designed an Extended Kalman Filter fusing gyroscope and magnetometer data, built a 5-state attitude controller driving a reaction wheel and magnetorquers, and developed a Python/Plotly Dash ground station streaming telemetry at 10 Hz over UDP. We demonstrated detumble from 1 rev/s to spin stoppage in under 50 seconds on a Helmholtz coil HIL testbed.",
+      "I also served as Safety, Policy, and Risk Lead on the Icarus heliophysics mission, a dual-spacecraft concept that completed NASA Phase B Preliminary Design Review. I built a 32-risk register, mapped 12 rights-holders, and ensured compliance across NPR 8715.6, ITAR/DDTC, and FCC/ITU for deep-space X/Ka-band communications.",
+      "On the MASA Limelight hybrid rocket team, I integrate avionics subsystems targeting 30,000 ft apogee, contributing to cold-flow tests, E-Box sensor checkout, and hardware-in-the-loop infrastructure for sensor and pyro telemetry verification.",
+      "I'm happiest where controls meets hardware: sensors on the bench, scripts on the laptop, and a clear test plan to verify that the math and the metal agree."
+    ],
+    "stats": [
+      { "label": "CubeSat HIL detumble", "value": "< 50 s" },
+      { "label": "Telemetry loop", "value": "10 Hz" },
+      { "label": "NASA Phase B risks tracked", "value": "32" },
+      { "label": "Rocket target apogee", "value": "30k ft" }
+    ],
+    "skills": [
       {
-        "title": "Heliophysics Science Observer & Communications Platform",
-        "slug": "heliophysics",
-        "role": "Spacecraft Systems Design",
-        "dates": "Winter 2026",
-        "location": "Ann Arbor, MI",
-        "tags": ["Spacecraft", "Systems Engineering", "Mission Design", "Heliophysics"],
-        "heroImage": "images/Heliophysics.jpg",
-        "gallery": ["images/Heliophysics.jpg"],
-        "summary": "NASA heliophysics mission design for solar monitoring and Earth-Mars communication. Team of 12 designing exploration assets for space weather detection and crew safety support.",
-        "metrics": [
-          "Budget ≤ $400M USD (FY25)",
-          "Launch by Dec 31, 2035",
-          "Operational: 2036–2049"
-        ],
-        "methods": ["Systems engineering", "Trade studies", "Requirements derivation"],
-        "verification": ["MDR", "PDR"],
-        "links": []
+        "group": "GNC / ADCS",
+        "icon": "fa-satellite",
+        "items": [
+          "Rigid-body dynamics and quaternion kinematics",
+          "B-dot detumble control",
+          "PID and LQR control design",
+          "State estimation: TRIAD, Extended Kalman Filter",
+          "Momentum management with reaction wheels and magnetorquers",
+          "Hardware-in-the-loop testing"
+        ]
       },
       {
-        "title": "CubeSat ADCS Imaging Testbed (1U)",
-        "slug": "adcs",
-        "role": "ADCS & Systems Engineer",
-        "dates": "2025 – Present",
-        "location": "Ann Arbor, MI",
-        "tags": ["ADCS", "Controls", "Sensors", "Hardware"],
-        "heroImage": "images/adcs_hero.jpg",
-        "gallery": ["images/adcs_hero.jpg"],
-        "summary": "Built a 1U platform under 1 kg integrating IMU, magnetometer, star and IR cameras, reaction wheel, and magnetorquers. Implemented TRIAD/EKF, detumble, and pointing modes.",
-        "metrics": [
-          "Form factor 1U, target mass < 1 kg",
-          "Sensors: gyro, magnetometer, star, IR",
-          "Actuators: reaction wheel + torque rods"
-        ],
-        "methods": ["TRIAD, EKF", "Mode logic: detumble, pointing, desaturation"],
-        "verification": ["Component characterization", "Mode demos, HIL checks"],
-        "links": []
+        "group": "Software",
+        "icon": "fa-code",
+        "items": [
+          "Python: NumPy, SciPy, Plotly Dash, pandas",
+          "MATLAB / Simulink",
+          "C++",
+          "Git and Linux"
+        ]
       },
       {
-        "title": "Air Puck Prototype for Titan",
-        "slug": "airpuck",
-        "role": "Design, CFD, Test",
-        "dates": "2023",
-        "location": "Ann Arbor, MI",
-        "tags": ["CAD/CFD", "Hardware", "Testing"],
-        "heroImage": "images/airpuck_hero.png",
-        "gallery": ["images/airpuck_hero.png"],
-        "summary": "Hexagonal air-puck optimized for fast traverse and payload. CATIA + STAR-CCM+, Arduino control.",
-        "metrics": ["Mass ~329 g", "Power ~1.5 W", "Payload 60–80 g", "Best time ~6.7 s"],
-        "methods": ["Bernoulli sizing", "CAD + CFD", "Bench/course trials"],
-        "verification": ["Payload/time trials", "Competition runs"],
-        "links": []
+        "group": "CAD / Analysis",
+        "icon": "fa-drafting-compass",
+        "items": [
+          "SolidWorks",
+          "CATIA",
+          "STAR-CCM+ CFD"
+        ]
       },
       {
-        "title": "Hovercraft Prototype & Competition",
-        "slug": "hovercraft",
-        "role": "Assembly, Testing, CFD",
-        "dates": "2023",
-        "location": "Ann Arbor, MI",
-        "tags": ["CAD/CFD", "Hardware", "Testing"],
-        "heroImage": "images/hovercraft_hero.png",
-        "gallery": ["images/hovercraft_hero.png"],
-        "summary": "Skirted hovercraft with internal and external flow modeling. Competed across three courses.",
-        "metrics": ["Final mass ~491 g", "Straight path ~18 s", "Mass retrieval best ~36 payloads"],
-        "methods": ["STAR-CCM+ internal/external flow", "Arduino control", "Power/mass budgeting"],
-        "verification": ["Bench tests", "Event-day results"],
-        "links": []
-      },
-      {
-        "title": "Wind-Powered Generator for Rural Guatemala",
-        "slug": "wind",
-        "role": "ME Design, Test, Data",
-        "dates": "2024",
-        "location": "Ann Arbor, MI",
-        "tags": ["Hardware", "Testing", "Energy"],
-        "heroImage": "images/wind_hero.png",
-        "gallery": ["images/wind_hero.png"],
-        "summary": "Low-cost HAWT prototype using local materials. Measured power, efficiency, and TSR.",
-        "metrics": ["Height ~154 cm, radius ~80 cm", "Power ~0.1–0.17 W", "Max efficiency ~1.2%, TSR ~2.5"],
-        "methods": ["Load sweeps", "Efficiency/TSR analysis", "Coupling stress sizing"],
-        "verification": ["Voltage vs frequency", "Budget breakdown"],
-        "links": []
+        "group": "Embedded / Lab",
+        "icon": "fa-microchip",
+        "items": [
+          "Arduino and Raspberry Pi",
+          "UART, I2C, SPI protocols",
+          "Oscilloscope, DAQ systems, multimeter, soldering"
+        ]
       }
     ]
-  }
-  
+  },
+  "projects": [
+    {
+      "title": "CubeSat ADCS Imaging Testbed",
+      "slug": "cubesat-adcs",
+      "role": "ADCS & Systems Lead",
+      "dates": "Aug 2025 - Dec 2025",
+      "location": "University of Michigan, SPACE 584",
+      "context": "Graduate-level course",
+      "tags": ["ADCS", "EKF", "Simulink", "HIL", "Python", "Embedded"],
+      "heroImage": "images/adcs_hardware.jpg",
+      "featured": true,
+      "visual": { "icon": "fa-satellite", "label": "ADCS" },
+      "summary": "Designed and integrated a 1U CubeSat prototype with EKF-based attitude estimation, a 5-state mode controller, reaction wheel and magnetorquer actuators, a Helmholtz coil HIL testbed, and a real-time Python ground station. Led systems engineering for a 15-member team.",
+      "metrics": [
+        "Detumbled from 1 rev/s to spin stoppage in under 50 seconds",
+        "Telemetry dashboard streamed 35-double UDP packets at 10 Hz",
+        "Final spacecraft mass: 0.95 kg against a 1U-class target",
+        "System cost: about $3,000 against a $6,000 cap"
+      ],
+      "links": []
+    },
+    {
+      "title": "Icarus Heliophysics Mission",
+      "slug": "icarus-heliophysics",
+      "role": "Safety, Policy & Risk Lead; ADCS Contributor",
+      "dates": "Jan 2026 - Apr 2026",
+      "location": "University of Michigan, AEROSP 483",
+      "context": "Space System Design",
+      "tags": ["Systems Engineering", "Risk Analysis", "NASA PDR", "Policy", "ADCS Trade Studies"],
+      "heroImage": "images/projects/icarus-launch-gravity-assist.png",
+      "featured": true,
+      "visual": { "icon": "fa-sun", "label": "Sun-Mars L1" },
+      "summary": "Led safety, policy, and risk analysis for a dual-spacecraft heliophysics mission through NASA Phase B Preliminary Design Review. Built a 32-risk register, mapped 12 rights-holders, and ensured compliance across debris mitigation, export control, and spectrum allocation regulations.",
+      "metrics": [
+        "NASA Phase B Preliminary Design Review completed",
+        "32 mission risks tracked with owner, mitigation, and status",
+        "12 rights-holders mapped on an impact-power grid",
+        "$400M FY2026 mission budget target through 2049 operations"
+      ],
+      "links": []
+    },
+    {
+      "title": "MASA Limelight Hybrid Rocket",
+      "slug": "masa-limelight",
+      "role": "Avionics Subteam Member",
+      "dates": "Aug 2025 - Present",
+      "location": "Michigan Aeronautical Science Association",
+      "context": "Student rocketry team",
+      "tags": ["Avionics", "C++", "HIL", "Propulsion Testing", "Rocketry"],
+      "heroImage": "images/projects/masa-hero.jpg",
+      "featured": true,
+      "visual": { "icon": "fa-rocket", "label": "30,000 ft" },
+      "summary": "Integrating avionics for a hybrid rocket targeting 30,000 ft apogee. Writing thermocouple firmware in C++, executing cold-flow tests, checking out E-Box sensors, and building HIL infrastructure for sensor and pyro telemetry verification.",
+      "metrics": [
+        "Hybrid rocket target apogee: 30,000 ft",
+        "Thermocouple firmware in C++",
+        "Cold-flow and E-Box sensor checkout support",
+        "HIL infrastructure for sensor and pyro telemetry"
+      ],
+      "links": []
+    },
+    {
+      "title": "Wind-Powered Generator",
+      "slug": "wind-turbine",
+      "role": "Design Engineer",
+      "dates": "Jan 2024 - Apr 2024",
+      "location": "University of Michigan",
+      "context": "Rural energy access prototype",
+      "tags": ["Mechanical Design", "Power Systems", "Testing", "Sustainability"],
+      "heroImage": "images/wind_hero.png",
+      "featured": false,
+      "visual": { "icon": "fa-wind", "label": "HAWT" },
+      "summary": "Designed and built a self-yawing 1.54 m horizontal-axis wind turbine on a $110 budget. Passed five safety inspections for rooftop deployment, instrumented performance testing, and diagnosed drivetrain losses with a recommended 1:3 gearing path.",
+      "metrics": [
+        "Peak voltage: 6.45 V",
+        "Peak power: 0.17 W",
+        "Tip-speed ratio: average 2.5, maximum 7.2",
+        "Total build cost: $110"
+      ],
+      "links": []
+    },
+    {
+      "title": "Titan Surface Air Puck",
+      "slug": "titan-air-puck",
+      "role": "Design Engineer",
+      "dates": "Jan 2023 - Apr 2023",
+      "location": "University of Michigan, ENGR 100",
+      "context": "Introduction to Engineering",
+      "tags": ["CFD", "CATIA", "STAR-CCM+", "Prototyping", "Competition"],
+      "heroImage": "images/airpuck_hero.png",
+      "featured": false,
+      "visual": { "icon": "fa-fan", "label": "Titan air puck" },
+      "summary": "Designed a hexagonal lift platform in CATIA, validated it with STAR-CCM+ CFD, and built a 269 g prototype. Achieved a 6.68 s minimum crossing time and delivered 80 g payload in competition.",
+      "metrics": [
+        "CFD prediction: 1.41 N lift at 1.51 W",
+        "Final system mass: 269 g",
+        "Best crossing time: 6.68 s",
+        "Maximum payload delivered: 80 g"
+      ],
+      "links": []
+    }
+  ]
+}
