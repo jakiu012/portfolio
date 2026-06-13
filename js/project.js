@@ -1,18 +1,96 @@
+/* Mission Control portfolio — case study page */
+
 (function () {
   const $ = (selector) => document.querySelector(selector);
   const qs = new URLSearchParams(window.location.search);
   const slug = qs.get('slug');
+  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function setupTheme() {
-    const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.classList.toggle('dark', saved ? saved === 'dark' : prefersDark);
+  /* ---------- starfield (shared look with index) ---------- */
+  function startStarfield() {
+    const canvas = $('#starfield');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    $('#theme-toggle')?.addEventListener('click', () => {
-      document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    let stars = [];
+    let width = 0;
+    let height = 0;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    const resize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const count = Math.min(150, Math.floor((width * height) / 10000));
+      stars = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 1.2 + 0.3,
+        base: Math.random() * 0.55 + 0.2,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.9 + 0.35
+      }));
+    };
+
+    const drawStatic = () => {
+      ctx.clearRect(0, 0, width, height);
+      stars.forEach((star) => {
+        ctx.globalAlpha = star.base;
+        ctx.fillStyle = '#cfe3ff';
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+    };
+
+    resize();
+    window.addEventListener('resize', () => {
+      resize();
+      if (reducedMotion) drawStatic();
     });
+
+    if (reducedMotion) {
+      drawStatic();
+      return;
+    }
+
+    let last = 0;
+    const loop = (now) => {
+      requestAnimationFrame(loop);
+      if (document.hidden) return;
+      if (now - last < 1000 / 30) return;
+      last = now;
+      ctx.clearRect(0, 0, width, height);
+      const t = now / 1000;
+      stars.forEach((star) => {
+        const alpha = star.base * (0.6 + 0.4 * Math.sin(t * star.speed + star.phase));
+        ctx.globalAlpha = Math.max(alpha, 0.08);
+        ctx.fillStyle = '#cfe3ff';
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+    };
+    requestAnimationFrame(loop);
   }
+
+  function setupScrollProgress() {
+    const bar = $('#scroll-progress');
+    if (!bar) return;
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+
+  /* ---------- helpers ---------- */
 
   function normalizeImg(path) {
     if (!path) return '';
@@ -78,33 +156,18 @@
 
   function tagPill(label) {
     const span = document.createElement('span');
-    span.className = 'tag px-3 py-1 rounded-lg text-xs font-extrabold uppercase tracking-[0.08em]';
+    span.className = 'tag';
     span.textContent = label;
     return span;
   }
 
   function metricItem(text) {
     const li = document.createElement('li');
-    li.className = 'flex gap-3';
-    li.innerHTML = `<i class="fas fa-circle-check mt-1 text-xs text-teal-700 dark:text-teal-300"></i><span>${escapeHTML(text)}</span>`;
+    li.textContent = text;
     return li;
   }
 
-  function setFallbackVisual(project) {
-    const visual = $('#heroVisual');
-    if (!visual) return;
-    const icon = project.visual?.icon || 'fa-satellite';
-    const label = project.visual?.label || project.title || 'Project';
-    visual.innerHTML = `
-      <div class="h-full w-full flex flex-col items-center justify-center text-white text-center p-8">
-        <i class="fas ${escapeHTML(icon)} text-7xl mb-6"></i>
-        <span class="text-sm font-extrabold uppercase tracking-[0.2em]">${escapeHTML(label)}</span>
-      </div>
-    `;
-  }
-
   function renderHeroImage(path, project) {
-    setFallbackVisual(project);
     const img = $('#heroImg');
     if (!img) return;
     const src = normalizeImg(path);
@@ -137,11 +200,10 @@
       const a = document.createElement('a');
       a.href = `#${heading.id}`;
       a.textContent = heading.textContent.trim();
-      a.className = 'hover:underline';
       a.addEventListener('click', (event) => {
         event.preventDefault();
         const top = heading.getBoundingClientRect().top + window.scrollY - 80;
-        window.scrollTo({ top, behavior: 'smooth' });
+        window.scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' });
       });
       li.appendChild(a);
       list.appendChild(li);
@@ -157,7 +219,7 @@
     box.innerHTML = '';
     const links = (project.links || []).filter((link) => link.href);
     if (!links.length) {
-      box.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400">No external links yet.</p>';
+      box.innerHTML = '<p class="side-empty">// NO EXTERNAL LINKS YET</p>';
       return;
     }
 
@@ -166,8 +228,8 @@
       a.href = link.href;
       a.target = '_blank';
       a.rel = 'noopener';
-      a.className = 'w-full px-4 py-2.5 rounded-lg border border-teal-700 text-teal-700 dark:text-teal-300 dark:border-teal-400 text-sm font-bold inline-flex items-center justify-center hover:bg-teal-700 hover:text-white dark:hover:bg-teal-500 dark:hover:text-slate-950 transition';
-      a.innerHTML = `<i class="fas fa-arrow-up-right-from-square mr-2"></i>${escapeHTML(link.label || 'Open link')}`;
+      a.className = 'side-link';
+      a.innerHTML = `<i class="fas fa-arrow-up-right-from-square"></i>${escapeHTML(link.label || 'Open link')}`;
       box.appendChild(a);
     });
   }
@@ -201,7 +263,8 @@
   }
 
   async function main() {
-    setupTheme();
+    startStarfield();
+    setupScrollProgress();
 
     const year = $('#year');
     if (year) year.textContent = new Date().getFullYear();
@@ -229,10 +292,10 @@
     }
 
     $('#title').textContent = project.title || 'Project';
-    $('#subtitle').textContent = project.role || '';
+    $('#subtitle').textContent = [project.role, project.context].filter(Boolean).join(' · ');
     $('#summary').textContent = project.summary || '';
-    $('#dates').innerHTML = project.dates ? `<i class="fa-solid fa-calendar mr-2"></i>${escapeHTML(project.dates)}` : '';
-    $('#location').innerHTML = project.location ? `<i class="fa-solid fa-location-dot mr-2"></i>${escapeHTML(project.location)}` : '';
+    $('#dates').innerHTML = project.dates ? `<i class="fa-solid fa-calendar"></i>${escapeHTML(project.dates)}` : '';
+    $('#location').innerHTML = project.location ? `<i class="fa-solid fa-location-dot"></i>${escapeHTML(project.location)}` : '';
 
     const tags = $('#tags');
     if (tags) {
