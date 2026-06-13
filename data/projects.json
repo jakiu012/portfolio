@@ -18,10 +18,22 @@
       "I'm happiest where controls meets hardware: sensors on the bench, scripts on the laptop, and a clear test plan to verify that the math and the metal agree."
     ],
     "stats": [
-      { "label": "CubeSat HIL detumble", "value": "< 50 s" },
-      { "label": "Telemetry loop", "value": "10 Hz" },
-      { "label": "NASA Phase B risks tracked", "value": "32" },
-      { "label": "Rocket target apogee", "value": "30k ft" }
+      {
+        "label": "CubeSat HIL detumble",
+        "value": "< 50 s"
+      },
+      {
+        "label": "Telemetry loop",
+        "value": "10 Hz"
+      },
+      {
+        "label": "NASA Phase B risks tracked",
+        "value": "32"
+      },
+      {
+        "label": "Rocket target apogee",
+        "value": "30k ft"
+      }
     ],
     "skills": [
       {
@@ -74,10 +86,20 @@
       "dates": "Aug 2025 - Dec 2025",
       "location": "University of Michigan, SPACE 584",
       "context": "Graduate-level course",
-      "tags": ["ADCS", "EKF", "Simulink", "HIL", "Python", "Embedded"],
+      "tags": [
+        "ADCS",
+        "EKF",
+        "Simulink",
+        "HIL",
+        "Python",
+        "Embedded"
+      ],
       "heroImage": "images/adcs_hardware.jpg",
       "featured": true,
-      "visual": { "icon": "fa-satellite", "label": "ADCS" },
+      "visual": {
+        "icon": "fa-satellite",
+        "label": "ADCS"
+      },
       "summary": "Designed and integrated a 1U CubeSat prototype with EKF-based attitude estimation, a 5-state mode controller, reaction wheel and magnetorquer actuators, a Helmholtz coil HIL testbed, and a real-time Python ground station. Led systems engineering for a 15-member team.",
       "metrics": [
         "Detumbled from 1 rev/s to spin stoppage in under 50 seconds",
@@ -94,10 +116,19 @@
       "dates": "Jan 2026 - Apr 2026",
       "location": "University of Michigan, AEROSP 483",
       "context": "Space System Design",
-      "tags": ["Systems Engineering", "Risk Analysis", "NASA PDR", "Policy", "ADCS Trade Studies"],
+      "tags": [
+        "Systems Engineering",
+        "Risk Analysis",
+        "NASA PDR",
+        "Policy",
+        "ADCS Trade Studies"
+      ],
       "heroImage": "images/projects/icarus-launch-gravity-assist.png",
       "featured": true,
-      "visual": { "icon": "fa-sun", "label": "Sun-Mars L1" },
+      "visual": {
+        "icon": "fa-sun",
+        "label": "Sun-Mars L1"
+      },
       "summary": "Led safety, policy, and risk analysis for a dual-spacecraft heliophysics mission through NASA Phase B Preliminary Design Review. Built a 32-risk register, mapped 12 rights-holders, and ensured compliance across debris mitigation, export control, and spectrum allocation regulations.",
       "metrics": [
         "NASA Phase B Preliminary Design Review completed",
@@ -114,10 +145,19 @@
       "dates": "Aug 2025 - Present",
       "location": "Michigan Aeronautical Science Association",
       "context": "Student rocketry team",
-      "tags": ["Avionics", "C++", "HIL", "Propulsion Testing", "Rocketry"],
+      "tags": [
+        "Avionics",
+        "C++",
+        "HIL",
+        "Propulsion Testing",
+        "Rocketry"
+      ],
       "heroImage": "images/projects/masa-hero.jpg",
       "featured": true,
-      "visual": { "icon": "fa-rocket", "label": "30,000 ft" },
+      "visual": {
+        "icon": "fa-rocket",
+        "label": "30,000 ft"
+      },
       "summary": "Integrating avionics for a hybrid rocket targeting 30,000 ft apogee. Writing thermocouple firmware in C++, executing cold-flow tests, checking out E-Box sensors, and building HIL infrastructure for sensor and pyro telemetry verification.",
       "metrics": [
         "Hybrid rocket target apogee: 30,000 ft",
@@ -134,10 +174,18 @@
       "dates": "Jan 2024 - Apr 2024",
       "location": "University of Michigan",
       "context": "Rural energy access prototype",
-      "tags": ["Mechanical Design", "Power Systems", "Testing", "Sustainability"],
+      "tags": [
+        "Mechanical Design",
+        "Power Systems",
+        "Testing",
+        "Sustainability"
+      ],
       "heroImage": "images/wind_hero.png",
       "featured": false,
-      "visual": { "icon": "fa-wind", "label": "HAWT" },
+      "visual": {
+        "icon": "fa-wind",
+        "label": "HAWT"
+      },
       "summary": "Designed and built a self-yawing 1.54 m horizontal-axis wind turbine on a $110 budget. Passed five safety inspections for rooftop deployment, instrumented performance testing, and diagnosed drivetrain losses with a recommended 1:3 gearing path.",
       "metrics": [
         "Peak voltage: 6.45 V",
@@ -154,16 +202,54 @@
       "dates": "Jan 2023 - Apr 2023",
       "location": "University of Michigan, ENGR 100",
       "context": "Introduction to Engineering",
-      "tags": ["CFD", "CATIA", "STAR-CCM+", "Prototyping", "Competition"],
+      "tags": [
+        "CFD",
+        "CATIA",
+        "STAR-CCM+",
+        "Prototyping",
+        "Competition"
+      ],
       "heroImage": "images/airpuck_hero.png",
       "featured": false,
-      "visual": { "icon": "fa-fan", "label": "Titan air puck" },
+      "visual": {
+        "icon": "fa-fan",
+        "label": "Titan air puck"
+      },
       "summary": "Designed a hexagonal lift platform in CATIA, validated it with STAR-CCM+ CFD, and built a 269 g prototype. Achieved a 6.68 s minimum crossing time and delivered 80 g payload in competition.",
       "metrics": [
         "CFD prediction: 1.41 N lift at 1.51 W",
         "Final system mass: 269 g",
         "Best crossing time: 6.68 s",
         "Maximum payload delivered: 80 g"
+      ],
+      "links": []
+    },
+    {
+      "title": "Hovercraft Prototype & Competition",
+      "slug": "hovercraft",
+      "role": "Assembly, Testing & CFD",
+      "dates": "Jan 2023 - Apr 2023",
+      "location": "University of Michigan, ENGR 100",
+      "context": "Introduction to Engineering",
+      "tags": [
+        "CFD",
+        "STAR-CCM+",
+        "Arduino",
+        "Testing",
+        "Competition"
+      ],
+      "heroImage": "images/hovercraft_hero.png",
+      "featured": false,
+      "visual": {
+        "icon": "fa-wind",
+        "label": "Hovercraft"
+      },
+      "summary": "Built and raced a radio-controlled skirted hovercraft under NASA-style mission constraints, with internal and external flow modeling in STAR-CCM+ and Arduino-based control. Competed across three timed courses: straight-path speed, figure-8 maneuverability, and mass retrieval.",
+      "metrics": [
+        "Final system mass: 490.62 g against an 800 g limit",
+        "Total electrical power: 25 W",
+        "Straight-path course time: ~18 s",
+        "Mass retrieval: best run carried 36 payloads"
       ],
       "links": []
     }
