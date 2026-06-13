@@ -15,6 +15,7 @@ class PortfolioApp {
   async init() {
     this.startStarfield();
     this.setupScrollProgress();
+    this.setupParallax();
     await this.loadData();
     this.renderOwner();
     this.setupMobileMenu();
@@ -66,7 +67,7 @@ class PortfolioApp {
     setText('#heroName', owner.name);
     setText('#uniLine', owner.affiliation || owner.university);
     setText('#heroTagline', owner.tagline);
-    if (owner.name) setText('#footerName', owner.name.toUpperCase());
+    if (owner.name) setText('#footerName', owner.name);
     setAttr('#avatar', 'src', this.normalizeImage(owner.photo));
 
     const year = document.querySelector('#year');
@@ -236,11 +237,9 @@ class PortfolioApp {
       (stat) => `${this.escapeHTML(stat.label.toUpperCase())}: <b>${this.escapeHTML(stat.value)}</b>`
     );
     const extras = [
-      'EKF: <b>CONVERGED</b>',
-      'MODE: <b>FINE POINTING</b>',
+      'EST: <b>EKF / TRIAD</b>',
+      'ACT: <b>RWA + MTQ</b>',
       'LINK: <b>10 Hz UDP</b>',
-      'WHEELS: <b>NOMINAL</b>',
-      'MAG: <b>CALIBRATED</b>',
       'STATUS: <b>OPEN TO WORK</b>'
     ];
 
@@ -371,6 +370,33 @@ class PortfolioApp {
       bar.style.width = `${pct}%`;
     };
     window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+
+  /* ---------- parallax decorations ---------- */
+
+  setupParallax() {
+    const decos = [...document.querySelectorAll('.deco')];
+    if (!decos.length || this.reducedMotion) return;
+
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const vh = window.innerHeight;
+      decos.forEach((el) => {
+        const speed = parseFloat(el.dataset.speed || '0.08');
+        const rect = el.parentElement.getBoundingClientRect();
+        const offset = (rect.top + rect.height / 2 - vh / 2) * speed;
+        el.style.transform = `translateY(${(-offset).toFixed(1)}px)`;
+      });
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
     update();
   }
 
@@ -520,6 +546,7 @@ class PortfolioApp {
 
     const card = document.createElement('article');
     card.className = 'mission-card';
+    if (project.accent) card.style.setProperty('--pa', project.accent);
 
     const media = document.createElement('div');
     media.className = 'mission-media';
@@ -663,7 +690,7 @@ class PortfolioApp {
   }
 
   consoleHello() {
-    console.log('%c// MISSION CONTROL ONLINE — portfolio v3.0', 'color:#3ce8cf;font-family:monospace;');
+    console.log('%c// MISSION CONTROL ONLINE — portfolio v3.1', 'color:#3ce8cf;font-family:monospace;');
   }
 }
 

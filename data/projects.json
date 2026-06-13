@@ -107,7 +107,11 @@
         "Final spacecraft mass: 0.95 kg against a 1U-class target",
         "System cost: about $3,000 against a $6,000 cap"
       ],
-      "links": []
+      "links": [],
+      "accent": "#5cc8d7",
+      "tableStyle": "boxed",
+      "video": "",
+      "videoCaption": "DEMO // detumble, pointing, and desaturation on the HIL testbed"
     },
     {
       "title": "Icarus Heliophysics Mission",
@@ -136,7 +140,9 @@
         "12 rights-holders mapped on an impact-power grid",
         "$400M FY2026 mission budget target through 2049 operations"
       ],
-      "links": []
+      "links": [],
+      "accent": "#e8a849",
+      "tableStyle": "striped"
     },
     {
       "title": "MASA Limelight Hybrid Rocket",
@@ -165,7 +171,9 @@
         "Cold-flow and E-Box sensor checkout support",
         "HIL infrastructure for sensor and pyro telemetry"
       ],
-      "links": []
+      "links": [],
+      "accent": "#ef7d5d",
+      "tableStyle": "ruled"
     },
     {
       "title": "Wind-Powered Generator",
@@ -193,7 +201,9 @@
         "Tip-speed ratio: average 2.5, maximum 7.2",
         "Total build cost: $110"
       ],
-      "links": []
+      "links": [],
+      "accent": "#7ec98f",
+      "tableStyle": "minimal"
     },
     {
       "title": "Titan Surface Air Puck",
@@ -222,7 +232,9 @@
         "Best crossing time: 6.68 s",
         "Maximum payload delivered: 80 g"
       ],
-      "links": []
+      "links": [],
+      "accent": "#a98ff0",
+      "tableStyle": "striped"
     },
     {
       "title": "Hovercraft Prototype & Competition",
@@ -251,7 +263,9 @@
         "Straight-path course time: ~18 s",
         "Mass retrieval: best run carried 36 payloads"
       ],
-      "links": []
+      "links": [],
+      "accent": "#6aa9f0",
+      "tableStyle": "boxed"
     }
   ]
 }

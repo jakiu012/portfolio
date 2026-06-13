@@ -167,6 +167,100 @@
     return li;
   }
 
+  function applyTheme(project) {
+    if (project.accent) document.body.style.setProperty('--pa', project.accent);
+    document.body.classList.add(`t-${project.tableStyle || 'ruled'}`);
+  }
+
+  function renderFacts(project) {
+    const rows = [
+      ['Role', project.role],
+      ['Timeline', project.dates],
+      ['Location', project.location],
+      ['Program', project.context]
+    ].filter((row) => row[1]);
+    if (!rows.length) return;
+
+    const table = document.createElement('table');
+    table.className = `facts facts-${project.tableStyle || 'ruled'}`;
+
+    const caption = document.createElement('caption');
+    caption.textContent = 'Mission facts';
+    table.appendChild(caption);
+
+    const tbody = document.createElement('tbody');
+    rows.forEach(([key, value]) => {
+      const tr = document.createElement('tr');
+      const th = document.createElement('th');
+      th.scope = 'row';
+      th.textContent = key;
+      const td = document.createElement('td');
+      td.textContent = value;
+      tr.append(th, td);
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    $('#summary')?.insertAdjacentElement('afterend', table);
+  }
+
+  function normalizeMedia(path) {
+    if (!path) return '';
+    if (/^https?:/i.test(path)) return path;
+    let normalized = String(path).trim();
+    if (normalized.startsWith('./')) normalized = normalized.slice(2);
+    return normalized;
+  }
+
+  function renderVideo(project) {
+    if (project.video === undefined) return;
+
+    const figure = document.createElement('figure');
+    figure.className = 'case-video';
+    const shell = document.createElement('div');
+    shell.className = 'video-shell';
+
+    const src = normalizeMedia(project.video);
+    const yt = src.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
+    const vimeo = src.match(/vimeo\.com\/(\d+)/);
+
+    if (yt || vimeo) {
+      const iframe = document.createElement('iframe');
+      iframe.src = yt
+        ? `https://www.youtube-nocookie.com/embed/${yt[1]}`
+        : `https://player.vimeo.com/video/${vimeo[1]}`;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.title = `${project.title || 'Project'} demo video`;
+      shell.appendChild(iframe);
+    } else if (src) {
+      const video = document.createElement('video');
+      video.src = src;
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      shell.appendChild(video);
+    } else {
+      const placeholder = document.createElement('div');
+      placeholder.className = 'video-placeholder';
+      placeholder.innerHTML = `
+        <span class="play-ring"><i class="fas fa-play"></i></span>
+        <p>Hardware demo video — coming soon</p>
+      `;
+      shell.appendChild(placeholder);
+    }
+
+    figure.appendChild(shell);
+    if (project.videoCaption) {
+      const cap = document.createElement('figcaption');
+      cap.className = 'video-caption';
+      cap.textContent = project.videoCaption;
+      figure.appendChild(cap);
+    }
+
+    $('#summary')?.insertAdjacentElement('afterend', figure);
+  }
+
   function renderHeroImage(path, project) {
     const img = $('#heroImg');
     if (!img) return;
@@ -291,6 +385,7 @@
       return;
     }
 
+    applyTheme(project);
     $('#title').textContent = project.title || 'Project';
     $('#subtitle').textContent = [project.role, project.context].filter(Boolean).join(' · ');
     $('#summary').textContent = project.summary || '';
@@ -309,6 +404,8 @@
       (project.metrics || []).forEach((metric) => metrics.appendChild(metricItem(metric)));
     }
 
+    renderFacts(project);
+    renderVideo(project);
     renderLinks(project);
     renderHeroImage(project.heroImage, project);
     setMeta({
