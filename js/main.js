@@ -1,3 +1,5 @@
+/* Mission Control portfolio — main.js */
+
 class PortfolioApp {
   constructor() {
     this.DATA_PATH = './data/projects.json';
@@ -6,22 +8,27 @@ class PortfolioApp {
     this.tags = new Set();
     this.activeTag = null;
     this.q = '';
+    this.reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.init();
   }
 
   async init() {
+    this.startStarfield();
+    this.setupScrollProgress();
     await this.loadData();
     this.renderOwner();
-    this.setupThemeToggle();
     this.setupMobileMenu();
     this.setupNavScrolling();
     this.setupSearchAndFilters();
-    this.setupReveal();
     this.setupResumeViewer();
-    this.renderFeatured();
     this.renderProjects();
+    this.buildTicker();
+    this.startTyping();
+    this.setupReveal();
     this.consoleHello();
   }
+
+  /* ---------- data ---------- */
 
   async loadData() {
     try {
@@ -42,6 +49,8 @@ class PortfolioApp {
     }
   }
 
+  /* ---------- owner / hero ---------- */
+
   renderOwner() {
     const owner = this.owner || {};
     const setText = (selector, value) => {
@@ -55,19 +64,17 @@ class PortfolioApp {
 
     setText('#brandName', owner.name);
     setText('#heroName', owner.name);
-    setText('#heroTitle', owner.title);
     setText('#uniLine', owner.affiliation || owner.university);
     setText('#heroTagline', owner.tagline);
-    setText('#footerName', owner.name);
+    if (owner.name) setText('#footerName', owner.name.toUpperCase());
     setAttr('#avatar', 'src', this.normalizeImage(owner.photo));
 
     const year = document.querySelector('#year');
     if (year) year.textContent = new Date().getFullYear();
 
-    const emailHref = owner.email ? `mailto:${owner.email}` : 'mailto:jakiuddin012@gmail.com';
-    setAttr('#emailLink', 'href', emailHref);
-    setAttr('#ghLink', 'href', owner.github || 'https://github.com/jakiu012');
-    setAttr('#lnLink', 'href', owner.linkedin || 'https://www.linkedin.com/in/fazlerabbizaki');
+    if (owner.email) setAttr('#emailLink', 'href', `mailto:${owner.email}`);
+    if (owner.github) setAttr('#ghLink', 'href', owner.github);
+    if (owner.linkedin) setAttr('#lnLink', 'href', owner.linkedin);
 
     const about = document.querySelector('#aboutBlurb');
     if (about) {
@@ -85,60 +92,289 @@ class PortfolioApp {
       stats.innerHTML = '';
       (owner.stats || []).forEach((stat) => {
         const item = document.createElement('div');
-        item.className = 'rounded-lg border border-white/15 bg-white/10 p-4';
-        item.innerHTML = `
-          <div class="text-2xl font-extrabold text-white">${this.escapeHTML(stat.value || '')}</div>
-          <div class="mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300">${this.escapeHTML(stat.label || '')}</div>
-        `;
+        item.className = 'stat-card';
+        const value = document.createElement('div');
+        value.className = 'stat-value';
+        value.dataset.target = stat.value || '';
+        value.textContent = stat.value || '';
+        const label = document.createElement('div');
+        label.className = 'stat-label';
+        label.textContent = stat.label || '';
+        item.append(value, label);
         stats.appendChild(item);
       });
+      this.setupCounters();
     }
 
     const skills = document.querySelector('#skillGrid');
     if (skills) {
       skills.innerHTML = '';
-      (owner.skills || []).forEach((group) => skills.appendChild(this.skillNode(group)));
+      (owner.skills || []).forEach((group, index) => skills.appendChild(this.skillNode(group, index)));
     }
   }
 
-  skillNode(group) {
+  skillNode(group, index) {
     const card = document.createElement('article');
-    card.className = 'rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-5';
+    card.className = 'skill-panel reveal';
 
     const items = (group.items || [])
-      .map((item) => `
-        <li class="flex gap-3">
-          <i class="fas fa-check mt-1 text-xs text-teal-700 dark:text-teal-300"></i>
-          <span>${this.escapeHTML(item)}</span>
-        </li>
-      `)
+      .map((item) => `<li>${this.escapeHTML(item)}</li>`)
       .join('');
 
     card.innerHTML = `
-      <div class="h-11 w-11 rounded-lg bg-teal-700 text-white inline-flex items-center justify-center mb-4">
-        <i class="fas ${this.escapeHTML(group.icon || 'fa-gear')}"></i>
+      <div class="skill-head">
+        <span class="skill-icon"><i class="fas ${this.escapeHTML(group.icon || 'fa-gear')}"></i></span>
+        <div>
+          <h3>${this.escapeHTML(group.group || '')}</h3>
+          <span class="sys mono">SYS-${String(index + 1).padStart(2, '0')} · ONLINE</span>
+        </div>
       </div>
-      <h3 class="text-lg font-extrabold mb-4">${this.escapeHTML(group.group || '')}</h3>
-      <ul class="space-y-3 text-sm leading-6 text-slate-700 dark:text-slate-300">${items}</ul>
+      <ul>${items}</ul>
     `;
 
     return card;
   }
 
-  setupThemeToggle() {
-    const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.classList.toggle('dark', saved ? saved === 'dark' : prefersDark);
+  /* ---------- typing effect ---------- */
 
-    const toggle = () => {
-      document.documentElement.classList.toggle('dark');
-      const isDark = document.documentElement.classList.contains('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  startTyping() {
+    const el = document.querySelector('#typedRole');
+    if (!el) return;
+
+    const roles = [
+      this.owner.title || 'Aerospace Engineer | GNC & ADCS',
+      'State Estimation · EKF / TRIAD',
+      'Hardware-in-the-Loop Testing',
+      'Embedded Systems · C++ / Python'
+    ];
+
+    if (this.reducedMotion) {
+      el.textContent = roles[0];
+      return;
+    }
+
+    let roleIdx = 0;
+    let charIdx = 0;
+    let deleting = false;
+
+    const tick = () => {
+      const role = roles[roleIdx];
+      if (!deleting) {
+        charIdx += 1;
+        el.textContent = role.slice(0, charIdx);
+        if (charIdx === role.length) {
+          deleting = true;
+          setTimeout(tick, 2300);
+          return;
+        }
+        setTimeout(tick, 46);
+      } else {
+        charIdx -= 1;
+        el.textContent = role.slice(0, charIdx);
+        if (charIdx === 0) {
+          deleting = false;
+          roleIdx = (roleIdx + 1) % roles.length;
+          setTimeout(tick, 350);
+          return;
+        }
+        setTimeout(tick, 22);
+      }
     };
 
-    document.querySelector('#theme-toggle')?.addEventListener('click', toggle);
-    document.querySelector('#theme-toggle-mobile')?.addEventListener('click', toggle);
+    tick();
   }
+
+  /* ---------- animated counters ---------- */
+
+  setupCounters() {
+    const values = document.querySelectorAll('.stat-value');
+    if (!values.length) return;
+
+    if (this.reducedMotion || !('IntersectionObserver' in window)) return;
+
+    const animate = (el) => {
+      const target = el.dataset.target || '';
+      const match = target.match(/(\d+(?:\.\d+)?)/);
+      if (!match) return;
+      const num = parseFloat(match[1]);
+      const prefix = target.slice(0, match.index);
+      const suffix = target.slice(match.index + match[1].length);
+      const decimals = (match[1].split('.')[1] || '').length;
+      const duration = 1400;
+      const start = performance.now();
+
+      const frame = (now) => {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = `${prefix}${(num * eased).toFixed(decimals)}${suffix}`;
+        if (t < 1) requestAnimationFrame(frame);
+        else el.textContent = target;
+      };
+
+      requestAnimationFrame(frame);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animate(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+
+    values.forEach((el) => observer.observe(el));
+  }
+
+  /* ---------- telemetry ticker ---------- */
+
+  buildTicker() {
+    const track = document.querySelector('#tickerTrack');
+    if (!track) return;
+
+    const readouts = (this.owner.stats || []).map(
+      (stat) => `${this.escapeHTML(stat.label.toUpperCase())}: <b>${this.escapeHTML(stat.value)}</b>`
+    );
+    const extras = [
+      'EKF: <b>CONVERGED</b>',
+      'MODE: <b>FINE POINTING</b>',
+      'LINK: <b>10 Hz UDP</b>',
+      'WHEELS: <b>NOMINAL</b>',
+      'MAG: <b>CALIBRATED</b>',
+      'STATUS: <b>OPEN TO WORK</b>'
+    ];
+
+    const sequence = [...readouts, ...extras].join('<span class="sep">//</span>');
+    track.innerHTML = `${sequence}<span class="sep">//</span>${sequence}<span class="sep">//</span>`;
+  }
+
+  /* ---------- starfield ---------- */
+
+  startStarfield() {
+    const canvas = document.querySelector('#starfield');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let stars = [];
+    let meteor = null;
+    let width = 0;
+    let height = 0;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    const resize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const count = Math.min(170, Math.floor((width * height) / 9000));
+      stars = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 1.2 + 0.3,
+        base: Math.random() * 0.55 + 0.2,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.9 + 0.35
+      }));
+    };
+
+    const drawStatic = () => {
+      ctx.clearRect(0, 0, width, height);
+      stars.forEach((star) => {
+        ctx.globalAlpha = star.base;
+        ctx.fillStyle = '#cfe3ff';
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+    };
+
+    resize();
+    window.addEventListener('resize', () => {
+      resize();
+      if (this.reducedMotion) drawStatic();
+    });
+
+    if (this.reducedMotion) {
+      drawStatic();
+      return;
+    }
+
+    let last = 0;
+    const loop = (now) => {
+      requestAnimationFrame(loop);
+      if (document.hidden) return;
+      if (now - last < 1000 / 30) return;
+      last = now;
+
+      ctx.clearRect(0, 0, width, height);
+      const t = now / 1000;
+
+      stars.forEach((star) => {
+        const alpha = star.base * (0.6 + 0.4 * Math.sin(t * star.speed + star.phase));
+        ctx.globalAlpha = Math.max(alpha, 0.08);
+        ctx.fillStyle = '#cfe3ff';
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      if (!meteor && Math.random() < 0.004) {
+        meteor = {
+          x: Math.random() * width * 0.7 + width * 0.2,
+          y: Math.random() * height * 0.3,
+          vx: -(Math.random() * 6 + 5),
+          vy: Math.random() * 3 + 2.4,
+          life: 1
+        };
+      }
+
+      if (meteor) {
+        meteor.x += meteor.vx;
+        meteor.y += meteor.vy;
+        meteor.life -= 0.018;
+        if (meteor.life <= 0) {
+          meteor = null;
+        } else {
+          const gradient = ctx.createLinearGradient(
+            meteor.x, meteor.y,
+            meteor.x - meteor.vx * 9, meteor.y - meteor.vy * 9
+          );
+          gradient.addColorStop(0, `rgba(118, 255, 231, ${0.85 * meteor.life})`);
+          gradient.addColorStop(1, 'rgba(118, 255, 231, 0)');
+          ctx.globalAlpha = 1;
+          ctx.strokeStyle = gradient;
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(meteor.x, meteor.y);
+          ctx.lineTo(meteor.x - meteor.vx * 9, meteor.y - meteor.vy * 9);
+          ctx.stroke();
+        }
+      }
+
+      ctx.globalAlpha = 1;
+    };
+
+    requestAnimationFrame(loop);
+  }
+
+  /* ---------- scroll progress ---------- */
+
+  setupScrollProgress() {
+    const bar = document.querySelector('#scroll-progress');
+    if (!bar) return;
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+      bar.style.width = `${pct}%`;
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+
+  /* ---------- nav / menu ---------- */
 
   setupMobileMenu() {
     const btn = document.querySelector('#mobile-menu-button');
@@ -168,17 +404,17 @@ class PortfolioApp {
         const target = document.querySelector(id);
         if (!target) return;
         event.preventDefault();
-        const top = target.getBoundingClientRect().top + window.scrollY - 76;
-        window.scrollTo({ top, behavior: 'smooth' });
+        const top = target.getBoundingClientRect().top + window.scrollY - 72;
+        window.scrollTo({ top, behavior: this.reducedMotion ? 'auto' : 'smooth' });
       });
     });
 
-    const sections = [...document.querySelectorAll('section[id]')];
+    const sections = [...document.querySelectorAll('section[id], header[id]')];
     const links = [...document.querySelectorAll('.nav-link')];
     const updateActive = () => {
       let current = '';
       sections.forEach((section) => {
-        const top = section.getBoundingClientRect().top + window.scrollY - 120;
+        const top = section.getBoundingClientRect().top + window.scrollY - 130;
         if (window.scrollY >= top) current = section.id;
       });
       links.forEach((link) => {
@@ -190,9 +426,11 @@ class PortfolioApp {
     updateActive();
   }
 
+  /* ---------- reveal ---------- */
+
   setupReveal() {
-    const items = document.querySelectorAll('.fade-in');
-    if (!items.length || !('IntersectionObserver' in window)) {
+    const items = document.querySelectorAll('.reveal');
+    if (!items.length || !('IntersectionObserver' in window) || this.reducedMotion) {
       items.forEach((item) => item.classList.add('visible'));
       return;
     }
@@ -204,16 +442,18 @@ class PortfolioApp {
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.1 });
 
     items.forEach((item) => observer.observe(item));
   }
+
+  /* ---------- search + filters ---------- */
 
   setupSearchAndFilters() {
     const bar = document.querySelector('#tagBar');
     if (bar) {
       bar.innerHTML = '';
-      bar.appendChild(this.filterButton('All', null));
+      bar.appendChild(this.filterButton('ALL', null));
       [...this.tags].sort((a, b) => a.localeCompare(b)).forEach((tag) => {
         bar.appendChild(this.filterButton(tag, tag));
       });
@@ -228,33 +468,24 @@ class PortfolioApp {
   filterButton(label, tag) {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'filter-tag px-4 py-2 rounded-lg text-sm font-bold transition';
+    btn.className = 'filter-tag';
     btn.textContent = label;
+    btn.dataset.tag = tag ?? '';
     btn.addEventListener('click', () => {
       this.activeTag = tag;
       this.renderProjects();
-      this.markActiveTag();
     });
     return btn;
   }
 
   markActiveTag() {
     document.querySelectorAll('.filter-tag').forEach((btn) => {
-      const isActive = (btn.textContent === 'All' && this.activeTag === null) || btn.textContent === this.activeTag;
+      const isActive = (this.activeTag === null && btn.dataset.tag === '') || btn.dataset.tag === this.activeTag;
       btn.classList.toggle('active', isActive);
     });
   }
 
-  renderFeatured() {
-    const box = document.querySelector('#featured');
-    if (!box) return;
-
-    box.innerHTML = '';
-    this.projects
-      .filter((project) => project.featured)
-      .slice(0, 3)
-      .forEach((project) => box.appendChild(this.cardNode(project)));
-  }
+  /* ---------- projects ---------- */
 
   renderProjects() {
     const grid = document.querySelector('#projects-grid');
@@ -284,74 +515,91 @@ class PortfolioApp {
   }
 
   cardNode(project) {
-    const template = document.querySelector('#projectCardTmpl');
-    const node = template?.content ? template.content.cloneNode(true) : document.createDocumentFragment();
-    const root = node.querySelector?.('.project-card') || this.fallbackCardShell();
+    const index = this.projects.indexOf(project);
+    const missionNo = `M-${String(index + 1).padStart(2, '0')}`;
 
-    const title = root.querySelector('.card-title');
-    const sub = root.querySelector('.card-sub');
-    const summary = root.querySelector('.card-summary');
-    const metrics = root.querySelector('.metrics');
-    const tags = root.querySelector('.tag-row');
-    const links = root.querySelector('.links');
-    const badge = root.querySelector('.featured-badge');
-    const media = root.querySelector('.project-media');
+    const card = document.createElement('article');
+    card.className = 'mission-card';
 
-    if (title) title.textContent = project.title || 'Project';
-    if (sub) sub.textContent = [project.role, project.dates].filter(Boolean).join(' | ');
-    if (summary) summary.textContent = project.summary || '';
-    badge?.classList.toggle('hidden', !project.featured);
-
+    const media = document.createElement('div');
+    media.className = 'mission-media';
     this.renderMedia(media, project);
 
-    if (metrics) {
-      metrics.innerHTML = '';
-      (project.metrics || []).slice(0, 3).forEach((metric) => {
-        const li = document.createElement('li');
-        li.className = 'flex gap-3';
-        li.innerHTML = `<i class="fas fa-circle-check mt-1 text-xs text-teal-700 dark:text-teal-300"></i><span>${this.escapeHTML(metric)}</span>`;
-        metrics.appendChild(li);
-      });
+    const scan = document.createElement('div');
+    scan.className = 'scan';
+    media.appendChild(scan);
+
+    const number = document.createElement('span');
+    number.className = 'mission-no';
+    number.textContent = missionNo;
+    media.appendChild(number);
+
+    if (project.featured) {
+      const chip = document.createElement('span');
+      chip.className = 'featured-chip';
+      chip.textContent = 'FEATURED';
+      media.appendChild(chip);
     }
 
-    if (tags) {
-      tags.innerHTML = '';
-      (project.tags || []).forEach((tag) => {
-        const pill = document.createElement('span');
-        pill.className = 'tag px-2.5 py-1 rounded-lg text-xs font-bold';
-        pill.textContent = tag;
-        tags.appendChild(pill);
-      });
+    const body = document.createElement('div');
+    body.className = 'mission-body';
+
+    const sub = document.createElement('p');
+    sub.className = 'mission-sub';
+    sub.textContent = [project.role, project.dates].filter(Boolean).join(' · ');
+
+    const title = document.createElement('h3');
+    title.textContent = project.title || 'Project';
+
+    const summary = document.createElement('p');
+    summary.className = 'mission-summary';
+    summary.textContent = project.summary || '';
+
+    const metrics = document.createElement('ul');
+    metrics.className = 'mission-metrics';
+    (project.metrics || []).slice(0, 3).forEach((metric) => {
+      const li = document.createElement('li');
+      li.textContent = metric;
+      metrics.appendChild(li);
+    });
+
+    const tags = document.createElement('div');
+    tags.className = 'mission-tags';
+    (project.tags || []).forEach((tag) => {
+      const pill = document.createElement('span');
+      pill.className = 'tag';
+      pill.textContent = tag;
+      tags.appendChild(pill);
+    });
+
+    body.append(sub, title, summary, metrics, tags);
+
+    if (project.slug) {
+      const link = document.createElement('a');
+      link.className = 'card-link';
+      link.href = `./project.html?slug=${encodeURIComponent(project.slug)}`;
+      link.innerHTML = 'OPEN CASE STUDY <i class="fas fa-arrow-right"></i>';
+      body.appendChild(link);
     }
 
-    if (links && project.slug) {
-      links.innerHTML = '';
-      const anchor = document.createElement('a');
-      anchor.href = `./project.html?slug=${encodeURIComponent(project.slug)}`;
-      anchor.className = 'btn-primary px-4 py-2.5 rounded-lg text-sm font-bold inline-flex items-center justify-center';
-      anchor.innerHTML = '<i class="fas fa-arrow-up-right-from-square mr-2"></i>Read case study';
-      links.appendChild(anchor);
-    }
-
-    return template?.content ? node : root;
+    card.append(media, body);
+    return card;
   }
 
   renderMedia(media, project) {
-    if (!media) return;
-    media.innerHTML = '';
     const src = this.normalizeImage(project.heroImage);
 
     const fallback = () => {
-      media.innerHTML = '';
+      media.querySelector('img')?.remove();
       const icon = project.visual?.icon || 'fa-satellite';
       const label = project.visual?.label || project.title || 'Project';
       const wrap = document.createElement('div');
-      wrap.className = 'project-visual h-full w-full flex flex-col items-center justify-center text-white text-center p-6';
+      wrap.className = 'mission-visual';
       wrap.innerHTML = `
-        <i class="fas ${this.escapeHTML(icon)} text-4xl mb-4"></i>
-        <span class="text-sm font-extrabold uppercase tracking-[0.16em]">${this.escapeHTML(label)}</span>
+        <i class="fas ${this.escapeHTML(icon)}"></i>
+        <span>${this.escapeHTML(label)}</span>
       `;
-      media.appendChild(wrap);
+      media.prepend(wrap);
     };
 
     if (!src) {
@@ -364,27 +612,11 @@ class PortfolioApp {
     img.alt = project.title || 'Project image';
     img.loading = 'lazy';
     img.decoding = 'async';
-    img.className = 'w-full h-full object-cover';
     img.onerror = fallback;
-    media.appendChild(img);
+    media.prepend(img);
   }
 
-  fallbackCardShell() {
-    const article = document.createElement('article');
-    article.className = 'project-card bg-white dark:bg-slate-950 rounded-lg overflow-hidden flex flex-col';
-    article.innerHTML = `
-      <div class="project-media h-52 overflow-hidden bg-slate-200 dark:bg-slate-800"></div>
-      <div class="p-5 flex flex-col flex-1">
-        <h3 class="text-xl font-extrabold card-title"></h3>
-        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 card-sub"></p>
-        <p class="text-sm leading-6 text-slate-700 dark:text-slate-300 my-4 card-summary"></p>
-        <ul class="metrics space-y-2 text-sm text-slate-600 dark:text-slate-400 mb-4"></ul>
-        <div class="flex flex-wrap gap-2 mb-5 tag-row"></div>
-        <div class="mt-auto links"></div>
-      </div>
-    `;
-    return article;
-  }
+  /* ---------- resume ---------- */
 
   async setupResumeViewer() {
     const box = document.querySelector('#resumeEmbed');
@@ -399,18 +631,18 @@ class PortfolioApp {
       iframe.src = `${url}#view=FitH`;
       iframe.title = 'Resume PDF';
       iframe.loading = 'lazy';
-      iframe.className = 'w-full h-[680px] border-0';
       box.appendChild(iframe);
     } catch (error) {
       box.innerHTML = `
-        <div class="min-h-[360px] flex flex-col items-center justify-center text-center p-8 text-slate-500 dark:text-slate-400">
-          <i class="fas fa-file-pdf text-5xl mb-4"></i>
-          <p class="font-semibold">Resume preview is unavailable.</p>
-          <p class="text-sm mt-2">Use the download link below.</p>
+        <div class="pdf-placeholder">
+          <i class="fas fa-file-pdf"></i>
+          <p>// PREVIEW UNAVAILABLE — USE DOWNLOAD LINK BELOW</p>
         </div>
       `;
     }
   }
+
+  /* ---------- utils ---------- */
 
   normalizeImage(path) {
     if (!path) return '';
@@ -431,7 +663,7 @@ class PortfolioApp {
   }
 
   consoleHello() {
-    console.log('Portfolio ready');
+    console.log('%c// MISSION CONTROL ONLINE — portfolio v3.0', 'color:#3ce8cf;font-family:monospace;');
   }
 }
 
