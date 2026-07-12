@@ -69,10 +69,3 @@ The study supported a sensor suite combining fine sun sensors, coarse sun sensor
 Safety and risk analysis is not a side task added at the end; it forces subsystem design decisions. The SEP radiation risk influenced C&DH component selection, the launch-delay risk constrained the ConOps timeline, and debris mitigation shaped end-of-life operations.
 
 The rights-holder mapping was more useful than expected. It separated hard constraints from nice-to-have preferences, which helped prevent scope creep during Phase B design.
-
-## Gallery
-
-![Icarus launch and gravity assist concept](images/projects/icarus-launch-gravity-assist.png)
-![Icarus science satellite transit concept](images/projects/icarus-science-transit.png)
-![Icarus relay satellite transit concept](images/projects/icarus-relay-transit.png)
-![Icarus mission data flow diagram](images/projects/icarus-data-flow.png)

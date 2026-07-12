@@ -168,11 +168,3 @@ High-drag regions identified at front shell edges and near the rear propeller - 
 - **Power supply** - Switch to lithium-ion batteries for higher energy density in cold, low-pressure conditions
 
 ---
-
-## Gallery
-
-![Hovercraft](images/hovercraft_hero.png)
-![Dimensions and layout](images/hovercraft_dims.png)
-![Internal CFD](images/hovercraft_internal_cfd.png)
-![External CFD](images/hovercraft_external_cfd.png)
-![Course diagram](images/hovercraft_course.png)
