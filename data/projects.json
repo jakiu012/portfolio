@@ -14,7 +14,7 @@
       "I'm an aerospace engineer from the University of Michigan (B.S.E., May 2026, University Honors) focused on guidance, navigation, and control. I like taking a system from first-principles modeling through hardware integration to test data that closes the loop.",
       "My flagship project was leading ADCS development on a 1U CubeSat imaging testbed. I designed an Extended Kalman Filter fusing gyroscope and magnetometer data, built a 5-state attitude controller driving a reaction wheel and magnetorquers, and developed a Python/Plotly Dash ground station streaming telemetry at 10 Hz over UDP. We demonstrated detumble from 1 rev/s to spin stoppage in under 50 seconds on a Helmholtz coil HIL testbed.",
       "I also served as Safety, Policy, and Risk Lead on the Icarus heliophysics mission, a dual-spacecraft concept that completed NASA Phase B Preliminary Design Review. I built a 32-risk register, mapped 12 rights-holders, and ensured compliance across NPR 8715.6, ITAR/DDTC, and FCC/ITU for deep-space X/Ka-band communications.",
-      "On the MASA Limelight hybrid rocket team, I integrate avionics subsystems targeting 30,000 ft apogee, contributing to cold-flow tests, E-Box sensor checkout, and hardware-in-the-loop infrastructure for sensor and pyro telemetry verification.",
+      "On MASA's Limelight program - a student-built liquid bipropellant rocket flying liquid oxygen - I work on the avionics subteam: thermocouple firmware, full-stack cryogenic cold-flow test operations, E-Box sensor checkout, REDS valve debugging, and hardware-in-the-loop infrastructure for sensor and pyro telemetry verification.",
       "I'm happiest where controls meets hardware: sensors on the bench, scripts on the laptop, and a clear test plan to verify that the math and the metal agree."
     ],
     "stats": [
@@ -31,8 +31,8 @@
         "value": "32"
       },
       {
-        "label": "Rocket target apogee",
-        "value": "30k ft"
+        "label": "Limelight launch campaign",
+        "value": "2026"
       }
     ],
     "skills": [
@@ -107,11 +107,29 @@
         "Final spacecraft mass: 0.95 kg against a 1U-class target",
         "System cost: about $3,000 against a $6,000 cap"
       ],
+      "gallery": [
+        { "src": "images/projects/cubesat-integrated-bus.jpg", "caption": "Integrated 1U spacecraft bus with onboard cameras" },
+        { "src": "images/projects/cubesat-helmholtz-coil.jpg", "caption": "Helmholtz coil testbed - 168 uT uniform field" },
+        { "src": "images/projects/cubesat-starfield-test.jpg", "caption": "Long-exposure view of the artificial starfield used for star tracker testing" },
+        { "src": "images/projects/cubesat-star-tracker-analysis.jpg", "caption": "Star tracker diagnostic - centroiding and pattern matching" },
+        { "src": "images/projects/cubesat-ekf-angle-estimation.jpg", "caption": "EKF attitude estimate converging on truth" },
+        { "src": "images/projects/cubesat-ekf-rate-estimation.jpg", "caption": "EKF angular-rate estimate vs. truth" },
+        { "src": "images/projects/cubesat-detumble-telemetry.jpg", "caption": "Detumble run - state mode, wheel command, and body rate" },
+        { "src": "images/projects/cubesat-ground-station.jpg", "caption": "Plotly Dash ground station streaming 10 Hz telemetry" },
+        { "src": "images/projects/cubesat-comms-demo.jpg", "caption": "End-to-end comms demo - validated packets with synchronized IMU and EKF data" },
+        { "src": "images/projects/cubesat-reaction-wheel-cad.jpg", "caption": "Reaction wheel and camera mount CAD" }
+      ],
       "links": [],
-      "accent": "#5cc8d7",
-      "tableStyle": "boxed",
-      "video": "",
-      "videoCaption": "DEMO // detumble, pointing, and desaturation on the HIL testbed"
+      "videos": [
+        {
+          "src": "videos/adcs_demo_1.mp4",
+          "caption": "DEMO 1 // CubeSat ADCS hardware-in-the-loop"
+        },
+        {
+          "src": "videos/adcs_demo_2.mp4",
+          "caption": "DEMO 2 // CubeSat ADCS hardware-in-the-loop"
+        }
+      ]
     },
     {
       "title": "Icarus Heliophysics Mission",
@@ -140,12 +158,21 @@
         "12 rights-holders mapped on an impact-power grid",
         "$400M FY2026 mission budget target through 2049 operations"
       ],
-      "links": [],
-      "accent": "#e8a849",
-      "tableStyle": "striped"
+      "gallery": [
+        { "src": "images/projects/icarus-mission-patch.jpg", "caption": "Icarus mission patch" },
+        { "src": "images/projects/icarus-launch-gravity-assist.png", "caption": "Phase 1 - launch and gravity assist" },
+        { "src": "images/projects/icarus-science-transit.png", "caption": "Phase 2 - ScienceSat transit to Sun-Mars L1" },
+        { "src": "images/projects/icarus-relay-transit.png", "caption": "Phase 3 - RelaySat transit to heliocentric orbit" },
+        { "src": "images/projects/icarus-trajectory-plot.jpg", "caption": "Heliocentric low-thrust trajectory with burn and coast phases" },
+        { "src": "images/projects/icarus-science-sat-diagram.jpg", "caption": "ScienceSat configuration and components" },
+        { "src": "images/projects/icarus-relay-sat-diagram.jpg", "caption": "RelaySat configuration and components" },
+        { "src": "images/projects/icarus-power-thrust.jpg", "caption": "Power allocation and total thrust over the transfer" },
+        { "src": "images/projects/icarus-data-flow.png", "caption": "Mission data flow between ScienceSat, RelaySat, and Earth" }
+      ],
+      "links": []
     },
     {
-      "title": "MASA Limelight Hybrid Rocket",
+      "title": "MASA Limelight Liquid Rocket",
       "slug": "masa-limelight",
       "role": "Avionics Subteam Member",
       "dates": "Aug 2025 - Present",
@@ -155,25 +182,31 @@
         "Avionics",
         "C++",
         "HIL",
-        "Propulsion Testing",
+        "Cryogenic Testing",
         "Rocketry"
       ],
       "heroImage": "images/projects/masa-hero.jpg",
       "featured": true,
       "visual": {
         "icon": "fa-rocket",
-        "label": "30,000 ft"
+        "label": "LOx / 2026"
       },
-      "summary": "Integrating avionics for a hybrid rocket targeting 30,000 ft apogee. Writing thermocouple firmware in C++, executing cold-flow tests, checking out E-Box sensors, and building HIL infrastructure for sensor and pyro telemetry verification.",
+      "summary": "Avionics for Limelight, MASA's liquid bipropellant rocket (LOx oxidizer) built to launch in 2026 under FAA Advanced High Power Rocketry clearance. Thermocouple firmware, weekly full-stack cryogenic cold-flow operations, E-Box sensor checkout, REDS valve debugging, and HIL infrastructure for sensor and pyro telemetry verification.",
       "metrics": [
-        "Hybrid rocket target apogee: 30,000 ft",
-        "Thermocouple firmware in C++",
-        "Cold-flow and E-Box sensor checkout support",
-        "HIL infrastructure for sensor and pyro telemetry"
+        "Liquid bipropellant vehicle flying liquid oxygen with COPV pressurization",
+        "Flight Readiness Review submitted to the FAA for Advanced High Power clearance",
+        "Weekly full-stack cryogenic coldflow campaign, Jan-Apr 2026",
+        "HIL emulation of thermocouple, pressure transducer, and pyro channels"
       ],
-      "links": [],
-      "accent": "#ef7d5d",
-      "tableStyle": "ruled"
+      "gallery": [
+        { "src": "images/projects/masa-limelight-patch.jpg", "caption": "Limelight mission patch - Tangerine Space Program" },
+        { "src": "images/projects/masa-coldflow-night.jpg", "caption": "Night coldflow operations - oxidizer venting during a full-stack test" },
+        { "src": "images/projects/masa-coldflow-stand.jpg", "caption": "Vertical test stand venting during a cold-flow run" },
+        { "src": "images/projects/masa-test-site.jpg", "caption": "Test site during the 2026 coldflow campaign" },
+        { "src": "images/projects/masa-bay-board.jpg", "caption": "Avionics bay board hardware" },
+        { "src": "images/projects/masa-flight-telemetry.jpg", "caption": "Altitude-vs-time flight telemetry with event timestamps" }
+      ],
+      "links": []
     },
     {
       "title": "Wind-Powered Generator",
@@ -201,9 +234,21 @@
         "Tip-speed ratio: average 2.5, maximum 7.2",
         "Total build cost: $110"
       ],
+      "gallery": [
+        { "src": "images/wind_hero.png", "caption": "Assembled turbine - hub, blades, fin, and base" },
+        { "src": "images/projects/wind-rooftop-deployment.jpg", "caption": "Rooftop deployment at the Climate and Space Research Building" },
+        { "src": "images/wind_dims.png", "caption": "Drivetrain - stepper motor, bearing, and trapdoor nacelle" },
+        { "src": "images/wind_testing.png", "caption": "Blade frame geometry - 120 deg spacing with plastic wrap surfaces" },
+        { "src": "images/projects/wind-savonius-cad.jpg", "caption": "Savonius alternative concept evaluated in the design trade" },
+        { "src": "images/projects/wind-voltage-fit.jpg", "caption": "Voltage-frequency curve fit from instrumented rooftop testing" }
+      ],
       "links": [],
-      "accent": "#7ec98f",
-      "tableStyle": "minimal"
+      "videos": [
+        {
+          "src": "videos/wind_turbine_demo.mp4",
+          "caption": "DEMO // wind turbine test run"
+        }
+      ]
     },
     {
       "title": "Titan Surface Air Puck",
@@ -232,9 +277,14 @@
         "Best crossing time: 6.68 s",
         "Maximum payload delivered: 80 g"
       ],
-      "links": [],
-      "accent": "#a98ff0",
-      "tableStyle": "striped"
+      "gallery": [
+        { "src": "images/airpuck_hero.png", "caption": "269 g hexagonal prototype with Arduino, motor controller, and propeller" },
+        { "src": "images/airpuck_solidmodel.png", "caption": "CATIA solid model with annotated dimensions" },
+        { "src": "images/airpuck_cfd.png", "caption": "STAR-CCM+ pressure field - 1.41 N lift at 1.51 W" },
+        { "src": "images/projects/airpuck-shape-tradestudy.jpg", "caption": "Lift-vs-power shape trade study - hexagon outperforms circle, square, and triangle" },
+        { "src": "images/airpuck_testing.png", "caption": "Payload testing data across trials" }
+      ],
+      "links": []
     },
     {
       "title": "Hovercraft Prototype & Competition",
@@ -263,9 +313,16 @@
         "Straight-path course time: ~18 s",
         "Mass retrieval: best run carried 36 payloads"
       ],
-      "links": [],
-      "accent": "#6aa9f0",
-      "tableStyle": "boxed"
+      "gallery": [
+        { "src": "images/hovercraft_hero.png", "caption": "Annotated internal layout - motors, batteries, Arduino, and skirt" },
+        { "src": "images/hovercraft_dims.png", "caption": "Servo-swiveled vertical motor mount for vectored thrust steering" },
+        { "src": "images/projects/hovercraft-electronics.jpg", "caption": "Control electronics and wiring harness" },
+        { "src": "images/projects/hovercraft-skirt.jpg", "caption": "Canvas skirt with hole-punched perimeter plate" },
+        { "src": "images/hovercraft_internal_cfd.png", "caption": "Internal flow CFD - plenum pressure inflating the skirt" },
+        { "src": "images/hovercraft_external_cfd.png", "caption": "External flow CFD - drag coefficient 1.09 at 10 m/s" },
+        { "src": "images/hovercraft_course.png", "caption": "Milano-shaped shell design with inlet and payload placement" }
+      ],
+      "links": []
     }
   ]
 }

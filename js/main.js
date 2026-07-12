@@ -15,7 +15,6 @@ class PortfolioApp {
   async init() {
     this.startStarfield();
     this.setupScrollProgress();
-    this.setupParallax();
     await this.loadData();
     this.renderOwner();
     this.setupMobileMenu();
@@ -23,8 +22,6 @@ class PortfolioApp {
     this.setupSearchAndFilters();
     this.setupResumeViewer();
     this.renderProjects();
-    this.buildTicker();
-    this.startTyping();
     this.setupReveal();
     this.consoleHello();
   }
@@ -65,9 +62,10 @@ class PortfolioApp {
 
     setText('#brandName', owner.name);
     setText('#heroName', owner.name);
+    setText('#heroRole', owner.title);
     setText('#uniLine', owner.affiliation || owner.university);
     setText('#heroTagline', owner.tagline);
-    if (owner.name) setText('#footerName', owner.name);
+    if (owner.name) setText('#footerName', owner.name.toUpperCase());
     setAttr('#avatar', 'src', this.normalizeImage(owner.photo));
 
     const year = document.querySelector('#year');
@@ -136,55 +134,6 @@ class PortfolioApp {
     return card;
   }
 
-  /* ---------- typing effect ---------- */
-
-  startTyping() {
-    const el = document.querySelector('#typedRole');
-    if (!el) return;
-
-    const roles = [
-      this.owner.title || 'Aerospace Engineer | GNC & ADCS',
-      'State Estimation · EKF / TRIAD',
-      'Hardware-in-the-Loop Testing',
-      'Embedded Systems · C++ / Python'
-    ];
-
-    if (this.reducedMotion) {
-      el.textContent = roles[0];
-      return;
-    }
-
-    let roleIdx = 0;
-    let charIdx = 0;
-    let deleting = false;
-
-    const tick = () => {
-      const role = roles[roleIdx];
-      if (!deleting) {
-        charIdx += 1;
-        el.textContent = role.slice(0, charIdx);
-        if (charIdx === role.length) {
-          deleting = true;
-          setTimeout(tick, 2300);
-          return;
-        }
-        setTimeout(tick, 46);
-      } else {
-        charIdx -= 1;
-        el.textContent = role.slice(0, charIdx);
-        if (charIdx === 0) {
-          deleting = false;
-          roleIdx = (roleIdx + 1) % roles.length;
-          setTimeout(tick, 350);
-          return;
-        }
-        setTimeout(tick, 22);
-      }
-    };
-
-    tick();
-  }
-
   /* ---------- animated counters ---------- */
 
   setupCounters() {
@@ -227,26 +176,6 @@ class PortfolioApp {
     values.forEach((el) => observer.observe(el));
   }
 
-  /* ---------- telemetry ticker ---------- */
-
-  buildTicker() {
-    const track = document.querySelector('#tickerTrack');
-    if (!track) return;
-
-    const readouts = (this.owner.stats || []).map(
-      (stat) => `${this.escapeHTML(stat.label.toUpperCase())}: <b>${this.escapeHTML(stat.value)}</b>`
-    );
-    const extras = [
-      'EST: <b>EKF / TRIAD</b>',
-      'ACT: <b>RWA + MTQ</b>',
-      'LINK: <b>10 Hz UDP</b>',
-      'STATUS: <b>OPEN TO WORK</b>'
-    ];
-
-    const sequence = [...readouts, ...extras].join('<span class="sep">//</span>');
-    track.innerHTML = `${sequence}<span class="sep">//</span>${sequence}<span class="sep">//</span>`;
-  }
-
   /* ---------- starfield ---------- */
 
   startStarfield() {
@@ -267,7 +196,7 @@ class PortfolioApp {
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.min(170, Math.floor((width * height) / 9000));
+      const count = Math.min(110, Math.floor((width * height) / 15000));
       stars = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -341,8 +270,8 @@ class PortfolioApp {
             meteor.x, meteor.y,
             meteor.x - meteor.vx * 9, meteor.y - meteor.vy * 9
           );
-          gradient.addColorStop(0, `rgba(118, 255, 231, ${0.85 * meteor.life})`);
-          gradient.addColorStop(1, 'rgba(118, 255, 231, 0)');
+          gradient.addColorStop(0, `rgba(82, 224, 196, ${0.7 * meteor.life})`);
+          gradient.addColorStop(1, 'rgba(82, 224, 196, 0)');
           ctx.globalAlpha = 1;
           ctx.strokeStyle = gradient;
           ctx.lineWidth = 1.6;
@@ -370,33 +299,6 @@ class PortfolioApp {
       bar.style.width = `${pct}%`;
     };
     window.addEventListener('scroll', update, { passive: true });
-    update();
-  }
-
-  /* ---------- parallax decorations ---------- */
-
-  setupParallax() {
-    const decos = [...document.querySelectorAll('.deco')];
-    if (!decos.length || this.reducedMotion) return;
-
-    let ticking = false;
-    const update = () => {
-      ticking = false;
-      const vh = window.innerHeight;
-      decos.forEach((el) => {
-        const speed = parseFloat(el.dataset.speed || '0.08');
-        const rect = el.parentElement.getBoundingClientRect();
-        const offset = (rect.top + rect.height / 2 - vh / 2) * speed;
-        el.style.transform = `translateY(${(-offset).toFixed(1)}px)`;
-      });
-    };
-
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    }, { passive: true });
     update();
   }
 
@@ -520,7 +422,12 @@ class PortfolioApp {
 
     const list = this.projects.filter((project) => this.matchesProject(project));
     grid.innerHTML = '';
-    list.forEach((project) => grid.appendChild(this.cardNode(project)));
+    const useWide = !this.activeTag && !this.q;
+    list.forEach((project, i) => {
+      const card = this.cardNode(project);
+      if (useWide && i === 0 && project.featured) card.classList.add('featured-wide');
+      grid.appendChild(card);
+    });
     empty?.classList.toggle('hidden', list.length > 0);
     this.markActiveTag();
   }
@@ -546,7 +453,6 @@ class PortfolioApp {
 
     const card = document.createElement('article');
     card.className = 'mission-card';
-    if (project.accent) card.style.setProperty('--pa', project.accent);
 
     const media = document.createElement('div');
     media.className = 'mission-media';
@@ -566,6 +472,14 @@ class PortfolioApp {
       chip.className = 'featured-chip';
       chip.textContent = 'FEATURED';
       media.appendChild(chip);
+    }
+
+    const mediaTotal = (project.gallery || []).length + (project.videos || []).length;
+    if (mediaTotal > 0) {
+      const count = document.createElement('span');
+      count.className = 'media-count';
+      count.innerHTML = `<i class="fas fa-camera"></i>${mediaTotal}`;
+      media.appendChild(count);
     }
 
     const body = document.createElement('div');
@@ -690,7 +604,7 @@ class PortfolioApp {
   }
 
   consoleHello() {
-    console.log('%c// MISSION CONTROL ONLINE — portfolio v3.1', 'color:#3ce8cf;font-family:monospace;');
+    console.log('%c// MISSION CONTROL ONLINE — portfolio v4.0', 'color:#52e0c4;font-family:monospace;');
   }
 }
 

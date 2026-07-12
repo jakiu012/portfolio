@@ -100,9 +100,3 @@ I derived Level-1 requirements from mission objectives, maintained the mission t
 The magnetometer hardware failure was the biggest lesson. A redundant sensor design still had a practical single point of failure during integration, so the magnetometer-fused EKF could only be validated in simulation. In a future iteration, I would bring up each sensor independently on a breakout board before PCB integration and schedule sensor integration testing earlier to leave margin for replacement hardware.
 
 The motor-controller resolution issue was caught analytically but too late to source a replacement. I would perform resolution analysis during actuator selection, not after integration, so the controller can be swapped while the design is still flexible.
-
-## Gallery
-
-![CubeSat hardware assembly](images/adcs_hardware.jpg)
-![Artificial starfield test setup](images/adcs_hero.jpg)
-![CubeSat scale view](images/adcs_scale.jpg)

@@ -59,10 +59,3 @@ Titan's higher atmospheric density would increase lift, but the heavier shell an
 This was my introduction to the CFD-to-hardware validation loop. The simulation predicted 1.41 N of lift, and the prototype successfully hovered and traversed the course.
 
 The payload results showed how quickly margin disappears near lift limits. The jump from 40 g at 7.13 s to 60 g at 15.78 s showed a nonlinear performance penalty as the system approached its limit.
-
-## Gallery
-
-![Air puck prototype](images/airpuck_hero.png)
-![STAR-CCM+ pressure plot](images/airpuck_cfd.png)
-![CATIA solid model](images/airpuck_solidmodel.png)
-![Air puck testing](images/airpuck_testing.png)

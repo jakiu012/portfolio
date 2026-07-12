@@ -54,10 +54,3 @@ Efficiency decreased inversely with wind speed. The average TSR of 2.5 was below
 This was my first full end-to-end instrumented performance test: measuring voltage and frequency under varying loads, computing efficiency and tip-speed ratio, and diagnosing where losses occurred.
 
 The gap between theoretical power and measured power was a useful reminder to instrument systems well enough to know where the energy is going.
-
-## Gallery
-
-![Wind turbine prototype](images/wind_hero.png)
-![Rooftop testing](images/wind_testing.png)
-![Efficiency and TSR plots](images/wind_plots.png)
-![Wind turbine dimensions](images/wind_dims.png)

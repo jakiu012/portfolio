@@ -10,11 +10,11 @@
     <meta property="og:description" content="Aerospace engineering project case study.">
     <meta property="og:image" content="images/fazle_headshot.jpg">
     <link rel="icon" type="image/png" href="images/icon-192.png">
-    <meta name="theme-color" content="#060a12">
+    <meta name="theme-color" content="#040810">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
@@ -26,7 +26,7 @@
     <nav class="nav">
       <div class="nav-inner">
         <a href="index.html#projects" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>Back to projects
+          <i class="fa-solid fa-arrow-left"></i>RETURN TO MISSION LOG
         </a>
         <a href="index.html" class="brand">
           <span class="brand-mark">FRZ</span>
@@ -56,14 +56,22 @@
         </nav>
         <div id="caseContent" class="prose"></div>
         <div id="comingSoon" class="coming-soon hidden">
-          Full write-up coming soon.
+          // CASE STUDY CONTENT NOT YET DECLASSIFIED
         </div>
+        <section id="gallerySection" class="gallery-section hidden" aria-label="Project gallery">
+          <div class="gallery-head">
+            <h2>Gallery</h2>
+            <span id="galleryCount" class="count mono"></span>
+            <span class="rule"></span>
+          </div>
+          <div id="galleryGrid" class="gallery-grid"></div>
+        </section>
       </article>
 
       <aside>
         <div class="sticky-side">
           <section class="side-panel">
-            <h2>Key metrics</h2>
+            <h2>Key Metrics</h2>
             <ul id="metrics"></ul>
           </section>
           <section class="side-panel">
@@ -77,9 +85,17 @@
     <footer>
       <div class="footer-inner">
         <span class="footer-status"><span class="status-dot"></span>ALL SYSTEMS NOMINAL</span>
-        <span class="footer-copy">© <span id="year"></span> Fazle Rabbi Zaki</span>
+        <span class="footer-copy">© <span id="year"></span> FAZLE RABBI ZAKI</span>
       </div>
     </footer>
+
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+      <button class="lb-close" aria-label="Close"><i class="fas fa-xmark"></i></button>
+      <button class="lb-prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+      <button class="lb-next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+      <img id="lightboxImg" alt="">
+      <p id="lightboxCap" class="lb-cap mono"></p>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
