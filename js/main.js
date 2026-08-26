@@ -1,4 +1,4 @@
-/* Mission Control portfolio — main.js */
+/* Fazle Rabbi Zaki — portfolio */
 
 class PortfolioApp {
   constructor() {
@@ -13,7 +13,6 @@ class PortfolioApp {
   }
 
   async init() {
-    this.startStarfield();
     this.setupScrollProgress();
     await this.loadData();
     this.renderOwner();
@@ -125,7 +124,7 @@ class PortfolioApp {
         <span class="skill-icon"><i class="fas ${this.escapeHTML(group.icon || 'fa-gear')}"></i></span>
         <div>
           <h3>${this.escapeHTML(group.group || '')}</h3>
-          <span class="sys mono">SYS-${String(index + 1).padStart(2, '0')} · ONLINE</span>
+          <span class="sys">${String(index + 1).padStart(2, '0')}</span>
         </div>
       </div>
       <ul>${items}</ul>
@@ -174,118 +173,6 @@ class PortfolioApp {
     }, { threshold: 0.4 });
 
     values.forEach((el) => observer.observe(el));
-  }
-
-  /* ---------- starfield ---------- */
-
-  startStarfield() {
-    const canvas = document.querySelector('#starfield');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let stars = [];
-    let meteor = null;
-    let width = 0;
-    let height = 0;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    const resize = () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.min(110, Math.floor((width * height) / 15000));
-      stars = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        r: Math.random() * 1.2 + 0.3,
-        base: Math.random() * 0.55 + 0.2,
-        phase: Math.random() * Math.PI * 2,
-        speed: Math.random() * 0.9 + 0.35
-      }));
-    };
-
-    const drawStatic = () => {
-      ctx.clearRect(0, 0, width, height);
-      stars.forEach((star) => {
-        ctx.globalAlpha = star.base;
-        ctx.fillStyle = '#cfe3ff';
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      ctx.globalAlpha = 1;
-    };
-
-    resize();
-    window.addEventListener('resize', () => {
-      resize();
-      if (this.reducedMotion) drawStatic();
-    });
-
-    if (this.reducedMotion) {
-      drawStatic();
-      return;
-    }
-
-    let last = 0;
-    const loop = (now) => {
-      requestAnimationFrame(loop);
-      if (document.hidden) return;
-      if (now - last < 1000 / 30) return;
-      last = now;
-
-      ctx.clearRect(0, 0, width, height);
-      const t = now / 1000;
-
-      stars.forEach((star) => {
-        const alpha = star.base * (0.6 + 0.4 * Math.sin(t * star.speed + star.phase));
-        ctx.globalAlpha = Math.max(alpha, 0.08);
-        ctx.fillStyle = '#cfe3ff';
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      if (!meteor && Math.random() < 0.004) {
-        meteor = {
-          x: Math.random() * width * 0.7 + width * 0.2,
-          y: Math.random() * height * 0.3,
-          vx: -(Math.random() * 6 + 5),
-          vy: Math.random() * 3 + 2.4,
-          life: 1
-        };
-      }
-
-      if (meteor) {
-        meteor.x += meteor.vx;
-        meteor.y += meteor.vy;
-        meteor.life -= 0.018;
-        if (meteor.life <= 0) {
-          meteor = null;
-        } else {
-          const gradient = ctx.createLinearGradient(
-            meteor.x, meteor.y,
-            meteor.x - meteor.vx * 9, meteor.y - meteor.vy * 9
-          );
-          gradient.addColorStop(0, `rgba(82, 224, 196, ${0.7 * meteor.life})`);
-          gradient.addColorStop(1, 'rgba(82, 224, 196, 0)');
-          ctx.globalAlpha = 1;
-          ctx.strokeStyle = gradient;
-          ctx.lineWidth = 1.6;
-          ctx.beginPath();
-          ctx.moveTo(meteor.x, meteor.y);
-          ctx.lineTo(meteor.x - meteor.vx * 9, meteor.y - meteor.vy * 9);
-          ctx.stroke();
-        }
-      }
-
-      ctx.globalAlpha = 1;
-    };
-
-    requestAnimationFrame(loop);
   }
 
   /* ---------- scroll progress ---------- */
@@ -381,7 +268,7 @@ class PortfolioApp {
     const bar = document.querySelector('#tagBar');
     if (bar) {
       bar.innerHTML = '';
-      bar.appendChild(this.filterButton('ALL', null));
+      bar.appendChild(this.filterButton('All', null));
       [...this.tags].sort((a, b) => a.localeCompare(b)).forEach((tag) => {
         bar.appendChild(this.filterButton(tag, tag));
       });
@@ -449,7 +336,7 @@ class PortfolioApp {
 
   cardNode(project) {
     const index = this.projects.indexOf(project);
-    const missionNo = `M-${String(index + 1).padStart(2, '0')}`;
+    const plateNo = String(index + 1).padStart(2, '0');
 
     const card = document.createElement('article');
     card.className = 'mission-card';
@@ -464,13 +351,13 @@ class PortfolioApp {
 
     const number = document.createElement('span');
     number.className = 'mission-no';
-    number.textContent = missionNo;
+    number.textContent = plateNo;
     media.appendChild(number);
 
     if (project.featured) {
       const chip = document.createElement('span');
       chip.className = 'featured-chip';
-      chip.textContent = 'FEATURED';
+      chip.textContent = 'Featured';
       media.appendChild(chip);
     }
 
@@ -519,7 +406,7 @@ class PortfolioApp {
       const link = document.createElement('a');
       link.className = 'card-link';
       link.href = `./project.html?slug=${encodeURIComponent(project.slug)}`;
-      link.innerHTML = 'OPEN CASE STUDY <i class="fas fa-arrow-right"></i>';
+      link.innerHTML = 'Read case study <i class="fas fa-arrow-right"></i>';
       body.appendChild(link);
     }
 
@@ -577,7 +464,7 @@ class PortfolioApp {
       box.innerHTML = `
         <div class="pdf-placeholder">
           <i class="fas fa-file-pdf"></i>
-          <p>// PREVIEW UNAVAILABLE — USE DOWNLOAD LINK BELOW</p>
+          <p>Preview unavailable. Use the download link below.</p>
         </div>
       `;
     }
@@ -604,7 +491,7 @@ class PortfolioApp {
   }
 
   consoleHello() {
-    console.log('%c// MISSION CONTROL ONLINE — portfolio v4.0', 'color:#52e0c4;font-family:monospace;');
+    console.log('%cFazle Rabbi Zaki — portfolio', 'color:#a83a17;font-family:monospace;');
   }
 }
 

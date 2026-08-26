@@ -19,18 +19,17 @@
     <meta property="twitter:image" content="images/fazle_headshot.jpg">
 
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#040810">
+    <meta name="theme-color" content="#f4f2ee">
     <link rel="icon" type="image/png" href="images/icon-192.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
 
   <body>
-    <canvas id="starfield" aria-hidden="true"></canvas>
     <div id="scroll-progress" aria-hidden="true"></div>
 
     <nav class="nav">
@@ -42,8 +41,8 @@
         <div class="nav-links">
           <a href="#home" class="nav-link"><span class="n">00</span>Home</a>
           <a href="#about" class="nav-link"><span class="n">01</span>About</a>
-          <a href="#skills" class="nav-link"><span class="n">02</span>Systems</a>
-          <a href="#projects" class="nav-link"><span class="n">03</span>Missions</a>
+          <a href="#skills" class="nav-link"><span class="n">02</span>Skills</a>
+          <a href="#projects" class="nav-link"><span class="n">03</span>Projects</a>
           <a href="#resume" class="nav-link"><span class="n">04</span>Resume</a>
           <a href="#contact" class="nav-link"><span class="n">05</span>Contact</a>
         </div>
@@ -58,8 +57,8 @@
     <div id="mobile-menu" class="mobile-menu">
       <a href="#home" class="nav-link"><span class="n">00</span>Home</a>
       <a href="#about" class="nav-link"><span class="n">01</span>About</a>
-      <a href="#skills" class="nav-link"><span class="n">02</span>Systems</a>
-      <a href="#projects" class="nav-link"><span class="n">03</span>Missions</a>
+      <a href="#skills" class="nav-link"><span class="n">02</span>Skills</a>
+      <a href="#projects" class="nav-link"><span class="n">03</span>Projects</a>
       <a href="#resume" class="nav-link"><span class="n">04</span>Resume</a>
       <a href="#contact" class="nav-link"><span class="n">05</span>Contact</a>
     </div>
@@ -68,23 +67,21 @@
     <header id="home" class="hero">
       <div class="container hero-inner">
         <div class="hero-copy">
-          <p class="hero-boot mono"><span class="status-dot"></span>OPEN TO GNC / ADCS / TEST ENGINEERING ROLES</p>
+          <p class="hero-boot"><span class="status-dot"></span>Open to GNC / ADCS / test engineering roles</p>
           <h1><span class="grad" id="heroName">Fazle Rabbi Zaki</span></h1>
-          <p class="hero-role mono" id="heroRole">Aerospace Engineer — GNC &amp; ADCS</p>
+          <p class="hero-role" id="heroRole">Aerospace Engineer — GNC &amp; ADCS</p>
           <p class="hero-uni" id="uniLine">B.S.E. Aerospace Engineering, University of Michigan</p>
           <p class="hero-tagline" id="heroTagline">Controls, sensing, and hardware testing. I build, test, and verify.</p>
           <div class="hero-cta">
-            <a href="#projects" class="btn btn-primary"><i class="fas fa-satellite"></i>View mission log</a>
+            <a href="#projects" class="btn btn-primary"><i class="fas fa-arrow-down"></i>View projects</a>
             <a href="resume.pdf" class="btn btn-ghost" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i>Resume</a>
           </div>
         </div>
         <div class="hero-visual">
-          <div class="photo-plate">
-            <span class="tick-tl"></span><span class="tick-tr"></span>
-            <span class="tick-bl"></span><span class="tick-br"></span>
-            <img id="avatar" src="images/fazle_headshot.jpg" alt="Fazle Rabbi Zaki headshot" onerror="this.style.display='none'">
-          </div>
-          <p class="hud-readout mono">UMICH AEROSPACE '26 · ANN ARBOR, MI</p>
+          <figure class="photo-plate">
+            <img id="avatar" src="images/fazle_headshot.jpg" alt="Fazle Rabbi Zaki" onerror="this.style.display='none'">
+          </figure>
+          <p class="hud-readout">Ann Arbor, Michigan</p>
         </div>
       </div>
       <div class="container">
@@ -96,15 +93,15 @@
       <section id="about">
         <div class="container">
           <header class="sec-head reveal">
-            <span class="sec-num mono">01</span>
+            <span class="sec-num">01</span>
             <h2>About</h2>
             <span class="sec-line"></span>
           </header>
           <div class="about-grid">
-            <div class="about-photo corners reveal">
+            <figure class="about-photo reveal">
               <img src="images/fazle_headshot.jpg" alt="Fazle Rabbi Zaki" loading="lazy" onerror="this.parentElement.style.display='none'">
-              <p class="photo-caption mono">SUBJECT: F.R. ZAKI · UMICH AERO '26</p>
-            </div>
+              <figcaption class="photo-caption">Fazle Rabbi Zaki · University of Michigan</figcaption>
+            </figure>
             <div class="about-copy reveal" id="aboutBlurb"></div>
           </div>
         </div>
@@ -113,8 +110,8 @@
       <section id="skills">
         <div class="container">
           <header class="sec-head reveal">
-            <span class="sec-num mono">02</span>
-            <h2>Systems &amp; Tooling</h2>
+            <span class="sec-num">02</span>
+            <h2>Skills &amp; Tools</h2>
             <span class="sec-line"></span>
           </header>
           <div class="skill-grid" id="skillGrid"></div>
@@ -124,36 +121,35 @@
       <section id="projects">
         <div class="container">
           <header class="sec-head reveal">
-            <span class="sec-num mono">03</span>
-            <h2>Mission Log</h2>
+            <span class="sec-num">03</span>
+            <h2>Projects</h2>
             <span class="sec-line"></span>
           </header>
           <div class="filters" id="tagBar"></div>
           <div class="search-wrap">
-            <span class="prompt" aria-hidden="true">&gt;_</span>
-            <input id="search" type="search" placeholder="query mission log..." aria-label="Search projects">
+            <span class="prompt" aria-hidden="true"><i class="fas fa-magnifying-glass"></i></span>
+            <input id="search" type="search" placeholder="Search projects" aria-label="Search projects">
           </div>
           <div class="projects-grid" id="projects-grid"></div>
-          <div id="projects-empty" class="empty-state hidden">// NO MISSIONS MATCH CURRENT FILTERS</div>
+          <div id="projects-empty" class="empty-state hidden">No projects match those filters.</div>
         </div>
       </section>
 
       <section id="resume">
         <div class="container">
           <header class="sec-head reveal">
-            <span class="sec-num mono">04</span>
+            <span class="sec-num">04</span>
             <h2>Resume</h2>
             <span class="sec-line"></span>
           </header>
           <div class="doc-frame reveal">
             <div class="doc-titlebar">
-              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-              <span class="doc-name">~/documents/resume.pdf</span>
+              <span class="doc-name">resume.pdf</span>
             </div>
             <div class="pdf-container" id="resumeEmbed">
               <div class="pdf-placeholder">
                 <i class="fas fa-file-pdf"></i>
-                <p>LOADING DOCUMENT...</p>
+                <p>Loading document</p>
               </div>
             </div>
           </div>
@@ -166,33 +162,28 @@
       <section id="contact">
         <div class="container">
           <header class="sec-head reveal">
-            <span class="sec-num mono">05</span>
-            <h2>Establish Contact</h2>
+            <span class="sec-num">05</span>
+            <h2>Contact</h2>
             <span class="sec-line"></span>
           </header>
           <div class="terminal reveal">
-            <div class="doc-titlebar">
-              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-              <span class="doc-name">frz@mission-control: ~</span>
-            </div>
             <div class="terminal-body">
-              <p class="term-line"><span class="ps">$</span><span class="cmd">./contact --list-channels</span></p>
-              <p class="term-out">// open to aerospace controls, GNC, ADCS, and test engineering roles</p>
+              <p class="term-out">Open to aerospace controls, GNC, ADCS, and test engineering roles. Email is the fastest way to reach me.</p>
               <div class="contact-links">
                 <a id="emailLink" class="contact-link" href="mailto:jakiuddin012@gmail.com">
                   <i class="fas fa-envelope"></i>
                   <span class="lbl">Email</span>
-                  <span class="val mono">jakiuddin012@gmail.com</span>
+                  <span class="val">jakiuddin012@gmail.com</span>
                 </a>
                 <a id="lnLink" class="contact-link" href="https://www.linkedin.com/in/fazlerabbizaki" target="_blank" rel="noopener">
                   <i class="fab fa-linkedin"></i>
                   <span class="lbl">LinkedIn</span>
-                  <span class="val mono">/in/fazlerabbizaki</span>
+                  <span class="val">/in/fazlerabbizaki</span>
                 </a>
                 <a id="ghLink" class="contact-link" href="https://github.com/jakiu012" target="_blank" rel="noopener">
                   <i class="fab fa-github"></i>
                   <span class="lbl">GitHub</span>
-                  <span class="val mono">/jakiu012</span>
+                  <span class="val">/jakiu012</span>
                 </a>
               </div>
             </div>
@@ -203,8 +194,8 @@
 
     <footer>
       <div class="footer-inner">
-        <span class="footer-status"><span class="status-dot"></span>ALL SYSTEMS NOMINAL</span>
-        <span class="footer-copy">© <span id="year"></span> <span id="footerName">FAZLE RABBI ZAKI</span> · BUILT AROUND TESTED AEROSPACE SYSTEMS</span>
+        <span class="footer-status"><span class="status-dot"></span>Open to full-time roles</span>
+        <span class="footer-copy">© <span id="year"></span> <span id="footerName">Fazle Rabbi Zaki</span> · Ann Arbor, Michigan</span>
       </div>
     </footer>
 

@@ -60,7 +60,7 @@
       },
       {
         "group": "CAD / Analysis",
-        "icon": "fa-drafting-compass",
+        "icon": "fa-compass-drafting",
         "items": [
           "SolidWorks",
           "CATIA",

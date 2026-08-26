@@ -1,83 +1,10 @@
-/* Mission Control portfolio — case study page */
+/* Fazle Rabbi Zaki — portfolio, case study page */
 
 (function () {
   const $ = (selector) => document.querySelector(selector);
   const qs = new URLSearchParams(window.location.search);
   const slug = qs.get('slug');
   const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ---------- starfield (shared look with index) ---------- */
-  function startStarfield() {
-    const canvas = $('#starfield');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let stars = [];
-    let width = 0;
-    let height = 0;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    const resize = () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.min(150, Math.floor((width * height) / 10000));
-      stars = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        r: Math.random() * 1.2 + 0.3,
-        base: Math.random() * 0.55 + 0.2,
-        phase: Math.random() * Math.PI * 2,
-        speed: Math.random() * 0.9 + 0.35
-      }));
-    };
-
-    const drawStatic = () => {
-      ctx.clearRect(0, 0, width, height);
-      stars.forEach((star) => {
-        ctx.globalAlpha = star.base;
-        ctx.fillStyle = '#cfe3ff';
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      ctx.globalAlpha = 1;
-    };
-
-    resize();
-    window.addEventListener('resize', () => {
-      resize();
-      if (reducedMotion) drawStatic();
-    });
-
-    if (reducedMotion) {
-      drawStatic();
-      return;
-    }
-
-    let last = 0;
-    const loop = (now) => {
-      requestAnimationFrame(loop);
-      if (document.hidden) return;
-      if (now - last < 1000 / 30) return;
-      last = now;
-      ctx.clearRect(0, 0, width, height);
-      const t = now / 1000;
-      stars.forEach((star) => {
-        const alpha = star.base * (0.6 + 0.4 * Math.sin(t * star.speed + star.phase));
-        ctx.globalAlpha = Math.max(alpha, 0.08);
-        ctx.fillStyle = '#cfe3ff';
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      ctx.globalAlpha = 1;
-    };
-    requestAnimationFrame(loop);
-  }
 
   function setupScrollProgress() {
     const bar = $('#scroll-progress');
@@ -318,7 +245,7 @@
     if (!section || !grid || !items.length) return;
 
     lightboxState.items = items;
-    if (countEl) countEl.textContent = `${String(items.length).padStart(2, '0')} FRAMES`;
+    if (countEl) countEl.textContent = `${items.length} images`;
 
     grid.innerHTML = '';
     items.forEach((item, index) => {
@@ -390,7 +317,7 @@
     box.innerHTML = '';
     const links = (project.links || []).filter((link) => link.href);
     if (!links.length) {
-      box.innerHTML = '<p class="side-empty">// NO EXTERNAL LINKS YET</p>';
+      box.innerHTML = '<p class="side-empty">None yet.</p>';
       return;
     }
 
@@ -436,7 +363,6 @@
   }
 
   async function main() {
-    startStarfield();
     setupScrollProgress();
 
     const year = $('#year');
