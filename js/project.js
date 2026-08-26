@@ -416,7 +416,7 @@
     setMeta({
       title: project.title,
       description: project.summary,
-      image: normalizeImg(project.heroImage || 'images/fazle_headshot.jpg')
+      image: normalizeImg(project.heroImage || 'images/zaki_commencement.jpg')
     });
 
     try {
